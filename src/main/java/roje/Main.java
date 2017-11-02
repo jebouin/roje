@@ -1,26 +1,60 @@
 package roje;
-	
-import javafx.application.Application;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.fxml.FXMLLoader;
 
+import java.io.IOException;
+
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import roje.view.CharacterSearchController;
 
 public class Main extends Application {
-	@Override
-	public void start(Stage primaryStage) {
+	private Stage primaryStage;
+	private BorderPane rootLayout;
+
+	public void initRootLayout() {
 		try {
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("view/Sample.fxml"));
-			Scene scene = new Scene(root,400,400);
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("view/RootLayout.fxml"));
+			rootLayout = (BorderPane) loader.load();
+			Scene scene = new Scene(rootLayout);
 			primaryStage.setScene(scene);
 			primaryStage.show();
-		} catch(Exception e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public static void main(String[] args) {
+
+	public void showCharacterSearchView() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("view/CharacterSearchView.fxml"));
+			AnchorPane characterSearchView = (AnchorPane) loader.load();
+			rootLayout.setCenter(characterSearchView);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public Stage getPrimaryStage() {
+		return primaryStage;
+	}
+
+	public BorderPane getRootLayout() {
+		return rootLayout;
+	}
+
+	@Override
+	public void start(Stage primaryStage) {
+		this.primaryStage = primaryStage;
+		this.primaryStage.setTitle("Rojé Comics Manager");
+		initRootLayout();
+		showCharacterSearchView();
+	}
+
+	public static void main(String[] args) throws Exception {
 		launch(args);
 	}
 }
