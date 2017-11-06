@@ -1,5 +1,9 @@
 package roje;
 
+
+import roje.model.*;
+import roje.model.Character;
+
 import java.io.IOException;
 
 import javafx.application.Application;
