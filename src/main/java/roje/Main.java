@@ -5,7 +5,6 @@ import roje.model.*;
 import roje.model.Character;
 
 import java.io.IOException;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -42,6 +41,18 @@ public class Main extends Application {
 		}
 	}
 
+	public void showComicSearchView() {
+		try {
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("view/ComicSearchView.fxml"));
+			AnchorPane comicSearchView = (AnchorPane) loader.load();
+			rootLayout.setCenter(comicSearchView);
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Stage getPrimaryStage() {
 		return primaryStage;
 	}
@@ -53,9 +64,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		this.primaryStage = primaryStage;
-		this.primaryStage.setTitle("Rojé Comics Manager");
+		this.primaryStage.setTitle("Roje Comics Manager");
 		initRootLayout();
-		showCharacterSearchView();
+		showComicSearchView();
 	}
 
 	public static void main(String[] args) throws Exception {
