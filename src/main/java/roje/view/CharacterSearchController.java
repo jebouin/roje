@@ -1,11 +1,15 @@
 package roje.view;
 
+import org.apache.derby.tools.sysinfo;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import roje.api.MarvelAPI;
 
 public class CharacterSearchController {
@@ -20,6 +24,7 @@ public class CharacterSearchController {
 	private ListView<String> characterListView;
 
 	private ObservableList<String> charactersFound;
+	private String lastSearch;
 
 	/**
 	 * Initializes the controller class. This method is automatically called after
@@ -34,9 +39,24 @@ public class CharacterSearchController {
 	 * Called when the user clicks on the search button.
 	 */
 	@FXML
-	private void handleSearch() throws Exception {
+	private void handleSearchButtonPressed() throws Exception {
+		search();
+	}
+	
+	@FXML
+	private void handleEnterPressed(KeyEvent event) throws Exception {
+		if(event.getCode() == KeyCode.ENTER) {
+			search();
+		}
+	}
+	
+	private void search() throws Exception {
+		String toSearch = searchTextField.getText(); 
+		if(toSearch == lastSearch) {
+			return;
+		}
+		lastSearch = toSearch;
 		statusLabel.setText("Loading...");
-		String toSearch = searchTextField.getText();
 		charactersFound = FXCollections.observableList(MarvelAPI.searchCharactersByNamePrefix(toSearch));
 		characterListView.setItems(charactersFound);
 		if (charactersFound.size() == 0) {

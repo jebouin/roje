@@ -66,7 +66,7 @@ public class Main extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Roje Comics Manager");
 		initRootLayout();
-		showComicSearchView();
+		//showComicSearchView();
 	}
 
 	public static void main(String[] args) throws Exception {

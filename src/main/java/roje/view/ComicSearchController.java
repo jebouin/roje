@@ -6,6 +6,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import roje.api.MarvelAPI;
 
 public class ComicSearchController {
@@ -20,6 +22,7 @@ public class ComicSearchController {
 	private ListView<String> comicsListView;
 
 	private ObservableList<String> comicsFound;
+	private String lastSearch;
 
 	/**
 	 * Initializes the controller class. This method is automatically called after
@@ -34,10 +37,23 @@ public class ComicSearchController {
 	 * Called when the user clicks on the search button.
 	 */
 	@FXML
-	private void handleSearch() throws Exception {
-		statusLabel.setText("Loading...");
-		String toSearch = searchTextField.getText();
-		//MarvelAPI.searchComics(toSearch);
+	private void handleSearchButtonPressed() throws Exception {
+		search();
+	}
+	
+	@FXML
+	private void handleEnterPressed(KeyEvent event) throws Exception {
+		if(event.getCode() == KeyCode.ENTER) {
+			search();
+		}
+	}
+	
+	private void search() throws Exception {
+		String toSearch = searchTextField.getText(); 
+		if(toSearch == lastSearch) {
+			return;
+		}
+		lastSearch = toSearch;
 		comicsFound = FXCollections.observableList(MarvelAPI.searchComicsByNamePrefix(toSearch));
 		comicsListView.setItems(comicsFound);
 		if (comicsFound.size() == 0) {
