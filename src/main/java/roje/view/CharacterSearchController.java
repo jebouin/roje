@@ -68,11 +68,11 @@ public class CharacterSearchController {
 			
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/CharacterCardView.fxml"));
-			Pane pane = (Pane) loader.load();
+			ScrollPane pane = (ScrollPane) loader.load();
 			loader.<CharacterCardController>getController().setCharacter(character);
 			Stage stage = new Stage();
 	        stage.setTitle(character.getName());
-	        stage.setScene(new Scene(pane, 600, 400));
+	        stage.setScene(new Scene(pane, 800, 500));
 	        stage.show();
 		}
 	}

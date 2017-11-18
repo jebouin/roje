@@ -1,12 +1,18 @@
 package roje.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.google.gson.JsonObject;
+
+import roje.api.MarvelAPI;
 
 public class Character {
 	private int id;
 	private String name;
 	private String description;
 	private Thumbnail thumbnail;
+	private List<Comics> comics = new ArrayList<Comics>();
 
 	public Character(final int id, final String name, final String description) {
 		this.id = id;
@@ -53,5 +59,15 @@ public class Character {
 		this.thumbnail = thumbnail;
 	}
 	
+	public void fetchComics() throws Exception {
+		// don't fetch comics twice
+		if(comics.size() > 0) {
+			return;
+		}
+		this.comics = MarvelAPI.getComicsByCharacterId(id);
+	}
 	
+	public List<Comics> getComics() {
+		return comics;
+	}
 }

@@ -18,6 +18,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import roje.model.Character;
+import roje.model.Comics;
 
 public class MarvelAPI {
 	// TODO put the credentials in a separate config file
@@ -102,6 +103,17 @@ public class MarvelAPI {
 			return new Character(el);
 		}
 		return null;
+	}
+	
+	public static List<Comics> getComicsByCharacterId(final Integer id) throws Exception {
+		JsonObject jsonObject = requestJSONFromPath("characters/" + id.toString() + "/comics", new HashMap<String, String>());
+		JsonArray data = jsonObject.get("data").getAsJsonObject().get("results").getAsJsonArray();
+		List<Comics> comics = new ArrayList<Comics>();
+		for(Iterator<JsonElement> it = data.iterator(); it.hasNext();) {
+			JsonObject el = it.next().getAsJsonObject();
+			comics.add(new Comics(el));
+		}
+		return comics;
 	}
 
 	public static List<String> searchComicsByNamePrefix(final String titleSearch) throws Exception {

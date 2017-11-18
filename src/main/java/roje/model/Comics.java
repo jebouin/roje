@@ -1,5 +1,7 @@
 package roje.model;
 
+import com.google.gson.JsonObject;
+
 public class Comics {
 	private int id;
 	private String title;
@@ -12,6 +14,16 @@ public class Comics {
 		this.title = title;
 		this.description = description;
 		this.pageCount = pageCount;
+	}
+	
+	public Comics(final JsonObject json) {
+		this.id = json.get("id").getAsInt();
+		this.title = json.get("title").getAsString();
+		if(!json.get("description").isJsonNull()) {
+			this.description = json.get("description").getAsString();
+		}
+		 
+		this.thumbnail = new Thumbnail(json.get("thumbnail").getAsJsonObject());
 	}
 
 	public int getId() {
