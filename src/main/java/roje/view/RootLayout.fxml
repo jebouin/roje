@@ -33,14 +33,19 @@
         <tabs>
           <Tab text="Characters">
             <content>
-              <fx:include fx:id="characterSearchView" source="CharacterSearchView.fxml"/>
+              <fx:include fx:id="characterSearchView" source="CharacterSearchView.fxml" />
             </content>
           </Tab>
           <Tab text="Comics">
             <content>
-              <fx:include fx:id="comicSearchView" source="ComicSearchView.fxml"/>
+              <fx:include fx:id="comicSearchView" source="ComicSearchView.fxml" />
             </content>
           </Tab>
+            <Tab text="Card">
+              <content>
+              <fx:include fx:id="characterCardView" source="CharacterCardView.fxml" />                
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
    </center>

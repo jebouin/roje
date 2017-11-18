@@ -17,6 +17,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import roje.model.Character;
+
 public class MarvelAPI {
 	// TODO put the credentials in a separate config file
 	private final static String publicKey = "4271aafb3ca71f40782943e5bfd585d1";
@@ -62,8 +64,14 @@ public class MarvelAPI {
 		}
 		return requestJSONFromUrl(urlString);
 	}
-
-	public static List<String> searchCharactersByNamePrefix(final String prefix) throws Exception {
+	
+	/**
+	 * 
+	 * @param prefix
+	 * @return A map that maps character names that start by prefix to their Marvel ID
+	 * @throws Exception
+	 */
+	public static Map<String, Integer> searchCharactersByNamePrefix(final String prefix) throws Exception {
 		Map<String, String> parameters = new HashMap<String, String>() {
 			{
 				put("nameStartsWith", prefix);
@@ -72,16 +80,28 @@ public class MarvelAPI {
 		JsonObject jsonObject = requestJSONFromPath("characters", parameters);
 
 		// TODO return more information (short description, image)
-		List<String> names = new ArrayList<String>();
+		Map<String, Integer> characters = new HashMap<String, Integer>();
 		JsonArray data = jsonObject.get("data").getAsJsonObject().get("results").getAsJsonArray();
 		for (Iterator<JsonElement> it = data.iterator(); it.hasNext();) {
 			JsonObject el = it.next().getAsJsonObject();
 			String name = el.get("name").toString();
+			Integer id = Integer.parseInt(el.get("id").toString());
 			// get rid of the quotes
 			name = name.substring(1, name.length() - 1);
-			names.add(name);
+			characters.put(name, id);
 		}
-		return names;
+		return characters;
+	}
+	
+	//todo: test if character exists
+	public static Character getCharacterById(final Integer id) throws Exception {
+		JsonObject jsonObject = requestJSONFromPath("characters/" + id.toString(), new HashMap<String, String>());
+		JsonArray data = jsonObject.get("data").getAsJsonObject().get("results").getAsJsonArray();
+		if(data.size() == 1) {
+			JsonObject el = data.get(0).getAsJsonObject();
+			return new Character(el);
+		}
+		return null;
 	}
 
 	public static List<String> searchComicsByNamePrefix(final String titleSearch) throws Exception {

@@ -10,7 +10,7 @@
    <children>
       <TextField id="hero" fx:id="searchTextField" layoutX="144.0" layoutY="6.0" onKeyPressed="#handleEnterPressed" promptText="Character" AnchorPane.topAnchor="6.0" />
       <Button id="search" layoutX="333.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleSearchButtonPressed" text="Search" AnchorPane.topAnchor="5.0" />
-      <ListView fx:id="characterListView" layoutX="14.0" layoutY="38.0" prefHeight="356.0" prefWidth="581.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="40.0" />
+      <ListView fx:id="characterListView" layoutX="14.0" layoutY="38.0" onMouseClicked="#handleListClick" prefHeight="356.0" prefWidth="581.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="40.0" />
       <Label fx:id="statusLabel" layoutX="463.0" layoutY="13.0" text="Status" AnchorPane.topAnchor="12.0" />
    </children>
 </AnchorPane>

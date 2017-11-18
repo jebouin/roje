@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.CharacterCardController">
+   <children>
+      <Label fx:id="titleLabel" alignment="CENTER" layoutX="195.0" layoutY="81.0" prefHeight="64.0" prefWidth="389.0" text="Title" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="36.0" />
+         </font></Label>
+      <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" layoutX="47.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="http://i.annihil.us/u/prod/marvel/i/mg/5/a0/538615ca33ab0/portrait_xlarge.jpg" />
+         </image></ImageView>
+      <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="8.0" layoutY="210.0" prefHeight="183.0" prefWidth="586.0" text="Description" textOverrun="CLIP" wrapText="true" />
+   </children>
+</Pane>

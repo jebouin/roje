@@ -1,5 +1,7 @@
 package roje.model;
 
+import com.google.gson.JsonObject;
+
 public class Character {
 	private int id;
 	private String name;
@@ -10,6 +12,13 @@ public class Character {
 		this.id = id;
 		this.name = name;
 		this.description = description;
+	}
+	
+	public Character(final JsonObject json) {
+		this.id = json.get("id").getAsInt();
+		this.name = json.get("name").getAsString();
+		this.description = json.get("description").getAsString();
+		this.thumbnail = new Thumbnail(json.get("thumbnail").getAsJsonObject());
 	}
 
 	public int getId() {
@@ -43,4 +52,6 @@ public class Character {
 	public void setThumbnail(Thumbnail thumbnail) {
 		this.thumbnail = thumbnail;
 	}
+	
+	
 }
