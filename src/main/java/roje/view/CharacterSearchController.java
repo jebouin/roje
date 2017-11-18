@@ -65,7 +65,7 @@ public class CharacterSearchController {
 			String item = characterListView.getSelectionModel().getSelectedItem();
 			Integer id = characters.get(item);
 			Character character = MarvelAPI.getCharacterById(id);
-			
+			System.out.println(id);
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/CharacterCardView.fxml"));
 			ScrollPane pane = (ScrollPane) loader.load();
