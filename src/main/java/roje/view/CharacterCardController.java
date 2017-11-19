@@ -6,6 +6,8 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
@@ -47,10 +49,20 @@ public class CharacterCardController {
 		nameLabel.setText(character.getName());
 		descriptionLabel.setText(character.getDescription());
 		imageView.setImage(character.getThumbnail().downloadImage("portrait_xlarge"));
-		for(Comics c : character.getComics()) {
-			ImageView imageView = new ImageView();
-			imageView.setImage(c.getThumbnail().downloadImage("portrait_xlarge"));
-			comicsGrid.getChildren().add(imageView);
-		}
+		
+		Task<Void> downloadImagesTask = new Task<Void>() {
+			@Override
+			public Void call() throws Exception {
+				for(Comics c : character.getComics()) {
+					ImageView imageView = new ImageView();
+					imageView.setImage(c.getThumbnail().downloadImage("portrait_xlarge"));
+					Platform.runLater(() -> {
+						comicsGrid.getChildren().add(imageView);
+					});
+				}
+				return null;
+			}
+		};
+		new Thread(downloadImagesTask).start();
 	}
 }
