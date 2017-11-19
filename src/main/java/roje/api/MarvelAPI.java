@@ -69,8 +69,8 @@ public class MarvelAPI {
 	/**
 	 * 
 	 * @param prefix
-	 * @return A map that maps character names that start by prefix to their
-	 *         Marvel ID
+	 * @return A map that maps character names that start by prefix to their Marvel
+	 *         ID
 	 * @throws Exception
 	 */
 	public static Map<String, Integer> searchCharactersByNamePrefix(final String prefix) throws Exception {
@@ -118,7 +118,7 @@ public class MarvelAPI {
 		return comics;
 	}
 
-	public static Map<String,Integer> searchComicsByNamePrefix(final String titleSearch) throws Exception {
+	public static Map<String, Integer> searchComicsByNamePrefix(final String titleSearch) throws Exception {
 		Map<String, String> parameters = new HashMap<String, String>() {
 			{
 				put("titleStartsWith", titleSearch);
@@ -149,7 +149,7 @@ public class MarvelAPI {
 		}
 		return null;
 	}
-	
+
 	public static List<Character> getCharacterByComicId(final Integer id) throws Exception {
 		JsonObject jsonObject = requestJSONFromPath("characters/" + id.toString() + "/comics",
 				new HashMap<String, String>());

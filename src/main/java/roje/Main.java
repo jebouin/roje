@@ -1,17 +1,13 @@
 package roje;
 
-
-import roje.model.*;
-import roje.model.Character;
-
 import java.io.IOException;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import roje.view.CharacterSearchController;
 
 public class Main extends Application {
 	private Stage primaryStage;
@@ -66,7 +62,7 @@ public class Main extends Application {
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Roje Comics Manager");
 		initRootLayout();
-		//showComicSearchView();
+		// showComicSearchView();
 	}
 
 	public static void main(String[] args) throws Exception {

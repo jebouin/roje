@@ -1,11 +1,8 @@
 package roje.view;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.derby.tools.sysinfo;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,8 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import roje.Main;
 import roje.api.MarvelAPI;
@@ -48,20 +43,21 @@ public class CharacterSearchController {
 	@FXML
 	private void initialize() {
 		statusLabel.setText("");
-	    /*final ListView lv = new ListView(FXCollections.observableList(Arrays.asList("one", "2", "3")));
-	    lv.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-	        @Override
-	        public void handle(MouseEvent event) {
-	            System.out.println("clicked on " + lv.getSelectionModel().getSelectedItem());
-	        }
-	    });*/
+		/*
+		 * final ListView lv = new
+		 * ListView(FXCollections.observableList(Arrays.asList("one", "2", "3")));
+		 * lv.setOnMouseClicked(new EventHandler<MouseEvent>() {
+		 * 
+		 * @Override public void handle(MouseEvent event) {
+		 * System.out.println("clicked on " + lv.getSelectionModel().getSelectedItem());
+		 * } });
+		 */
 	}
-	
-	//todo: Fix when the list is clicked but no element is selected
+
+	// todo: Fix when the list is clicked but no element is selected
 	@FXML
 	private void handleListClick(MouseEvent event) throws Exception {
-		if(event.getClickCount() == 2) {
+		if (event.getClickCount() == 2) {
 			String item = characterListView.getSelectionModel().getSelectedItem();
 			Integer id = characters.get(item);
 			Character character = MarvelAPI.getCharacterById(id);
@@ -71,11 +67,12 @@ public class CharacterSearchController {
 			ScrollPane pane = (ScrollPane) loader.load();
 			loader.<CharacterCardController>getController().setCharacter(character);
 			Stage stage = new Stage();
-	        stage.setTitle(character.getName());
-	        stage.setScene(new Scene(pane, 800, 500));
-	        stage.show();
+			stage.setTitle(character.getName());
+			stage.setScene(new Scene(pane, 800, 500));
+			stage.show();
 		}
 	}
+
 	/**
 	 * Called when the user clicks on the search button.
 	 */
@@ -83,17 +80,17 @@ public class CharacterSearchController {
 	private void handleSearchButtonPressed() throws Exception {
 		search();
 	}
-	
+
 	@FXML
 	private void handleEnterPressed(KeyEvent event) throws Exception {
-		if(event.getCode() == KeyCode.ENTER) {
+		if (event.getCode() == KeyCode.ENTER) {
 			search();
 		}
 	}
-	
+
 	private void search() throws Exception {
 		String toSearch = searchTextField.getText();
-		if(toSearch == lastSearch) {
+		if (toSearch == lastSearch) {
 			return;
 		}
 		lastSearch = toSearch;

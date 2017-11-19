@@ -19,7 +19,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import roje.Main;
 import roje.api.MarvelAPI;
-import roje.model.Character;
 import roje.model.Comics;
 
 public class ComicSearchController {
@@ -38,8 +37,8 @@ public class ComicSearchController {
 	private String lastSearch;
 
 	/**
-	 * Initializes the controller class. This method is automatically called
-	 * after the fxml file has been loaded.
+	 * Initializes the controller class. This method is automatically called after
+	 * the fxml file has been loaded.
 	 */
 	@FXML
 	private void initialize() {
@@ -73,7 +72,7 @@ public class ComicSearchController {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/ComicCardView.fxml"));
 			ScrollPane pane = (ScrollPane) loader.load();
-			loader.<ComicCardController> getController().setComic(comic);
+			loader.<ComicCardController>getController().setComic(comic);
 			Stage stage = new Stage();
 			stage.setTitle(comic.getTitle());
 			stage.setScene(new Scene(pane, 800, 500));
