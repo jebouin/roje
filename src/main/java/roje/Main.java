@@ -5,11 +5,17 @@ import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import roje.api.MarvelAPI;
+import roje.model.Character;
+import roje.model.Comics;
+import roje.view.CharacterCardController;
+import roje.view.ComicCardController;
 
 public class Main extends Application {
+	public static Main instance;
 	private Stage primaryStage;
 	private BorderPane rootLayout;
 
@@ -26,27 +32,28 @@ public class Main extends Application {
 		}
 	}
 
-	public void showCharacterSearchView() {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("view/CharacterSearchView.fxml"));
-			AnchorPane characterSearchView = (AnchorPane) loader.load();
-			rootLayout.setCenter(characterSearchView);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void showCharacterCard(final int characterId) throws Exception {
+		Character character = MarvelAPI.getCharacterById(characterId);
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("view/CharacterCardView.fxml"));
+		ScrollPane pane = (ScrollPane) loader.load();
+		loader.<CharacterCardController>getController().setCharacter(character);
+		Stage stage = new Stage();
+		stage.setTitle(character.getName());
+		stage.setScene(new Scene(pane, 800, 500));
+		stage.show();
 	}
 
-	public void showComicSearchView() {
-		try {
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("view/ComicSearchView.fxml"));
-			AnchorPane comicSearchView = (AnchorPane) loader.load();
-			rootLayout.setCenter(comicSearchView);
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void showComicCard(final int comicId) throws Exception {
+		Comics comic = MarvelAPI.getComicById(comicId);
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("view/ComicCardView.fxml"));
+		ScrollPane pane = (ScrollPane) loader.load();
+		loader.<ComicCardController>getController().setComic(comic);
+		Stage stage = new Stage();
+		stage.setTitle(comic.getTitle());
+		stage.setScene(new Scene(pane, 800, 500));
+		stage.show();
 	}
 
 	public Stage getPrimaryStage() {
@@ -59,10 +66,10 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) {
+		Main.instance = this;
 		this.primaryStage = primaryStage;
 		this.primaryStage.setTitle("Roje Comics Manager");
 		initRootLayout();
-		// showComicSearchView();
 	}
 
 	public static void main(String[] args) throws Exception {

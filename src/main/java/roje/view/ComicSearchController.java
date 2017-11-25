@@ -7,19 +7,14 @@ import java.util.Map;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import roje.Main;
 import roje.api.MarvelAPI;
-import roje.model.Comics;
 
 public class ComicSearchController {
 
@@ -65,18 +60,7 @@ public class ComicSearchController {
 		if (event.getClickCount() == 2) {
 			String item = comicsListView.getSelectionModel().getSelectedItem();
 			Integer id = comics.get(item);
-			System.out.println(id);
-
-			Comics comic = MarvelAPI.getComicById(id);
-
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("view/ComicCardView.fxml"));
-			ScrollPane pane = (ScrollPane) loader.load();
-			loader.<ComicCardController>getController().setComic(comic);
-			Stage stage = new Stage();
-			stage.setTitle(comic.getTitle());
-			stage.setScene(new Scene(pane, 800, 500));
-			stage.show();
+			Main.instance.showComicCard(id);
 
 		}
 	}

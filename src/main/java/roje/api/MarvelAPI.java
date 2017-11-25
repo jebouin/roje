@@ -151,8 +151,8 @@ public class MarvelAPI {
 		return null;
 	}
 
-	public static List<Character> getCharacterByComicId(final Integer id) throws Exception {
-		JsonObject jsonObject = requestJSONFromPath("characters/" + id.toString() + "/comics",
+	public static List<Character> getCharactersByComicId(final Integer id) throws Exception {
+		JsonObject jsonObject = requestJSONFromPath("comics/" + id.toString() + "/characters",
 				new HashMap<String, String>());
 		JsonArray data = jsonObject.get("data").getAsJsonObject().get("results").getAsJsonArray();
 		List<Character> characters = new ArrayList<Character>();

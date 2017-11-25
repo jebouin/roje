@@ -13,7 +13,7 @@ public class Comics {
 	private String description;
 	private int pageCount;
 	private Thumbnail thumbnail;
-	private List<Character> characters=new ArrayList<Character>();
+	private List<Character> characters = new ArrayList<Character>();
 
 	public Comics(final int id, final String title, final String description, final int pageCount) {
 		this.id = id;
@@ -77,9 +77,9 @@ public class Comics {
 		if (characters.size() > 0) {
 			return;
 		}
-		this.characters = MarvelAPI.getCharacterByComicId(id);
+		this.characters = MarvelAPI.getCharactersByComicId(id);
 	}
-	
+
 	public List<Character> getCharacters() {
 		return characters;
 	}

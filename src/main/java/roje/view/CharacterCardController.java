@@ -3,9 +3,13 @@ package roje.view;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.TilePane;
+import roje.Main;
 import roje.model.Character;
 import roje.model.Comics;
 
@@ -33,7 +37,7 @@ public class CharacterCardController {
 
 	}
 
-	void setCharacter(Character character) throws Exception {
+	public void setCharacter(Character character) throws Exception {
 		this.character = character;
 		character.fetchComics();
 		nameLabel.setText(character.getName());
@@ -46,6 +50,15 @@ public class CharacterCardController {
 				for (Comics c : character.getComics()) {
 					ImageView imageView = new ImageView();
 					imageView.setImage(c.getThumbnail().downloadImage("portrait_xlarge"));
+					imageView.setCursor(Cursor.HAND);
+					Tooltip.install(imageView, new Tooltip(c.getTitle()));
+					imageView.setOnMouseClicked((MouseEvent e) -> {
+						try {
+							Main.instance.showComicCard(c.getId());
+						} catch (Exception e1) {
+							e1.printStackTrace();
+						}
+					});
 					Platform.runLater(() -> {
 						comicsGrid.getChildren().add(imageView);
 					});
