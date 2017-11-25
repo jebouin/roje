@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -60,7 +61,7 @@ public class MarvelAPI {
 		boolean hasOne = false;
 		for (String parameter : parameters.keySet()) {
 			String value = parameters.get(parameter);
-			urlString += (hasOne ? "&" : "?") + parameter + "=" + value;
+			urlString += (hasOne ? "&" : "?") + parameter + "=" + URLEncoder.encode(value, "UTF-8");
 			hasOne = true;
 		}
 		return requestJSONFromUrl(urlString);
