@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.LibraryController">
+  <content>
+    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="340.0" prefWidth="800.0">
+         <children>
+            <ImageView fx:id="imageProfileView" fitHeight="150.0" fitWidth="200.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
+               <image>
+                  <Image url="@../../../resources/spider_ham.jpeg" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="152.0" layoutY="21.0" prefHeight="137.0" prefWidth="408.0" text="My library" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="152.0" AnchorPane.rightAnchor="240.0">
+               <font>
+                  <Font name="System Bold" size="35.0" />
+               </font>
+            </Label>
+            <TilePane hgap="5.0" layoutX="14.0" layoutY="314.0" prefHeight="2.0" prefWidth="570.0" tileAlignment="TOP_LEFT" vgap="5.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="216.0" AnchorPane.topAnchor="314.0" />
+         </children></AnchorPane>
+  </content>
+</ScrollPane>
