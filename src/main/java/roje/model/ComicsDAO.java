@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ComicsDAO {
-	
 
 	public void create(Comics c) {
 		try {
@@ -32,7 +31,7 @@ public class ComicsDAO {
 	}
 
 	public Comics find(int id) {
-		Comics c = new Comics(id, null, null, 0);
+		Comics c = new Comics(id, null, null, 0, "");
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");

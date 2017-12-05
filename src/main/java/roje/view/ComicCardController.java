@@ -30,6 +30,12 @@ public class ComicCardController {
 	@FXML
 	private TilePane charactersGrid;
 
+	@FXML
+	private Label pageCount;
+
+	@FXML
+	private Label formatLabel;
+
 	private Comics comic;
 
 	/**
@@ -46,6 +52,8 @@ public class ComicCardController {
 		comic.fetchCharacters();
 		nameLabel.setText(comic.getTitle());
 		descriptionLabel.setText(comic.getDescription());
+		formatLabel.setText(comic.getFormat());
+		pageCount.setText(Integer.toString(comic.getPageCount()));
 		imageView.setImage(comic.getThumbnail().downloadImage("portrait_xlarge"));
 
 		Task<Void> downloadImagesTask = new Task<Void>() {
