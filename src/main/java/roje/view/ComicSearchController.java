@@ -1,8 +1,12 @@
 package roje.view;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -74,6 +78,32 @@ public class ComicSearchController {
 		statusLabel.setText("Loading...");
 		comics = MarvelAPI.searchComicsByNamePrefix(toSearch);
 		List<String> titles = new ArrayList<String>(comics.keySet());
+		System.out.println(titles);
+		titles.sort((String a, String b) -> {
+			String s1 = a.replaceAll("#\\d+.*", "");
+			String s2 = b.replaceAll("#\\d+.*", "");
+			System.out.println(s1);
+			System.out.println(s2);
+			if(!s1.equals(s2)) {
+				return s1.compareTo(s2);
+			}
+			Pattern pattern = Pattern.compile("#(\\d+)");
+			Integer n1 = null, n2 = null;
+			Matcher matcher = pattern.matcher(a);
+			if(matcher.find()) {
+				n1 = Integer.decode(matcher.group());
+			} else {
+				return 1;
+			}
+			matcher = pattern.matcher(b);
+			if(matcher.find()) {
+				n2 = Integer.decode(matcher.group());
+			} else {
+				return -1;
+			}
+			return Integer.compare(n1, n2);
+		});
+		System.out.println(titles);
 		comicsFound = FXCollections.observableList(titles);
 		comicsListView.setItems(comicsFound);
 		if (comicsFound.size() == 0) {

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -78,12 +79,14 @@ public class MarvelAPI {
 		Map<String, String> parameters = new HashMap<String, String>() {
 			{
 				put("nameStartsWith", prefix);
+				put("orderBy", "name");
+				put("limit", "100");
 			}
 		};
 		JsonObject jsonObject = requestJSONFromPath("characters", parameters);
 
 		// TODO return more information (short description, image)
-		Map<String, Integer> characters = new HashMap<String, Integer>();
+		Map<String, Integer> characters = new TreeMap<String, Integer>();
 		JsonArray data = jsonObject.get("data").getAsJsonObject().get("results").getAsJsonArray();
 		for (Iterator<JsonElement> it = data.iterator(); it.hasNext();) {
 			JsonObject el = it.next().getAsJsonObject();
@@ -123,12 +126,14 @@ public class MarvelAPI {
 		Map<String, String> parameters = new HashMap<String, String>() {
 			{
 				put("titleStartsWith", titleSearch);
+				put("orderBy", "title,issueNumber");
+				put("limit", "100");
 			}
 		};
 		JsonObject jsonObject = requestJSONFromPath("comics", parameters);
 
 		// TODO return more information (short description, image)
-		Map<String, Integer> comics = new HashMap<String, Integer>();
+		Map<String, Integer> comics = new TreeMap<String, Integer>();
 		JsonArray data = jsonObject.get("data").getAsJsonObject().get("results").getAsJsonArray();
 		for (Iterator<JsonElement> it = data.iterator(); it.hasNext();) {
 			JsonObject el = it.next().getAsJsonObject();
