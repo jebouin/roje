@@ -91,15 +91,15 @@ public class ComicSearchController {
 			if (matcher.find()) {
 				n1 = Integer.decode(matcher.group());
 			} else {
-				return 1;
+				return -1;
 			}
 			matcher = pattern.matcher(b);
 			if (matcher.find()) {
 				n2 = Integer.decode(matcher.group());
 			} else {
-				return -1;
+				return 1;
 			}
-			return Integer.compare(n1, n2);
+			return -Integer.compare(n1, n2);
 		});
 		System.out.println(titles);
 		comicsFound = FXCollections.observableList(titles);
