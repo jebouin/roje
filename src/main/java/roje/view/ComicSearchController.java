@@ -3,23 +3,20 @@ package roje.view;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import roje.Main;
 import roje.api.MarvelAPI;
-import roje.model.Comics;
 
 public class ComicSearchController {
 
@@ -65,18 +62,7 @@ public class ComicSearchController {
 		if (event.getClickCount() == 2) {
 			String item = comicsListView.getSelectionModel().getSelectedItem();
 			Integer id = comics.get(item);
-			System.out.println(id);
-
-			Comics comic = MarvelAPI.getComicById(id);
-
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("view/ComicCardView.fxml"));
-			ScrollPane pane = (ScrollPane) loader.load();
-			loader.<ComicCardController>getController().setComic(comic);
-			Stage stage = new Stage();
-			stage.setTitle(comic.getTitle());
-			stage.setScene(new Scene(pane, 800, 500));
-			stage.show();
+			Main.instance.showComicCard(id);
 
 		}
 	}
@@ -90,6 +76,32 @@ public class ComicSearchController {
 		statusLabel.setText("Loading...");
 		comics = MarvelAPI.searchComicsByNamePrefix(toSearch);
 		List<String> titles = new ArrayList<String>(comics.keySet());
+		System.out.println(titles);
+		titles.sort((String a, String b) -> {
+			String s1 = a.replaceAll("#\\d+.*", "");
+			String s2 = b.replaceAll("#\\d+.*", "");
+			System.out.println(s1);
+			System.out.println(s2);
+			if (!s1.equals(s2)) {
+				return s1.compareTo(s2);
+			}
+			Pattern pattern = Pattern.compile("#(\\d+)");
+			Integer n1 = null, n2 = null;
+			Matcher matcher = pattern.matcher(a);
+			if (matcher.find()) {
+				n1 = Integer.decode(matcher.group());
+			} else {
+				return -1;
+			}
+			matcher = pattern.matcher(b);
+			if (matcher.find()) {
+				n2 = Integer.decode(matcher.group());
+			} else {
+				return 1;
+			}
+			return -Integer.compare(n1, n2);
+		});
+		System.out.println(titles);
 		comicsFound = FXCollections.observableList(titles);
 		comicsListView.setItems(comicsFound);
 		if (comicsFound.size() == 0) {

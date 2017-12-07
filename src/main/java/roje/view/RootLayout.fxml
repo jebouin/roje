@@ -41,9 +41,9 @@
               <fx:include fx:id="comicSearchView" source="ComicSearchView.fxml" />
             </content>
           </Tab>
-            <Tab text="Card">
+            <Tab text="Library">
               <content>
-              <fx:include fx:id="characterCardView" source="CharacterCardView.fxml" />                
+              <fx:include fx:id="libraryView" source="LibraryView.fxml" />                
               </content>
             </Tab>
         </tabs>

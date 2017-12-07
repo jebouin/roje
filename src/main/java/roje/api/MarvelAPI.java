@@ -4,11 +4,13 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -60,7 +62,7 @@ public class MarvelAPI {
 		boolean hasOne = false;
 		for (String parameter : parameters.keySet()) {
 			String value = parameters.get(parameter);
-			urlString += (hasOne ? "&" : "?") + parameter + "=" + value;
+			urlString += (hasOne ? "&" : "?") + parameter + "=" + URLEncoder.encode(value, "UTF-8");
 			hasOne = true;
 		}
 		return requestJSONFromUrl(urlString);
@@ -77,12 +79,14 @@ public class MarvelAPI {
 		Map<String, String> parameters = new HashMap<String, String>() {
 			{
 				put("nameStartsWith", prefix);
+				put("orderBy", "name");
+				put("limit", "100");
 			}
 		};
 		JsonObject jsonObject = requestJSONFromPath("characters", parameters);
 
 		// TODO return more information (short description, image)
-		Map<String, Integer> characters = new HashMap<String, Integer>();
+		Map<String, Integer> characters = new TreeMap<String, Integer>();
 		JsonArray data = jsonObject.get("data").getAsJsonObject().get("results").getAsJsonArray();
 		for (Iterator<JsonElement> it = data.iterator(); it.hasNext();) {
 			JsonObject el = it.next().getAsJsonObject();
@@ -107,8 +111,13 @@ public class MarvelAPI {
 	}
 
 	public static List<Comics> getComicsByCharacterId(final Integer id) throws Exception {
-		JsonObject jsonObject = requestJSONFromPath("characters/" + id.toString() + "/comics",
-				new HashMap<String, String>());
+		Map<String, String> parameters = new HashMap<String, String>() {
+			{
+				put("orderBy", "title,-issueNumber");
+				put("limit", "100");
+			}
+		};
+		JsonObject jsonObject = requestJSONFromPath("characters/" + id.toString() + "/comics", parameters);
 		JsonArray data = jsonObject.get("data").getAsJsonObject().get("results").getAsJsonArray();
 		List<Comics> comics = new ArrayList<Comics>();
 		for (Iterator<JsonElement> it = data.iterator(); it.hasNext();) {
@@ -122,12 +131,14 @@ public class MarvelAPI {
 		Map<String, String> parameters = new HashMap<String, String>() {
 			{
 				put("titleStartsWith", titleSearch);
+				put("orderBy", "title,-issueNumber");
+				put("limit", "100");
 			}
 		};
 		JsonObject jsonObject = requestJSONFromPath("comics", parameters);
 
 		// TODO return more information (short description, image)
-		Map<String, Integer> comics = new HashMap<String, Integer>();
+		Map<String, Integer> comics = new TreeMap<String, Integer>();
 		JsonArray data = jsonObject.get("data").getAsJsonObject().get("results").getAsJsonArray();
 		for (Iterator<JsonElement> it = data.iterator(); it.hasNext();) {
 			JsonObject el = it.next().getAsJsonObject();
@@ -150,9 +161,14 @@ public class MarvelAPI {
 		return null;
 	}
 
-	public static List<Character> getCharacterByComicId(final Integer id) throws Exception {
-		JsonObject jsonObject = requestJSONFromPath("characters/" + id.toString() + "/comics",
-				new HashMap<String, String>());
+	public static List<Character> getCharactersByComicId(final Integer id) throws Exception {
+		Map<String, String> parameters = new HashMap<String, String>() {
+			{
+				put("orderBy", "name");
+				put("limit", "100");
+			}
+		};
+		JsonObject jsonObject = requestJSONFromPath("comics/" + id.toString() + "/characters", parameters);
 		JsonArray data = jsonObject.get("data").getAsJsonObject().get("results").getAsJsonArray();
 		List<Character> characters = new ArrayList<Character>();
 		for (Iterator<JsonElement> it = data.iterator(); it.hasNext();) {

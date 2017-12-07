@@ -19,7 +19,7 @@ public class Character {
 		this.name = name;
 		this.description = description;
 	}
-	
+
 	public Character(final JsonObject json) {
 		this.id = json.get("id").getAsInt();
 		this.name = json.get("name").getAsString();
@@ -58,15 +58,15 @@ public class Character {
 	public void setThumbnail(Thumbnail thumbnail) {
 		this.thumbnail = thumbnail;
 	}
-	
+
 	public void fetchComics() throws Exception {
 		// don't fetch comics twice
-		if(comics.size() > 0) {
+		if (comics.size() > 0) {
 			return;
 		}
 		this.comics = MarvelAPI.getComicsByCharacterId(id);
 	}
-	
+
 	public List<Comics> getComics() {
 		return comics;
 	}

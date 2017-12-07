@@ -13,13 +13,21 @@ public class Comics {
 	private String description;
 	private int pageCount;
 	private Thumbnail thumbnail;
-	private List<Character> characters=new ArrayList<Character>();
+	private String format;
 
-	public Comics(final int id, final String title, final String description, final int pageCount) {
+	public String getFormat() {
+		return format;
+	}
+
+	private List<Character> characters = new ArrayList<Character>();
+
+	public Comics(final int id, final String title, final String description, final int pageCount,
+			final String format) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.pageCount = pageCount;
+		this.format = format;
 	}
 
 	public Comics(final JsonObject json) {
@@ -27,6 +35,8 @@ public class Comics {
 		this.title = json.get("title").getAsString();
 		if (!json.get("description").isJsonNull()) {
 			this.description = json.get("description").getAsString();
+			this.pageCount = json.get("pageCount").getAsInt();
+			this.format = json.get("format").getAsString();
 		}
 
 		this.thumbnail = new Thumbnail(json.get("thumbnail").getAsJsonObject());
@@ -60,10 +70,6 @@ public class Comics {
 		return pageCount;
 	}
 
-	public void setPageCount(int pageCount) {
-		this.pageCount = pageCount;
-	}
-
 	public Thumbnail getThumbnail() {
 		return thumbnail;
 	}
@@ -77,10 +83,14 @@ public class Comics {
 		if (characters.size() > 0) {
 			return;
 		}
-		this.characters = MarvelAPI.getCharacterByComicId(id);
+		this.characters = MarvelAPI.getCharactersByComicId(id);
 	}
-	
+
 	public List<Character> getCharacters() {
 		return characters;
+	}
+
+	public void setPageCount(int nbPages) {
+		this.pageCount = nbPages;
 	}
 }
