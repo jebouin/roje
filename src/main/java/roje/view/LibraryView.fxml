@@ -18,7 +18,7 @@
                </font>
             </Label>
             <TilePane hgap="5.0" layoutX="14.0" layoutY="314.0" prefHeight="2.0" prefWidth="570.0" tileAlignment="TOP_LEFT" vgap="5.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="216.0" AnchorPane.topAnchor="314.0" />
-            <TableView fx:id="libraryView" layoutX="22.0" layoutY="110.0" prefHeight="278.0" prefWidth="547.0">
+            <TableView fx:id="libraryView" layoutX="22.0" layoutY="110.0" prefHeight="237.0" prefWidth="547.0" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="110.0">
               <columns>
                 <TableColumn prefWidth="242.0" text="Title">
                 	<cellValueFactory><PropertyValueFactory property="title" /></cellValueFactory>
