@@ -1,5 +1,7 @@
 package roje.view;
 
+import java.util.List;
+
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -29,8 +31,10 @@ public class CharacterCardController {
 
 	@FXML
 	private TilePane comicsGrid;
-
+	@FXML
 	private Character character;
+	@FXML
+	private Label appearsIn;
 
 	/**
 	 * Initializes the controller class. This method is automatically called after
@@ -51,7 +55,13 @@ public class CharacterCardController {
 		Task<Void> downloadImagesTask = new Task<Void>() {
 			@Override
 			public Void call() throws Exception {
-				for (Comics c : character.getComics()) {
+				List<Comics> comics = character.getComics();
+				if (comics.size() == 0) {
+					appearsIn.setText("");
+				} else {
+					appearsIn.setText("Appears in");
+				}
+				for (Comics c : comics) {
 					FlowPane pane = new FlowPane(Orientation.VERTICAL);
 					pane.setCursor(Cursor.HAND);
 					Tooltip.install(pane, new Tooltip(c.getTitle()));
@@ -85,4 +95,5 @@ public class CharacterCardController {
 		};
 		new Thread(downloadImagesTask).start();
 	}
+
 }
