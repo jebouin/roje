@@ -16,6 +16,7 @@ import javafx.scene.text.TextAlignment;
 import roje.Main;
 import roje.model.Character;
 import roje.model.Comics;
+import roje.model.ComicsDAO;
 
 public class ComicCardController {
 	@FXML
@@ -45,6 +46,13 @@ public class ComicCardController {
 	@FXML
 	private void initialize() {
 
+	}
+	
+	@FXML
+	
+	private void handleAddButtonPressed() {
+		ComicsDAO.create(this.comic);
+		
 	}
 
 	public void setComic(Comics comic) throws Exception {

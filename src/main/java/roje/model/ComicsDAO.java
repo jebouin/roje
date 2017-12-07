@@ -5,10 +5,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ComicsDAO {
 
-	public void create(Comics c) {
+	public static void create(Comics c) {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
@@ -30,8 +32,8 @@ public class ComicsDAO {
 
 	}
 
-	public Comics find(int id) {
-		Comics c = new Comics(id, null, null, 0, "");
+	public static Comics find(int id) {
+		Comics c = new Comics(id, null, null, 0, null);
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
@@ -58,7 +60,7 @@ public class ComicsDAO {
 
 	}
 
-	public void delete(Comics c) {
+	public static void delete(Comics c) {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
@@ -75,4 +77,26 @@ public class ComicsDAO {
 		}
 	}
 
+	public static List<Comics> getComics() {
+		ResultSet rs = null;
+		List<Comics> result = new ArrayList<Comics>();
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
+			PreparedStatement st = connect.prepareStatement("Select id,title,description,pageCount from comics");
+			rs = st.executeQuery();
+			while (rs.next()) {
+				Comics c = new Comics(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null);
+				result.add(c);
+			}
+			st.close();
+			connect.close();
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 }

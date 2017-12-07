@@ -1,10 +1,15 @@
 package roje.view;
 
+import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import roje.model.Comics;
+import roje.model.ComicsDAO;
 
 public class LibraryController {
 
@@ -15,16 +20,24 @@ public class LibraryController {
 	private ImageView imageProfileView;
 
 	@FXML
-	private ListView<String> comicsListView;
+	private TableView<Comics> libraryView;
+
+	@FXML
+	private ObservableList<Comics> comicsData;
 
 	/**
-	 * Initializes the controller class. This method is automatically called
-	 * after the fxml file has been loaded.
+	 * Initializes the controller class. This method is automatically called after
+	 * the fxml file has been loaded.
 	 */
 	@FXML
-	private void initialize() {
-		Image img = new Image("spider_ham.jpeg");
-		ImageView imgView = new ImageView(img);
-		imageProfileView = imgView;
+	private void handleRefreshButtonPressed() {
+		comicsData = FXCollections.observableArrayList();
+		List<Comics> comicsList = ComicsDAO.getComics();
+		for (Comics c : comicsList) {
+			comicsData.add(c);
+		}
+
+		libraryView.getItems().addAll(comicsData);
+
 	}
 }

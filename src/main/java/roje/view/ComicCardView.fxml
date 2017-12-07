@@ -39,6 +39,7 @@
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
+            <Button layoutX="602.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleAddButtonPressed" text="Add to library" />
          </children></AnchorPane>
   </content>
 </ScrollPane>

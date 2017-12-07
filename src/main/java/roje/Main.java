@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import roje.api.MarvelAPI;
 import roje.model.Character;
 import roje.model.Comics;
+import roje.model.DB;
 import roje.view.CharacterCardController;
 import roje.view.ComicCardController;
 
@@ -73,6 +74,7 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) throws Exception {
+		DB.createDB();
 		launch(args);
 	}
 }
