@@ -81,7 +81,7 @@ public class CharacterCardController {
 					pane.setPrefHeight(image.getHeight() + 100);
 					pane.setOnMouseClicked((MouseEvent e) -> {
 						try {
-							Main.instance.showComicCard(c.getId());
+							Main.instance.showComicCard(c);
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}

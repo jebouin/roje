@@ -11,12 +11,16 @@
    <children>
       <TextField id="hero" fx:id="searchTextField" layoutX="144.0" layoutY="6.0" onKeyPressed="#handleEnterPressed" promptText="Character" AnchorPane.topAnchor="6.0" />
       <Button id="search" fx:id="searchButton" layoutX="333.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleSearchButtonPressed" text="Search" AnchorPane.topAnchor="5.0" />
-      <ListView fx:id="characterListView" layoutX="14.0" layoutY="38.0" onMouseClicked="#handleListClick" prefHeight="356.0" prefWidth="581.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="40.0" />
       <Label fx:id="statusLabel" layoutX="495.0" layoutY="11.0" text="Status" AnchorPane.topAnchor="11.0" />
       <ImageView fx:id="loadingIcon" fitHeight="31.0" fitWidth="33.0" layoutX="428.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="loading.png" />
          </image>
       </ImageView>
+      <TableView fx:id="characterTableView" layoutX="19.0" layoutY="37.0" onMouseClicked="#handleListClick" prefHeight="355.0" prefWidth="559.0">
+        <columns>
+          <TableColumn fx:id="nameColumn" prefWidth="558.0" text="Name" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

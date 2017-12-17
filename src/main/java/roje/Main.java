@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import roje.api.MarvelAPI;
 import roje.model.Character;
 import roje.model.Comics;
 import roje.model.DB;
@@ -33,8 +32,7 @@ public class Main extends Application {
 		}
 	}
 
-	public void showCharacterCard(final int characterId) throws Exception {
-		Character character = MarvelAPI.getCharacterById(characterId);
+	public void showCharacterCard(final Character character) throws Exception {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/CharacterCardView.fxml"));
 		ScrollPane pane = (ScrollPane) loader.load();
@@ -45,8 +43,7 @@ public class Main extends Application {
 		stage.show();
 	}
 
-	public void showComicCard(final int comicId) throws Exception {
-		Comics comic = MarvelAPI.getComicById(comicId);
+	public void showComicCard(final Comics comic) throws Exception {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/ComicCardView.fxml"));
 		ScrollPane pane = (ScrollPane) loader.load();

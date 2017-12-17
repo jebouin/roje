@@ -47,12 +47,12 @@ public class ComicCardController {
 	private void initialize() {
 
 	}
-	
+
 	@FXML
-	
+
 	private void handleAddButtonPressed() {
 		ComicsDAO.create(this.comic);
-		
+
 	}
 
 	public void setComic(Comics comic) throws Exception {
@@ -87,7 +87,7 @@ public class ComicCardController {
 					pane.setPrefHeight(image.getHeight() + 100);
 					pane.setOnMouseClicked((MouseEvent e) -> {
 						try {
-							Main.instance.showCharacterCard(c.getId());
+							Main.instance.showCharacterCard(c);
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}

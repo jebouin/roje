@@ -1,35 +1,26 @@
 package roje.view;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.geometry.Orientation;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.text.TextAlignment;
-import javafx.util.Duration;
 import roje.Main;
 import roje.api.MarvelAPI;
-import roje.model.Comics;
+import roje.model.Character;
 
 public class CharacterSearchController {
 
@@ -47,10 +38,12 @@ public class CharacterSearchController {
 	private Label statusLabel;
 
 	@FXML
-	private ListView<String> characterListView;
+	private TableView<Character> characterTableView;
 
-	private ObservableList<String> charactersFound;
-	private Map<String, Integer> characters;
+	@FXML
+	private TableColumn<Character, String> nameColumn;
+
+	private ObservableList<Character> charactersFound;
 	private String lastSearch;
 
 	/**
@@ -62,15 +55,18 @@ public class CharacterSearchController {
 		statusLabel.setText("");
 		loadingTimeline = Animations.getDiscreteRotation(loadingIcon, 800, 8);
 		loadingIcon.setVisible(false);
+		charactersFound = FXCollections.observableArrayList();
+		characterTableView.setItems(charactersFound);
+		nameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
 	}
 
-	// todo: Fix when the list is clicked but no element is selected
 	@FXML
 	private void handleListClick(MouseEvent event) throws Exception {
 		if (event.getClickCount() == 2) {
-			String item = characterListView.getSelectionModel().getSelectedItem();
-			Integer id = characters.get(item);
-			Main.instance.showCharacterCard(id);
+			Character selectedCharacter = characterTableView.getSelectionModel().getSelectedItem();
+			if (selectedCharacter != null) {
+				Main.instance.showCharacterCard(selectedCharacter);
+			}
 		}
 	}
 
@@ -99,17 +95,16 @@ public class CharacterSearchController {
 		loadingTimeline.play();
 		searchButton.setDisable(true);
 		statusLabel.setText("Loading...");
-		if(charactersFound != null) {
+		if (charactersFound != null) {
 			charactersFound.clear();
 		}
-		
+
 		Task<Void> downloadCharacters = new Task<Void>() {
 			@Override
 			public Void call() throws Exception {
-				characters = MarvelAPI.searchCharactersByNamePrefix(toSearch);
-				List<String> names = new ArrayList<String>(characters.keySet());
-				charactersFound = FXCollections.observableList(names);
-				characterListView.setItems(charactersFound);
+				List<Character> characters = MarvelAPI.searchCharactersByNamePrefix(toSearch);
+				charactersFound.clear();
+				charactersFound.addAll(characters);
 				Platform.runLater(() -> {
 					if (charactersFound.size() == 0) {
 						statusLabel.setText("No results found");

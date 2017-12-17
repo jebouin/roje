@@ -1,20 +1,20 @@
 package roje.view;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -22,27 +22,33 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import roje.Main;
 import roje.api.MarvelAPI;
+import roje.model.Comics;
 
 public class ComicSearchController {
 
 	@FXML
 	private TextField searchTextField;
-	
+
 	@FXML
 	private Button searchButton;
-	
+
 	@FXML
 	private ImageView loadingIcon;
 	private Timeline loadingTimeline;
-	
+
 	@FXML
 	private Label statusLabel;
 
 	@FXML
-	private ListView<String> comicsListView;
+	private TableView<Comics> comicsTableView;
 
-	private ObservableList<String> comicsFound;
-	private Map<String, Integer> comics;
+	@FXML
+	private TableColumn<Comics, String> titleColumn;
+
+	@FXML
+	private TableColumn<Comics, String> dateColumn;
+
+	private ObservableList<Comics> comicsFound;
 	private String lastSearch;
 
 	/**
@@ -54,6 +60,11 @@ public class ComicSearchController {
 		statusLabel.setText("");
 		loadingTimeline = Animations.getDiscreteRotation(loadingIcon, 800, 8);
 		loadingIcon.setVisible(false);
+		comicsFound = FXCollections.observableArrayList();
+		comicsTableView.setItems(comicsFound);
+		titleColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getTitle()));
+		dateColumn.setCellValueFactory(
+				cellData -> new ReadOnlyStringWrapper(cellData.getValue().getOnSaleDateAsString()));
 	}
 
 	/**
@@ -73,13 +84,15 @@ public class ComicSearchController {
 
 	@FXML
 	private void handleListClick(MouseEvent event) throws Exception {
+		System.out.println(event.getClickCount());
 		if (event.getClickCount() == 2) {
-			String item = comicsListView.getSelectionModel().getSelectedItem();
-			Integer id = comics.get(item);
-			Main.instance.showComicCard(id);
+			Comics selectedComic = comicsTableView.getSelectionModel().getSelectedItem();
+			if (selectedComic != null) {
+				Main.instance.showComicCard(selectedComic);
+			}
 		}
 	}
-	
+
 	private void sortComicTitles(List<String> titles) {
 		titles.sort((String a, String b) -> {
 			String s1 = a.replaceAll("#\\d+.*", "");
@@ -104,7 +117,7 @@ public class ComicSearchController {
 			return -Integer.compare(n1, n2);
 		});
 	}
-	
+
 	private void search() throws Exception {
 		String toSearch = searchTextField.getText();
 		if (toSearch == lastSearch) {
@@ -115,18 +128,16 @@ public class ComicSearchController {
 		loadingTimeline.play();
 		searchButton.setDisable(true);
 		statusLabel.setText("Loading...");
-		if(comicsFound != null) {
+		if (comicsFound != null) {
 			comicsFound.clear();
 		}
-		
+
 		Task<Void> downloadComics = new Task<Void>() {
 			@Override
 			public Void call() throws Exception {
-				comics = MarvelAPI.searchComicsByNamePrefix(toSearch);
-				List<String> titles = new ArrayList<String>(comics.keySet());
-				sortComicTitles(titles);
-				comicsFound = FXCollections.observableList(titles);
-				comicsListView.setItems(comicsFound);
+				List<Comics> comics = MarvelAPI.searchComicsByNamePrefix(toSearch);
+				comicsFound.clear();
+				comicsFound.addAll(comics);
 				Platform.runLater(() -> {
 					if (comicsFound.size() == 0) {
 						statusLabel.setText("No results found");

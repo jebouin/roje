@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -69,13 +68,13 @@ public class MarvelAPI {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param prefix
 	 * @return A map that maps character names that start by prefix to their Marvel
 	 *         ID
 	 * @throws Exception
 	 */
-	public static Map<String, Integer> searchCharactersByNamePrefix(final String prefix) throws Exception {
+	public static List<Character> searchCharactersByNamePrefix(final String prefix) throws Exception {
 		Map<String, String> parameters = new HashMap<String, String>() {
 			{
 				put("nameStartsWith", prefix);
@@ -86,15 +85,11 @@ public class MarvelAPI {
 		JsonObject jsonObject = requestJSONFromPath("characters", parameters);
 
 		// TODO return more information (short description, image)
-		Map<String, Integer> characters = new TreeMap<String, Integer>();
+		List<Character> characters = new ArrayList<Character>();
 		JsonArray data = jsonObject.get("data").getAsJsonObject().get("results").getAsJsonArray();
 		for (Iterator<JsonElement> it = data.iterator(); it.hasNext();) {
 			JsonObject el = it.next().getAsJsonObject();
-			String name = el.get("name").toString();
-			Integer id = Integer.parseInt(el.get("id").toString());
-			// get rid of the quotes
-			name = name.substring(1, name.length() - 1);
-			characters.put(name, id);
+			characters.add(new Character(el));
 		}
 		return characters;
 	}
@@ -113,7 +108,7 @@ public class MarvelAPI {
 	public static List<Comics> getComicsByCharacterId(final Integer id) throws Exception {
 		Map<String, String> parameters = new HashMap<String, String>() {
 			{
-				put("orderBy", "title,-issueNumber");
+				put("orderBy", "onsaleDate");
 				put("limit", "100");
 			}
 		};
@@ -127,7 +122,7 @@ public class MarvelAPI {
 		return comics;
 	}
 
-	public static Map<String, Integer> searchComicsByNamePrefix(final String titleSearch) throws Exception {
+	public static List<Comics> searchComicsByNamePrefix(final String titleSearch) throws Exception {
 		Map<String, String> parameters = new HashMap<String, String>() {
 			{
 				put("titleStartsWith", titleSearch);
@@ -138,15 +133,11 @@ public class MarvelAPI {
 		JsonObject jsonObject = requestJSONFromPath("comics", parameters);
 
 		// TODO return more information (short description, image)
-		Map<String, Integer> comics = new TreeMap<String, Integer>();
+		List<Comics> comics = new ArrayList<Comics>();
 		JsonArray data = jsonObject.get("data").getAsJsonObject().get("results").getAsJsonArray();
 		for (Iterator<JsonElement> it = data.iterator(); it.hasNext();) {
 			JsonObject el = it.next().getAsJsonObject();
-			String title = el.get("title").toString();
-			Integer id = Integer.parseInt(el.get("id").toString());
-			// get rid of the quotes
-			title = title.substring(1, title.length() - 1);
-			comics.put(title, id);
+			comics.add(new Comics(el));
 		}
 		return comics;
 	}

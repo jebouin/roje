@@ -1,8 +1,14 @@
 package roje.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import roje.api.MarvelAPI;
@@ -14,6 +20,7 @@ public class Comics {
 	private int pageCount;
 	private Thumbnail thumbnail;
 	private String format;
+	private DateTime onSaleDate;
 
 	public String getFormat() {
 		return format;
@@ -21,13 +28,14 @@ public class Comics {
 
 	private List<Character> characters = new ArrayList<Character>();
 
-	public Comics(final int id, final String title, final String description, final int pageCount,
-			final String format) {
+	public Comics(final int id, final String title, final String description, final int pageCount, final String format,
+			final DateTime onSaleData) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.pageCount = pageCount;
 		this.format = format;
+		this.onSaleDate = onSaleDate;
 	}
 
 	public Comics(final JsonObject json) {
@@ -35,10 +43,18 @@ public class Comics {
 		this.title = json.get("title").getAsString();
 		if (!json.get("description").isJsonNull()) {
 			this.description = json.get("description").getAsString();
-			this.pageCount = json.get("pageCount").getAsInt();
-			this.format = json.get("format").getAsString();
 		}
-
+		this.pageCount = json.get("pageCount").getAsInt();
+		this.format = json.get("format").getAsString();
+		JsonArray dates = json.get("dates").getAsJsonArray();
+		for (Iterator<JsonElement> it = dates.iterator(); it.hasNext();) {
+			JsonObject el = it.next().getAsJsonObject();
+			String type = el.get("type").getAsString();
+			if (type.equals("onsaleDate")) {
+				String dateString = el.get("date").getAsString();
+				onSaleDate = DateTime.parse(dateString);
+			}
+		}
 		this.thumbnail = new Thumbnail(json.get("thumbnail").getAsJsonObject());
 	}
 
@@ -76,6 +92,21 @@ public class Comics {
 
 	public void setThumbnail(Thumbnail thumbnail) {
 		this.thumbnail = thumbnail;
+	}
+
+	public DateTime getOnSaleDate() {
+		return onSaleDate;
+	}
+
+	public String getOnSaleDateAsString() {
+		if (onSaleDate != null) {
+			return onSaleDate.toString(DateTimeFormat.forPattern("dd MMMM yyyy"));
+		}
+		return "Unknown";
+	}
+
+	public void setOnSaleDate(DateTime onSaleDate) {
+		this.onSaleDate = onSaleDate;
 	}
 
 	public void fetchCharacters() throws Exception {
