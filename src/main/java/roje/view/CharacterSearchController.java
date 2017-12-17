@@ -4,22 +4,44 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.geometry.Orientation;
+import javafx.scene.Cursor;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 import roje.Main;
 import roje.api.MarvelAPI;
+import roje.model.Comics;
 
 public class CharacterSearchController {
 
 	@FXML
 	private TextField searchTextField;
+
+	@FXML
+	private Button searchButton;
+
+	@FXML
+	private ImageView loadingIcon;
+	private Timeline loadingTimeline;
 
 	@FXML
 	private Label statusLabel;
@@ -38,15 +60,8 @@ public class CharacterSearchController {
 	@FXML
 	private void initialize() {
 		statusLabel.setText("");
-		/*
-		 * final ListView lv = new
-		 * ListView(FXCollections.observableList(Arrays.asList("one", "2", "3")));
-		 * lv.setOnMouseClicked(new EventHandler<MouseEvent>() {
-		 * 
-		 * @Override public void handle(MouseEvent event) {
-		 * System.out.println("clicked on " + lv.getSelectionModel().getSelectedItem());
-		 * } });
-		 */
+		loadingTimeline = Animations.getDiscreteRotation(loadingIcon, 800, 8);
+		loadingIcon.setVisible(false);
 	}
 
 	// todo: Fix when the list is clicked but no element is selected
@@ -80,17 +95,36 @@ public class CharacterSearchController {
 			return;
 		}
 		lastSearch = toSearch;
+		loadingIcon.setVisible(true);
+		loadingTimeline.play();
+		searchButton.setDisable(true);
 		statusLabel.setText("Loading...");
-		characters = MarvelAPI.searchCharactersByNamePrefix(toSearch);
-		List<String> names = new ArrayList<String>(characters.keySet());
-		charactersFound = FXCollections.observableList(names);
-		characterListView.setItems(charactersFound);
-		if (charactersFound.size() == 0) {
-			statusLabel.setText("No results found");
-		} else if (charactersFound.size() == 1) {
-			statusLabel.setText("1 result found");
-		} else {
-			statusLabel.setText(charactersFound.size() + " results found");
+		if(charactersFound != null) {
+			charactersFound.clear();
 		}
+		
+		Task<Void> downloadCharacters = new Task<Void>() {
+			@Override
+			public Void call() throws Exception {
+				characters = MarvelAPI.searchCharactersByNamePrefix(toSearch);
+				List<String> names = new ArrayList<String>(characters.keySet());
+				charactersFound = FXCollections.observableList(names);
+				characterListView.setItems(charactersFound);
+				Platform.runLater(() -> {
+					if (charactersFound.size() == 0) {
+						statusLabel.setText("No results found");
+					} else if (charactersFound.size() == 1) {
+						statusLabel.setText("1 result found");
+					} else {
+						statusLabel.setText(charactersFound.size() + " results found");
+					}
+					loadingTimeline.stop();
+					loadingIcon.setVisible(false);
+					searchButton.setDisable(false);
+				});
+				return null;
+			}
+		};
+		new Thread(downloadCharacters).start();
 	}
 }

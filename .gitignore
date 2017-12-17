@@ -1,6 +1,8 @@
 *.jar
 *.class
 .classpath
+derby.log
 target/
 log/
 /bin/
+DB/

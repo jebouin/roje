@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
@@ -9,8 +10,13 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.ComicSearchController">
    <children>
       <TextField id="title" fx:id="searchTextField" layoutX="144.0" layoutY="6.0" onKeyPressed="#handleEnterPressed" promptText="Comic" AnchorPane.topAnchor="6.0" />
-      <Button id="search" layoutX="333.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleSearchButtonPressed" text="Search" AnchorPane.topAnchor="5.0" />
+      <Button id="search" fx:id="searchButton" layoutX="333.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleSearchButtonPressed" text="Search" AnchorPane.topAnchor="5.0" />
       <ListView fx:id="comicsListView" layoutX="14.0" layoutY="38.0" onMouseClicked="#handleListClick" prefHeight="356.0" prefWidth="581.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="40.0" />
       <Label fx:id="statusLabel" layoutX="463.0" layoutY="13.0" text="Status" AnchorPane.topAnchor="12.0" />
+	  <ImageView fx:id="loadingIcon" fitHeight="31.0" fitWidth="33.0" layoutX="428.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="loading.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
