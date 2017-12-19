@@ -15,11 +15,12 @@ public class ComicsDAO {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
 			PreparedStatement st = connect
-					.prepareStatement("insert into comics (id,title,description,pageCount) values(?,?,?,?)");
+					.prepareStatement("insert into comics (id,title,description,pageCount,mark) values(?,?,?,?,?)");
 			st.setInt(1, c.getId());
 			st.setString(2, c.getTitle());
 			st.setString(3, c.getDescription());
 			st.setInt(4, c.getPageCount());
+			st.setInt(5, c.getMark());
 			st.executeUpdate();
 			st.close();
 			connect.close();
@@ -33,7 +34,7 @@ public class ComicsDAO {
 	}
 
 	public static Comics find(int id) {
-		Comics c = new Comics(id, null, null, 0, null, null);
+		Comics c = new Comics(id, null, null, 0, null, null, 0);
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
@@ -45,6 +46,7 @@ public class ComicsDAO {
 				c.setDescription(rs.getString("description"));
 				c.setTitle(rs.getString("title"));
 				c.setPageCount(rs.getInt("pageCount"));
+				c.setMark(rs.getInt("mark"));
 			}
 			st.close();
 			connect.close();
@@ -83,10 +85,10 @@ public class ComicsDAO {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
-			PreparedStatement st = connect.prepareStatement("Select id,title,description,pageCount from comics");
+			PreparedStatement st = connect.prepareStatement("Select id,title,description,pageCount,mark from comics");
 			rs = st.executeQuery();
 			while (rs.next()) {
-				Comics c = new Comics(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null, null);
+				Comics c = new Comics(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null, null, 0);
 				result.add(c);
 			}
 			st.close();

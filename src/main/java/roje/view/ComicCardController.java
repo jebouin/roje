@@ -1,18 +1,25 @@
 package roje.view;
 
+import java.io.IOException;
+
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 import roje.Main;
 import roje.model.Character;
 import roje.model.Comics;
@@ -35,38 +42,74 @@ public class ComicCardController {
 	private Label pageCount;
 
 	@FXML
+	private Slider mark;
+
+	@FXML
 	private Label formatLabel;
+	@FXML
+	private Label labelCharacters;
 
 	private Comics comic;
 
 	/**
-	 * Initializes the controller class. This method is automatically called after
-	 * the fxml file has been loaded.
+	 * Initializes the controller class. This method is automatically called
+	 * after the fxml file has been loaded.
 	 */
 	@FXML
 	private void initialize() {
-
 	}
 
 	@FXML
 
-	private void handleAddButtonPressed() {
+	private void handleAddButtonPressed() throws IOException {
 		ComicsDAO.create(this.comic);
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
+		AnchorPane pane = (AnchorPane) loader.load();
+		Stage stage = new Stage();
+		stage.setScene(new Scene(pane, 300, 95));
+		stage.show();
 
+	}
+
+	@FXML
+	public void handleAddMarkButtonPressed() throws IOException {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
+		AnchorPane pane = (AnchorPane) loader.load();
+		Stage stage = new Stage();
+		stage.setScene(new Scene(pane, 300, 95));
+		stage.show();
+	}
+
+	public void showAddMark() throws Exception {
+		FXMLLoader loader = new FXMLLoader();
+		loader.setLocation(Main.class.getResource("view/MarkView.fxml"));
+		AnchorPane pane = (AnchorPane) loader.load();
+		Stage stage = new Stage();
+		stage.setScene(new Scene(pane, 600, 260));
+		stage.show();
+	}
+
+	public void setMark(int m) {
+		this.mark.setValue(m);
 	}
 
 	public void setComic(Comics comic) throws Exception {
 		this.comic = comic;
 		comic.fetchCharacters();
 		nameLabel.setText(comic.getTitle());
-		descriptionLabel.setText(comic.getDescription());
 		formatLabel.setText(comic.getFormat());
 		pageCount.setText(Integer.toString(comic.getPageCount()));
 		imageView.setImage(comic.getThumbnail().downloadImage("portrait_xlarge"));
-
 		Task<Void> downloadImagesTask = new Task<Void>() {
 			@Override
 			public Void call() throws Exception {
+				if (comic.getCharacters().size() == 0) {
+					labelCharacters.setText("");
+				} else {
+					labelCharacters.setText("Characters");
+				}
 				for (Character c : comic.getCharacters()) {
 					FlowPane pane = new FlowPane(Orientation.VERTICAL);
 					pane.setCursor(Cursor.HAND);

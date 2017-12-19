@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="260.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.ComicCardController">
+   <children>
+      <Label layoutX="87.0" layoutY="81.0" prefHeight="46.0" prefWidth="453.0" text="Give a mark to this comic :">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="466.0" layoutY="189.0" mnemonicParsing="false" onMouseClicked="#handleAddMarkButtonPressed" text="Confirm" />
+      <Slider fx:id="mark" blockIncrement="2.0" layoutX="95.0" layoutY="141.0" majorTickUnit="1.0" max="20.0" minorTickCount="1" prefHeight="37.0" prefWidth="444.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+         <cursor>
+            <Cursor fx:constant="CLOSED_HAND" />
+         </cursor>
+      </Slider>
+   </children>
+</AnchorPane>

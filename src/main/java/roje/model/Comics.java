@@ -21,21 +21,19 @@ public class Comics {
 	private Thumbnail thumbnail;
 	private String format;
 	private DateTime onSaleDate;
-
-	public String getFormat() {
-		return format;
-	}
+	private int mark;
 
 	private List<Character> characters = new ArrayList<Character>();
 
 	public Comics(final int id, final String title, final String description, final int pageCount, final String format,
-			final DateTime onSaleData) {
+			final DateTime onSaleData, final int mark) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.pageCount = pageCount;
 		this.format = format;
 		this.onSaleDate = onSaleDate;
+		this.mark = mark;
 	}
 
 	public Comics(final JsonObject json) {
@@ -56,14 +54,27 @@ public class Comics {
 			}
 		}
 		this.thumbnail = new Thumbnail(json.get("thumbnail").getAsJsonObject());
+		this.mark = 0;
 	}
 
 	public int getId() {
 		return id;
 	}
 
+	public String getFormat() {
+		return format;
+	}
+
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getMark() {
+		return mark;
+	}
+
+	public void setMark(int mark) {
+		this.mark = mark;
 	}
 
 	public String getTitle() {

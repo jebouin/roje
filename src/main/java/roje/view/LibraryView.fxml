@@ -23,9 +23,14 @@
                 <TableColumn prefWidth="242.0" text="Title">
                 	<cellValueFactory><PropertyValueFactory property="title" /></cellValueFactory>
                 </TableColumn>
-                <TableColumn prefWidth="78.0" text="PageCount">
+                <TableColumn prefWidth="114.0" text="PageCount">
                 	<cellValueFactory><PropertyValueFactory property="pageCount" /></cellValueFactory>
                 </TableColumn>
+                  <TableColumn prefWidth="114.0" text="Mark">
+                     <cellValueFactory>
+                        <PropertyValueFactory property="mark" />
+                     </cellValueFactory>
+                  </TableColumn>
               </columns>
             </TableView>
             <Button layoutX="475.0" layoutY="77.0" mnemonicParsing="false" onAction="#handleRefreshButtonPressed" text="Refresh" />
