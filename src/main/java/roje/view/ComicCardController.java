@@ -75,19 +75,12 @@ public class ComicCardController {
 	@FXML
 	public void handleAddMarkButtonPressed() throws IOException {
 		FXMLLoader loader = new FXMLLoader();
+		System.out.println(String.valueOf((int) mark.getValue()));
 		loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
+		ComicsDAO.addMark(this.comic, (int) mark.getValue());
 		AnchorPane pane = (AnchorPane) loader.load();
 		Stage stage = new Stage();
 		stage.setScene(new Scene(pane, 300, 95));
-		stage.show();
-	}
-
-	public void showAddMark() throws Exception {
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("view/MarkView.fxml"));
-		AnchorPane pane = (AnchorPane) loader.load();
-		Stage stage = new Stage();
-		stage.setScene(new Scene(pane, 600, 260));
 		stage.show();
 	}
 

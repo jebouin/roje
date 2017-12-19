@@ -79,6 +79,24 @@ public class ComicsDAO {
 		}
 	}
 
+	public static void addMark(Comics c, int m) {
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
+			PreparedStatement st = connect.prepareStatement("update comics set mark=? where id=?");
+			st.setInt(1, m);
+			st.setInt(2, c.getId());
+			st.executeUpdate();
+			st.close();
+			connect.close();
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static List<Comics> getComics() {
 		ResultSet rs = null;
 		List<Comics> result = new ArrayList<Comics>();
@@ -88,7 +106,8 @@ public class ComicsDAO {
 			PreparedStatement st = connect.prepareStatement("Select id,title,description,pageCount,mark from comics");
 			rs = st.executeQuery();
 			while (rs.next()) {
-				Comics c = new Comics(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null, null, 0);
+				Comics c = new Comics(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null, null,
+						rs.getInt(5));
 				result.add(c);
 			}
 			st.close();

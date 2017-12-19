@@ -52,8 +52,8 @@ public class ComicSearchController {
 	private String lastSearch;
 
 	/**
-	 * Initializes the controller class. This method is automatically called after
-	 * the fxml file has been loaded.
+	 * Initializes the controller class. This method is automatically called
+	 * after the fxml file has been loaded.
 	 */
 	@FXML
 	private void initialize() {
@@ -87,6 +87,7 @@ public class ComicSearchController {
 		System.out.println(event.getClickCount());
 		if (event.getClickCount() == 2) {
 			Comics selectedComic = comicsTableView.getSelectionModel().getSelectedItem();
+			System.out.println("Id du comic :" + selectedComic.getId());
 			if (selectedComic != null) {
 				Main.instance.showComicCard(selectedComic);
 			}
