@@ -101,7 +101,7 @@ public class ComicCardController {
 			Stage stage = new Stage();
 			stage.setScene(new Scene(pane, 600, 600));
 			stage.show();
-			addLibraryButton.setText("Delete to library");
+			addLibraryButton.setText("Delete from library");
 			mark.setVisible(true);
 			addMarkButton.setVisible(true);
 		}
