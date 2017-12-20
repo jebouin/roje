@@ -5,8 +5,10 @@ import java.io.IOException;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Cursor;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -14,10 +16,12 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Stage;
 import roje.Main;
 import roje.model.Character;
 import roje.model.Comics;
@@ -90,10 +94,18 @@ public class ComicCardController {
 			addMarkButton.setVisible(false);
 		} else {
 			ComicsDAO.create(this.comic);
-			addLibraryButton.setText("Delete from library");
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("view/AddingWindow.fxml"));
+			AnchorPane pane = (AnchorPane) loader.load();
+			loader.<AddingWindowController>getController().setComic(comic);
+			Stage stage = new Stage();
+			stage.setScene(new Scene(pane, 600, 600));
+			stage.show();
+			addLibraryButton.setText("Delete to library");
 			mark.setVisible(true);
 			addMarkButton.setVisible(true);
 		}
+
 	}
 
 	@FXML

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.AddingWindowController">
+   <children>
+      <Pane layoutY="-3.0" prefHeight="249.0" prefWidth="403.0">
+         <children>
+            <Button fx:id="okButton" layoutX="130.0" layoutY="182.0" mnemonicParsing="false" onMouseClicked="#handlePressedokButton" text="OK" />
+            <Label layoutX="40.0" layoutY="56.0" text="Purchase Date" />
+            <Label layoutX="40.0" layoutY="129.0" text="Location in Library" />
+            <DatePicker fx:id="Calendar" layoutX="143.0" layoutY="51.0" onAction="#handlePressedCalendar" />
+            <TextField fx:id="Location" layoutX="182.0" layoutY="124.0" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

@@ -40,6 +40,25 @@ public class ComicsDAO {
 
 	}
 
+	public static void setdateandlocation(String location, String date, int id) {
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
+			PreparedStatement st = connect.prepareStatement("update comics set location=?, date=? where id=?");
+			st.setString(1, location);
+			st.setString(2, date);
+			st.setInt(3, id);
+			st.executeUpdate();
+			st.close();
+			connect.close();
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static Comics find(int id) {
 		Comics c = new Comics(id, null, null, 0, null, null, 0);
 		try {

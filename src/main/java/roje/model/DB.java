@@ -11,7 +11,7 @@ public class DB {
 	public static void createDB() {
 		File f = new File(".\\DB\\library.db");
 		if (!f.exists()) {
-			String creationStatement = "Create table comics (id int primary key, title varchar(100),description long varchar,pageCount int,mark int)";
+			String creationStatement = "Create table comics (id int primary key, title varchar(100),description long varchar,pageCount int,mark int, location varchar(100), date varchar(20))";
 			try {
 				Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 				Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db;create=true");
