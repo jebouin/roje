@@ -12,7 +12,7 @@
     <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="800.0">
          <children>
             <Button layoutX="655.0" layoutY="184.0" mnemonicParsing="false" onMouseClicked="#handleAddMarkButtonPressed" text="Add Mark" />
-            <Button layoutX="630.0" layoutY="84.0" mnemonicParsing="false" onAction="#handleAddButtonPressed" text="Add to library" />
+            <Button fx:id="addLibraryButton" layoutX="630.0" layoutY="84.0" mnemonicParsing="false" onAction="#handleAddButtonPressed" text="Add to library" />
             <Label layoutX="204.0" layoutY="139.0" prefHeight="26.0" prefWidth="136.0" text="Format :">
                <font>
                   <Font name="System Bold" size="15.0" />

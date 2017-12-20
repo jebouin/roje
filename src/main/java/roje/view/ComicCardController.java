@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.Tooltip;
@@ -50,26 +51,39 @@ public class ComicCardController {
 	private Label labelCharacters;
 
 	private Comics comic;
+	@FXML
+	private Button addLibraryButton;
 
 	/**
-	 * Initializes the controller class. This method is automatically called
-	 * after the fxml file has been loaded.
+	 * Initializes the controller class. This method is automatically called after
+	 * the fxml file has been loaded.
 	 */
 	@FXML
 	private void initialize() {
 	}
 
 	@FXML
-
 	private void handleAddButtonPressed() throws IOException {
-		ComicsDAO.create(this.comic);
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
-		AnchorPane pane = (AnchorPane) loader.load();
-		Stage stage = new Stage();
-		stage.setScene(new Scene(pane, 300, 95));
-		stage.show();
 
+		if (ComicsDAO.find(comic.getId()).getTitle() != null) {
+			ComicsDAO.delete(this.comic);
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
+			AnchorPane pane = (AnchorPane) loader.load();
+			Stage stage = new Stage();
+			stage.setScene(new Scene(pane, 300, 95));
+			stage.show();
+			addLibraryButton.setText("Add to library");
+		} else {
+			ComicsDAO.create(this.comic);
+			FXMLLoader loader = new FXMLLoader();
+			loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
+			AnchorPane pane = (AnchorPane) loader.load();
+			Stage stage = new Stage();
+			stage.setScene(new Scene(pane, 300, 95));
+			stage.show();
+			addLibraryButton.setText("Delete to library");
+		}
 	}
 
 	@FXML
@@ -101,7 +115,11 @@ public class ComicCardController {
 				if (comic.getCharacters().size() == 0) {
 					labelCharacters.setText("");
 				} else {
-					labelCharacters.setText("Characters");
+					if (comic.getCharacters().size() == 1) {
+						labelCharacters.setText("Character");
+					} else {
+						labelCharacters.setText("Characters");
+					}
 				}
 				for (Character c : comic.getCharacters()) {
 					FlowPane pane = new FlowPane(Orientation.VERTICAL);
@@ -136,5 +154,10 @@ public class ComicCardController {
 			}
 		};
 		new Thread(downloadImagesTask).start();
+		if (ComicsDAO.find(comic.getId()).getTitle() != null) {
+			addLibraryButton.setText("Delete to library");
+		} else {
+			addLibraryButton.setText("Add to Library");
+		}
 	}
 }

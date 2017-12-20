@@ -66,7 +66,7 @@ public class ComicsDAO {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
-			PreparedStatement st = connect.prepareStatement("delete * from comics where id=?");
+			PreparedStatement st = connect.prepareStatement("delete from comics where id=?");
 			st.setInt(1, c.getId());
 			st.executeUpdate();
 			st.close();
