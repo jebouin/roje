@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.TextAlignment;
 import roje.Main;
@@ -43,6 +44,25 @@ public class ComicCardController {
 
 	@FXML
 	private Label formatLabel;
+
+	@FXML
+	private Pane pricesPane;
+
+	@FXML
+	private Label pricesLabel;
+
+	@FXML
+	private Pane digitalPricePane;
+
+	@FXML
+	private Pane printPricePane;
+
+	@FXML
+	private Label digitalAmoutLabel;
+
+	@FXML
+	private Label printAmountLabel;
+
 	@FXML
 	private Label labelCharacters;
 	@FXML
@@ -53,8 +73,8 @@ public class ComicCardController {
 	private Comics comic;
 
 	/**
-	 * Initializes the controller class. This method is automatically called
-	 * after the fxml file has been loaded.
+	 * Initializes the controller class. This method is automatically called after
+	 * the fxml file has been loaded.
 	 */
 	@FXML
 	private void initialize() {
@@ -63,7 +83,6 @@ public class ComicCardController {
 
 	@FXML
 	private void handleAddButtonPressed() throws IOException {
-
 		if (ComicsDAO.find(comic.getId()).getTitle() != null) {
 			ComicsDAO.delete(this.comic);
 			addLibraryButton.setText("Add to library");
@@ -148,6 +167,28 @@ public class ComicCardController {
 			addLibraryButton.setText("Delete from library");
 		} else {
 			addLibraryButton.setText("Add to Library");
+		}
+		Float digitalPrice = comic.getDigitalPrice();
+		Float printPrice = comic.getPrintPrice();
+		if (digitalPrice == null && printPrice == null) {
+			pricesPane.setVisible(false);
+		} else {
+			digitalPricePane.setVisible(false);
+			printPricePane.setVisible(false);
+			if (digitalPrice != null) {
+				digitalPricePane.setVisible(true);
+				digitalAmoutLabel.setText("$" + digitalPrice.toString());
+			}
+			if (printPrice != null) {
+				printPricePane.setVisible(true);
+				if (digitalPrice == null) {
+					printPricePane.setLayoutY(0);
+				}
+				printAmountLabel.setText("$" + printPrice.toString());
+			}
+		}
+		if (digitalPrice == null || printPrice == null) {
+			pricesLabel.setText("Price :");
 		}
 	}
 }

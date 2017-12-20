@@ -1,8 +1,11 @@
 package roje.model;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import roje.api.MarvelAPI;
@@ -11,6 +14,7 @@ public class Character {
 	private int id;
 	private String name;
 	private String description;
+	private String wikiUrl;
 	private Thumbnail thumbnail;
 	private List<Comics> comics = new ArrayList<Comics>();
 
@@ -25,6 +29,14 @@ public class Character {
 		this.name = json.get("name").getAsString();
 		this.description = json.get("description").getAsString();
 		this.thumbnail = new Thumbnail(json.get("thumbnail").getAsJsonObject());
+		JsonArray urls = json.get("urls").getAsJsonArray();
+		for (Iterator<JsonElement> it = urls.iterator(); it.hasNext();) {
+			JsonObject el = it.next().getAsJsonObject();
+			String type = el.get("type").getAsString();
+			if (type.equals("wiki")) {
+				this.wikiUrl = el.get("url").getAsString();
+			}
+		}
 	}
 
 	public int getId() {
@@ -69,5 +81,13 @@ public class Character {
 
 	public List<Comics> getComics() {
 		return comics;
+	}
+
+	public String getWikiUrl() {
+		return wikiUrl;
+	}
+
+	public void setWikiUrl(String wikiUrl) {
+		this.wikiUrl = wikiUrl;
 	}
 }

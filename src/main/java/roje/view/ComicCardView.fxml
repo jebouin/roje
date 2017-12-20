@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
@@ -23,16 +24,16 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <Label fx:id="formatLabel" layoutX="265.0" layoutY="137.0" prefHeight="30.0" prefWidth="104.0" text="format" />
-            <Label fx:id="pageCount" layoutX="340.0" layoutY="96.0" prefHeight="30.0" prefWidth="117.0" text="pageCount" />
-            <TilePane fx:id="charactersGrid" hgap="5.0" layoutX="24.0" layoutY="407.0" prefHeight="79.0" prefWidth="749.0" tileAlignment="TOP_LEFT" vgap="5.0" />
-            <Label layoutX="204.0" layoutY="98.0" prefHeight="26.0" prefWidth="136.0" text="Number of pages :">
+            <Label fx:id="formatLabel" layoutX="272.0" layoutY="84.0" prefHeight="30.0" prefWidth="104.0" text="format" />
+            <Label fx:id="pageCount" layoutX="341.0" layoutY="51.0" prefHeight="30.0" prefWidth="117.0" text="pageCount" />
+            <TilePane fx:id="charactersGrid" hgap="5.0" layoutX="24.0" layoutY="348.0" prefHeight="9.0" prefWidth="770.0" tileAlignment="TOP_LEFT" vgap="5.0" />
+            <Label layoutX="204.0" layoutY="53.0" prefHeight="26.0" prefWidth="136.0" text="Number of pages :">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="24.0" layoutY="238.0" prefHeight="115.0" prefWidth="571.0" text="Description: Auxerunt haec vulgi sordidioris audaciam, quod cum ingravesceret penuria commeatuum, famis et furoris inpulsu Eubuli cuiusdam inter suos clari domum ambitiosam ignibus subditis inflammavit rectoremque ut sibi iudicio imperiali addictum calcibus incessens et pugnis conculcans seminecem laniatu miserando discerpsit. post cuius lacrimosum interitum in unius exitio quisque imaginem periculi sui considerans documento recenti similia formidabat.Accedat huc suavitas quaedam oportet sermonum atque morum, haudquaquam mediocre condimentum amicitiae. Tristitia autem et in omni re severitas habet illa quidem gravitatem, sed amicitia remissior esse debet et liberior et dulcior et ad omnem comitatem facilitatemque proclivior.Iis igitur est difficilius satis facere, qui se Latina scripta dicunt contemnere. in quibus hoc primum est in quo admirer, cur in gravissimis rebus non delectet eos sermo patrius, cum idem fabellas Latinas ad verbum e Graecis expressas non inviti legant. quis enim tam inimicus paene nomini Romano est, qui Ennii Medeam aut Antiopam Pacuvii spernat aut reiciat, quod se isdem Euripidis fabulis delectari dicat, Latinas litteras oderit?Proinde concepta rabie saeviore, quam desperatio incendebat et fames, amplificatis viribus ardore incohibili in excidium urbium matris Seleuciae efferebantur, quam comes tuebatur Castricius tresque legiones bellicis sudoribus induratae.Nec minus feminae quoque calamitatum participes fuere similium. nam ex hoc quoque sexu peremptae sunt originis altae conplures, adulteriorum flagitiis obnoxiae vel stuprorum. inter quas notiores fuere Claritas et Flaviana, quarum altera cum duceretur ad mortem, indumento, quo vestita erat, abrepto, ne velemen quidem secreto membrorum sufficiens retinere permissa est. ideoque carnifex nefas admisisse convictus inmane, vivus exustus est." textOverrun="CLIP" wrapText="true" />
-            <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="152.0" layoutY="30.0" prefHeight="48.0" prefWidth="642.0" text="Name" textAlignment="CENTER" textOverrun="CLIP">
+            <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="20.0" layoutY="242.0" prefHeight="115.0" prefWidth="571.0" text="Description: Auxerunt haec vulgi sordidioris audaciam, quod cum ingravesceret penuria commeatuum, famis et furoris inpulsu Eubuli cuiusdam inter suos clari domum ambitiosam ignibus subditis inflammavit rectoremque ut sibi iudicio imperiali addictum calcibus incessens et pugnis conculcans seminecem laniatu miserando discerpsit. post cuius lacrimosum interitum in unius exitio quisque imaginem periculi sui considerans documento recenti similia formidabat.Accedat huc suavitas quaedam oportet sermonum atque morum, haudquaquam mediocre condimentum amicitiae. Tristitia autem et in omni re severitas habet illa quidem gravitatem, sed amicitia remissior esse debet et liberior et dulcior et ad omnem comitatem facilitatemque proclivior.Iis igitur est difficilius satis facere, qui se Latina scripta dicunt contemnere. in quibus hoc primum est in quo admirer, cur in gravissimis rebus non delectet eos sermo patrius, cum idem fabellas Latinas ad verbum e Graecis expressas non inviti legant. quis enim tam inimicus paene nomini Romano est, qui Ennii Medeam aut Antiopam Pacuvii spernat aut reiciat, quod se isdem Euripidis fabulis delectari dicat, Latinas litteras oderit?Proinde concepta rabie saeviore, quam desperatio incendebat et fames, amplificatis viribus ardore incohibili in excidium urbium matris Seleuciae efferebantur, quam comes tuebatur Castricius tresque legiones bellicis sudoribus induratae.Nec minus feminae quoque calamitatum participes fuere similium. nam ex hoc quoque sexu peremptae sunt originis altae conplures, adulteriorum flagitiis obnoxiae vel stuprorum. inter quas notiores fuere Claritas et Flaviana, quarum altera cum duceretur ad mortem, indumento, quo vestita erat, abrepto, ne velemen quidem secreto membrorum sufficiens retinere permissa est. ideoque carnifex nefas admisisse convictus inmane, vivus exustus est." textOverrun="CLIP" wrapText="true" />
+            <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="146.0" layoutY="14.0" prefHeight="48.0" prefWidth="642.0" text="Name" textAlignment="CENTER" textOverrun="CLIP">
                <font>
                   <Font name="System Bold" size="35.0" />
                </font>
@@ -47,6 +48,31 @@
                   <Cursor fx:constant="CLOSED_HAND" />
                </cursor>
             </Slider>
+            <Pane fx:id="pricesPane" layoutX="204.0" layoutY="109.0">
+               <children>
+                  <Label fx:id="pricesLabel" layoutY="2.0" prefHeight="26.0" prefWidth="55.0" text="Prices :">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Label>
+                  <Pane layoutX="54.0">
+                     <children>
+                        <Pane fx:id="printPricePane" layoutY="25.0">
+                           <children>
+                              <Label layoutX="45.0" prefHeight="30.0" prefWidth="104.0" text="(print)" />
+                              <Label fx:id="printAmountLabel" prefHeight="30.0" prefWidth="48.0" text="amount" />
+                           </children>
+                        </Pane>
+                        <Pane fx:id="digitalPricePane">
+                           <children>
+                              <Label fx:id="digitalAmoutLabel" prefHeight="30.0" prefWidth="48.0" text="amount" />
+                              <Label layoutX="45.0" prefHeight="30.0" prefWidth="104.0" text="(digital)" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
          </children></AnchorPane>
   </content>
 </ScrollPane>

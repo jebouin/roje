@@ -7,6 +7,7 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.scene.Cursor;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -33,6 +34,8 @@ public class CharacterCardController {
 	private TilePane comicsGrid;
 	@FXML
 	private Character character;
+	@FXML
+	private Hyperlink wikiLink;
 	@FXML
 	private Label appearsIn;
 
@@ -96,4 +99,8 @@ public class CharacterCardController {
 		new Thread(downloadImagesTask).start();
 	}
 
+	@FXML
+	private void handleWikiLinkCliked() throws Exception {
+		Main.instance.getHostServices().showDocument(character.getWikiUrl());
+	}
 }

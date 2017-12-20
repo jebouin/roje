@@ -21,6 +21,8 @@ public class Comics {
 	private Thumbnail thumbnail;
 	private String format;
 	private DateTime onSaleDate;
+	private Float printPrice;
+	private Float digitalPrice;
 	private int mark;
 
 	private List<Character> characters = new ArrayList<Character>();
@@ -51,6 +53,16 @@ public class Comics {
 			if (type.equals("onsaleDate")) {
 				String dateString = el.get("date").getAsString();
 				onSaleDate = DateTime.parse(dateString);
+			}
+		}
+		JsonArray prices = json.get("prices").getAsJsonArray();
+		for (Iterator<JsonElement> it = prices.iterator(); it.hasNext();) {
+			JsonObject el = it.next().getAsJsonObject();
+			String type = el.get("type").getAsString();
+			if (type.equals("printPrice")) {
+				this.printPrice = el.get("price").getAsFloat();
+			} else if (type.equals("digitalPrice")) {
+				this.digitalPrice = el.get("price").getAsFloat();
 			}
 		}
 		this.thumbnail = new Thumbnail(json.get("thumbnail").getAsJsonObject());
@@ -134,5 +146,21 @@ public class Comics {
 
 	public void setPageCount(int nbPages) {
 		this.pageCount = nbPages;
+	}
+
+	public Float getPrintPrice() {
+		return printPrice;
+	}
+
+	public void setPrintPrice(Float printPrice) {
+		this.printPrice = printPrice;
+	}
+
+	public Float getDigitalPrice() {
+		return digitalPrice;
+	}
+
+	public void setDigitalPrice(Float digitalPrice) {
+		this.digitalPrice = digitalPrice;
 	}
 }
