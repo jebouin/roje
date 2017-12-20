@@ -5,10 +5,8 @@ import java.io.IOException;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.scene.Cursor;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
@@ -16,11 +14,9 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage;
 import roje.Main;
 import roje.model.Character;
 import roje.model.Comics;
@@ -49,17 +45,20 @@ public class ComicCardController {
 	private Label formatLabel;
 	@FXML
 	private Label labelCharacters;
-
-	private Comics comic;
 	@FXML
 	private Button addLibraryButton;
+	@FXML
+	private Button addMarkButton;
+
+	private Comics comic;
 
 	/**
-	 * Initializes the controller class. This method is automatically called after
-	 * the fxml file has been loaded.
+	 * Initializes the controller class. This method is automatically called
+	 * after the fxml file has been loaded.
 	 */
 	@FXML
 	private void initialize() {
+
 	}
 
 	@FXML
@@ -67,35 +66,21 @@ public class ComicCardController {
 
 		if (ComicsDAO.find(comic.getId()).getTitle() != null) {
 			ComicsDAO.delete(this.comic);
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
-			AnchorPane pane = (AnchorPane) loader.load();
-			Stage stage = new Stage();
-			stage.setScene(new Scene(pane, 300, 95));
-			stage.show();
 			addLibraryButton.setText("Add to library");
+			mark.setVisible(false);
+			addMarkButton.setVisible(false);
 		} else {
 			ComicsDAO.create(this.comic);
-			FXMLLoader loader = new FXMLLoader();
-			loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
-			AnchorPane pane = (AnchorPane) loader.load();
-			Stage stage = new Stage();
-			stage.setScene(new Scene(pane, 300, 95));
-			stage.show();
-			addLibraryButton.setText("Delete to library");
+			addLibraryButton.setText("Delete from library");
+			mark.setVisible(true);
+			addMarkButton.setVisible(true);
 		}
 	}
 
 	@FXML
 	public void handleAddMarkButtonPressed() throws IOException {
-		FXMLLoader loader = new FXMLLoader();
 		System.out.println(String.valueOf((int) mark.getValue()));
-		loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
 		ComicsDAO.addMark(this.comic, (int) mark.getValue());
-		AnchorPane pane = (AnchorPane) loader.load();
-		Stage stage = new Stage();
-		stage.setScene(new Scene(pane, 300, 95));
-		stage.show();
 	}
 
 	public void setMark(int m) {
@@ -109,9 +94,14 @@ public class ComicCardController {
 		formatLabel.setText(comic.getFormat());
 		pageCount.setText(Integer.toString(comic.getPageCount()));
 		imageView.setImage(comic.getThumbnail().downloadImage("portrait_xlarge"));
+		if (ComicsDAO.find(comic.getId()).getTitle() == null) {
+			mark.setVisible(false);
+			addMarkButton.setVisible(false);
+		}
 		Task<Void> downloadImagesTask = new Task<Void>() {
 			@Override
 			public Void call() throws Exception {
+
 				if (comic.getCharacters().size() == 0) {
 					labelCharacters.setText("");
 				} else {
@@ -155,7 +145,7 @@ public class ComicCardController {
 		};
 		new Thread(downloadImagesTask).start();
 		if (ComicsDAO.find(comic.getId()).getTitle() != null) {
-			addLibraryButton.setText("Delete to library");
+			addLibraryButton.setText("Delete from library");
 		} else {
 			addLibraryButton.setText("Add to Library");
 		}

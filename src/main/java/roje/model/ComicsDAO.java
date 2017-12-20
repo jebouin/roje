@@ -1,5 +1,6 @@
 package roje.model;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,6 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
+import roje.Main;
 
 public class ComicsDAO {
 
@@ -79,16 +86,26 @@ public class ComicsDAO {
 		}
 	}
 
-	public static void addMark(Comics c, int m) {
+	public static void addMark(Comics c, int m) throws IOException {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
-			PreparedStatement st = connect.prepareStatement("update comics set mark=? where id=?");
-			st.setInt(1, m);
-			st.setInt(2, c.getId());
-			st.executeUpdate();
-			st.close();
-			connect.close();
+			if (ComicsDAO.find(c.getId()).getTitle() != null) {
+				PreparedStatement st = connect.prepareStatement("update comics set mark=? where id=?");
+				st.setInt(1, m);
+				st.setInt(2, c.getId());
+				st.executeUpdate();
+				st.close();
+				connect.close();
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
+				AnchorPane pane = (AnchorPane) loader.load();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(pane, 300, 95));
+				stage.show();
+			} else {
+				System.out.println("Ce comics n'est pas dans la bdd");
+			}
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
