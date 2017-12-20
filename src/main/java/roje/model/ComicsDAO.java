@@ -60,7 +60,7 @@ public class ComicsDAO {
 	}
 
 	public static Comics find(int id) {
-		Comics c = new Comics(id, null, null, 0, null, null, 0);
+		Comics c = new Comics(id, null, null, 0, null, null, 0, null, null);
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
@@ -139,11 +139,12 @@ public class ComicsDAO {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
-			PreparedStatement st = connect.prepareStatement("Select id,title,description,pageCount,mark from comics");
+			PreparedStatement st = connect
+					.prepareStatement("Select id,title,description,pageCount,mark,location,date from comics");
 			rs = st.executeQuery();
 			while (rs.next()) {
 				Comics c = new Comics(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null, null,
-						rs.getInt(5));
+						rs.getInt(5), rs.getString(6), rs.getString(7));
 				result.add(c);
 			}
 			st.close();

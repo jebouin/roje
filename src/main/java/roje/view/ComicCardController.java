@@ -93,7 +93,7 @@ public class ComicCardController {
 			mark.setVisible(false);
 			addMarkButton.setVisible(false);
 		} else {
-			ComicsDAO.create(this.comic);
+
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/AddingWindow.fxml"));
 			AnchorPane pane = (AnchorPane) loader.load();

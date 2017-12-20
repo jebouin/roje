@@ -24,11 +24,13 @@ public class Comics {
 	private Float printPrice;
 	private Float digitalPrice;
 	private int mark;
+	private String purchaseDate;
+	private String localisation;
 
 	private List<Character> characters = new ArrayList<Character>();
 
 	public Comics(final int id, final String title, final String description, final int pageCount, final String format,
-			final DateTime onSaleData, final int mark) {
+			final DateTime onSaleData, final int mark, final String localisation, final String purchaseDate) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
@@ -36,6 +38,8 @@ public class Comics {
 		this.format = format;
 		this.onSaleDate = onSaleDate;
 		this.mark = mark;
+		this.localisation = localisation;
+		this.purchaseDate = purchaseDate;
 	}
 
 	public Comics(final JsonObject json) {
@@ -162,5 +166,21 @@ public class Comics {
 
 	public void setDigitalPrice(Float digitalPrice) {
 		this.digitalPrice = digitalPrice;
+	}
+
+	public String getLocalisation() {
+		return localisation;
+	}
+
+	public void setLocalisation(String localisation) {
+		this.localisation = localisation;
+	}
+
+	public String getPurchaseDate() {
+		return purchaseDate;
+	}
+
+	public void setPurchaseDate(String purchaseDate) {
+		this.purchaseDate = purchaseDate;
 	}
 }
