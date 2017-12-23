@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import roje.model.Character;
 import roje.model.Comics;
+import roje.model.ComicsDAO;
 import roje.model.DB;
 import roje.view.CharacterCardController;
 import roje.view.ComicCardController;
@@ -36,7 +37,7 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/CharacterCardView.fxml"));
 		ScrollPane pane = (ScrollPane) loader.load();
-		loader.<CharacterCardController>getController().setCharacter(character);
+		loader.<CharacterCardController> getController().setCharacter(character);
 		Stage stage = new Stage();
 		stage.setTitle(character.getName());
 		stage.setScene(new Scene(pane, 800, 500));
@@ -47,7 +48,7 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/ComicCardView.fxml"));
 		ScrollPane pane = (ScrollPane) loader.load();
-		loader.<ComicCardController>getController().setComic(comic);
+		loader.<ComicCardController> getController().setComic(comic);
 		Stage stage = new Stage();
 		stage.setTitle(comic.getTitle());
 		stage.setScene(new Scene(pane, 800, 500));
@@ -72,6 +73,8 @@ public class Main extends Application {
 
 	public static void main(String[] args) throws Exception {
 		DB.createDB();
+		ComicsDAO.init();
 		launch(args);
+		ComicsDAO.close();
 	}
 }

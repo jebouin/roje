@@ -3,6 +3,10 @@ package roje.view;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+
+import org.joda.time.DateTime;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +30,7 @@ public class AddingWindowController {
 	@FXML
 	private Button okButton;
 
-	private LocalDate Date;
+	private LocalDate date;
 
 	private String location;
 
@@ -34,14 +38,15 @@ public class AddingWindowController {
 
 	@FXML
 	private void handlePressedCalendar() {
-		Date = Calendar.getValue();
+		date = Calendar.getValue();
 	}
 
 	@FXML
 	private void handlePressedokButton() throws IOException {
 		location = Location.getText();
-		ComicsDAO.create(comic);
-		ComicsDAO.setdateandlocation(location, Date.toString(), comic.getId());
+
+		ComicsDAO.addUserComic(comic.getId(),
+				new DateTime(Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())), location);
 
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));

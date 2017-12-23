@@ -26,8 +26,8 @@ public class LibraryController {
 	private ObservableList<Comics> comicsData;
 
 	/**
-	 * Initializes the controller class. This method is automatically called
-	 * after the fxml file has been loaded.
+	 * Initializes the controller class. This method is automatically called after
+	 * the fxml file has been loaded.
 	 */
 	@FXML
 	private void handleRefreshButtonPressed() {
@@ -35,7 +35,7 @@ public class LibraryController {
 		for (int i = 0; i < libraryView.getItems().size(); i++) {
 			libraryView.getItems().clear();
 		}
-		List<Comics> comicsList = ComicsDAO.getComics();
+		List<Comics> comicsList = ComicsDAO.findAllUserComics();
 		for (Comics c : comicsList) {
 			comicsData.add(c);
 		}

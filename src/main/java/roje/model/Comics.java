@@ -14,6 +14,7 @@ import com.google.gson.JsonObject;
 import roje.api.MarvelAPI;
 
 public class Comics {
+	// comic properties
 	private int id;
 	private String title;
 	private String description;
@@ -23,23 +24,30 @@ public class Comics {
 	private DateTime onSaleDate;
 	private Float printPrice;
 	private Float digitalPrice;
-	private int mark;
-	private String purchaseDate;
-	private String localisation;
+
+	// user defined properties
+	private Integer mark;
+	private DateTime purchaseDate;
+	private String location;
 
 	private List<Character> characters = new ArrayList<Character>();
 
-	public Comics(final int id, final String title, final String description, final int pageCount, final String format,
-			final DateTime onSaleData, final int mark, final String localisation, final String purchaseDate) {
+	public Comics(int id, String title, String description, int pageCount, Thumbnail thumbnail, String format,
+			DateTime onSaleDate, Float printPrice, Float digitalPrice, Integer mark, DateTime purchaseDate,
+			String location) {
+		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.pageCount = pageCount;
+		this.thumbnail = thumbnail;
 		this.format = format;
 		this.onSaleDate = onSaleDate;
+		this.printPrice = printPrice;
+		this.digitalPrice = digitalPrice;
 		this.mark = mark;
-		this.localisation = localisation;
 		this.purchaseDate = purchaseDate;
+		this.location = location;
 	}
 
 	public Comics(final JsonObject json) {
@@ -49,6 +57,7 @@ public class Comics {
 			this.description = json.get("description").getAsString();
 		}
 		this.pageCount = json.get("pageCount").getAsInt();
+		this.thumbnail = new Thumbnail(json.get("thumbnail").getAsJsonObject());
 		this.format = json.get("format").getAsString();
 		JsonArray dates = json.get("dates").getAsJsonArray();
 		for (Iterator<JsonElement> it = dates.iterator(); it.hasNext();) {
@@ -69,28 +78,29 @@ public class Comics {
 				this.digitalPrice = el.get("price").getAsFloat();
 			}
 		}
-		this.thumbnail = new Thumbnail(json.get("thumbnail").getAsJsonObject());
-		this.mark = 0;
+	}
+
+	public String getOnSaleDateAsString() {
+		if (onSaleDate != null) {
+			return onSaleDate.toString(DateTimeFormat.forPattern("dd MMMM yyyy"));
+		}
+		return "Unknown";
+	}
+
+	public void fetchCharacters() throws Exception {
+		// don't fetch characters twice
+		if (characters.size() > 0) {
+			return;
+		}
+		this.characters = MarvelAPI.getCharactersByComicId(id);
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	public String getFormat() {
-		return format;
-	}
-
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public int getMark() {
-		return mark;
-	}
-
-	public void setMark(int mark) {
-		this.mark = mark;
 	}
 
 	public String getTitle() {
@@ -113,6 +123,10 @@ public class Comics {
 		return pageCount;
 	}
 
+	public void setPageCount(int pageCount) {
+		this.pageCount = pageCount;
+	}
+
 	public Thumbnail getThumbnail() {
 		return thumbnail;
 	}
@@ -121,35 +135,20 @@ public class Comics {
 		this.thumbnail = thumbnail;
 	}
 
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
+	}
+
 	public DateTime getOnSaleDate() {
 		return onSaleDate;
 	}
 
-	public String getOnSaleDateAsString() {
-		if (onSaleDate != null) {
-			return onSaleDate.toString(DateTimeFormat.forPattern("dd MMMM yyyy"));
-		}
-		return "Unknown";
-	}
-
 	public void setOnSaleDate(DateTime onSaleDate) {
 		this.onSaleDate = onSaleDate;
-	}
-
-	public void fetchCharacters() throws Exception {
-		// don't fetch comics twice
-		if (characters.size() > 0) {
-			return;
-		}
-		this.characters = MarvelAPI.getCharactersByComicId(id);
-	}
-
-	public List<Character> getCharacters() {
-		return characters;
-	}
-
-	public void setPageCount(int nbPages) {
-		this.pageCount = nbPages;
 	}
 
 	public Float getPrintPrice() {
@@ -168,19 +167,31 @@ public class Comics {
 		this.digitalPrice = digitalPrice;
 	}
 
-	public String getLocalisation() {
-		return localisation;
+	public Integer getMark() {
+		return mark;
 	}
 
-	public void setLocalisation(String localisation) {
-		this.localisation = localisation;
+	public void setMark(int mark) {
+		this.mark = mark;
 	}
 
-	public String getPurchaseDate() {
+	public DateTime getPurchaseDate() {
 		return purchaseDate;
 	}
 
-	public void setPurchaseDate(String purchaseDate) {
+	public void setPurchaseDate(DateTime purchaseDate) {
 		this.purchaseDate = purchaseDate;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public List<Character> getCharacters() {
+		return characters;
 	}
 }

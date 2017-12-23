@@ -6,8 +6,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import org.joda.time.DateTime;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -16,145 +20,202 @@ import javafx.stage.Stage;
 import roje.Main;
 
 public class ComicsDAO {
+	private static Connection connection;
 
-	public static void create(Comics c) {
+	public static void init() {
+		try {
+			connection = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void addComic(Comics c) {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
-			PreparedStatement st = connect
-					.prepareStatement("insert into comics (id,title,description,pageCount,mark) values(?,?,?,?,?)");
+			PreparedStatement st = connection.prepareStatement(
+					"INSERT INTO comics (id, title, description, pageCount, thumbnailPartialPath, thumbnailExtension, format, onSaleDate, printPrice, digitalPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			st.setInt(1, c.getId());
 			st.setString(2, c.getTitle());
 			st.setString(3, c.getDescription());
 			st.setInt(4, c.getPageCount());
-			st.setInt(5, c.getMark());
+			st.setString(5, c.getThumbnail().getPartialPath());
+			st.setString(6, c.getThumbnail().getExtension());
+			st.setString(7, c.getFormat());
+			st.setTimestamp(8, Timestamp.from(java.time.Instant.ofEpochMilli(c.getOnSaleDate().getMillis())),
+					Calendar.getInstance());
+			if (c.getPrintPrice() == null) {
+				st.setNull(9, java.sql.Types.FLOAT);
+			} else {
+				st.setFloat(9, c.getPrintPrice());
+			}
+			if (c.getDigitalPrice() == null) {
+				st.setNull(10, java.sql.Types.FLOAT);
+			} else {
+				st.setFloat(10, c.getDigitalPrice());
+			}
 			st.executeUpdate();
 			st.close();
-			connect.close();
-
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public static void setdateandlocation(String location, String date, int id) {
-		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
-			PreparedStatement st = connect.prepareStatement("update comics set location=?, date=? where id=?");
-			st.setString(1, location);
-			st.setString(2, date);
-			st.setInt(3, id);
-			st.executeUpdate();
-			st.close();
-			connect.close();
-
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static Comics find(int id) {
-		Comics c = new Comics(id, null, null, 0, null, null, 0, null, null);
+	// fetches additional user-related data if userComic is true
+	private static Comics resultSetToComic(ResultSet rs, boolean userComic) throws SQLException {
+		Thumbnail thumbnail = new Thumbnail(rs.getString("thumbnailPartialPath"), rs.getString("thumbnailExtension"));
+		Timestamp purchaseDate = userComic ? rs.getTimestamp("purchaseDate") : null;
+		Comics comic = new Comics(rs.getInt("id"), rs.getString("title"), rs.getString("description"),
+				rs.getInt("pageCount"), thumbnail, rs.getString("format"),
+				new DateTime(rs.getTimestamp("onSaleDate").getTime()), rs.getFloat("printPrice"),
+				rs.getFloat("digitalPrice"), userComic ? rs.getInt("mark") : null,
+				purchaseDate == null ? null : new DateTime(rs.getTimestamp("purchaseDate").getTime()),
+				userComic ? rs.getString("location") : null);
+		return comic;
+	}
+
+	public static Comics findComic(int id) {
+		Comics comic = null;
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
-			PreparedStatement st = connect.prepareStatement("select * from comics where id=?");
+			PreparedStatement st = connection.prepareStatement("SELECT * FROM comics WHERE id = ?");
 			st.setInt(1, id);
 			ResultSet rs = st.executeQuery();
-
 			while (rs.next()) {
-				c.setDescription(rs.getString("description"));
-				c.setTitle(rs.getString("title"));
-				c.setPageCount(rs.getInt("pageCount"));
-				c.setMark(rs.getInt("mark"));
+				comic = resultSetToComic(rs, false);
 			}
 			st.close();
-			connect.close();
-
-			return c;
-
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return c;
-
+		return comic;
 	}
 
-	public static void delete(Comics c) {
+	public static List<Comics> findAllComics() {
+		ResultSet rs;
+		List<Comics> result = new ArrayList<Comics>();
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			PreparedStatement st = connection.prepareStatement("SELECT * FROM comics");
+			rs = st.executeQuery();
+			while (rs.next()) {
+				Comics comic = resultSetToComic(rs, false);
+				result.add(comic);
+			}
+			st.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public static void addUserComic(final int id, DateTime purchaseDate, String location) {
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			PreparedStatement st = connection
+					.prepareStatement("INSERT INTO userComics (id, purchaseDate, location) VALUES (?, ?, ?)");
+			st.setInt(1, id);
+			st.setTimestamp(2, purchaseDate == null ? null
+					: Timestamp.from(java.time.Instant.ofEpochMilli(purchaseDate.getMillis())));
+			st.setString(3, location);
+			st.executeUpdate();
+			st.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void deleteUserComic(final int id) {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
-			PreparedStatement st = connect.prepareStatement("delete from comics where id=?");
-			st.setInt(1, c.getId());
+			PreparedStatement st = connect.prepareStatement("DELETE FROM userComics WHERE id = ?");
+			st.setInt(1, id);
 			st.executeUpdate();
 			st.close();
 			connect.close();
-
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static void addMark(Comics c, int m) throws IOException {
+	public static boolean findUserComic(final int id) {
+		boolean found = false;
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
-			if (ComicsDAO.find(c.getId()).getTitle() != null) {
-				PreparedStatement st = connect.prepareStatement("update comics set mark=? where id=?");
-				st.setInt(1, m);
-				st.setInt(2, c.getId());
+			PreparedStatement st = connection.prepareStatement("SELECT id FROM userComics WHERE id = ?");
+			st.setInt(1, id);
+			ResultSet rs = st.executeQuery();
+			while (rs.next()) {
+				found = true;
+			}
+			st.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return found;
+	}
+
+	/*
+	 * public static void setDateAndLocation(int id) { try {
+	 * Class.forName("org.apache.derby.jdbc.EmbeddedDriver"); PreparedStatement st =
+	 * connection.
+	 * prepareStatement("update userComics set location=?, date=? where id=?");
+	 * st.setString(1, location); st.setString(2, date); st.setInt(3, id);
+	 * st.executeUpdate(); st.close(); } catch (Exception e) { e.printStackTrace();
+	 * } }
+	 */
+
+	public static void setMark(int id, int mark) throws IOException {
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			Comics comic = findComic(id);
+			if (comic == null) {
+				throw new Exception("This comic doesn't exist");
+			} else if (!findUserComic(id)) {
+				throw new Exception("The user doesn't have this comic");
+			} else {
+				PreparedStatement st = connection.prepareStatement("UPDATE userComics SET mark = ? WHERE id = ?");
+				st.setInt(1, mark);
+				st.setInt(2, id);
 				st.executeUpdate();
 				st.close();
-				connect.close();
+				System.out.println(mark);
+				// TODO: move this to controller
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
 				AnchorPane pane = (AnchorPane) loader.load();
 				Stage stage = new Stage();
 				stage.setScene(new Scene(pane, 300, 95));
 				stage.show();
-			} else {
-				System.out.println("Ce comics n'est pas dans la bdd");
+				//
 			}
-
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	public static List<Comics> getComics() {
-		ResultSet rs = null;
+	public static List<Comics> findAllUserComics() {
+		ResultSet rs;
 		List<Comics> result = new ArrayList<Comics>();
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
-			PreparedStatement st = connect
-					.prepareStatement("Select id,title,description,pageCount,mark,location,date from comics");
+			PreparedStatement st = connection.prepareStatement(
+					"SELECT comics.id, title, description, pageCount, thumbnailPartialPath, thumbnailExtension, format, onSaleDate, printPrice, digitalPrice, mark, purchaseDate, location FROM comics JOIN userComics ON comics.id = userComics.id");
 			rs = st.executeQuery();
 			while (rs.next()) {
-				Comics c = new Comics(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), null, null,
-						rs.getInt(5), rs.getString(6), rs.getString(7));
-				result.add(c);
+				Comics comic = resultSetToComic(rs, true);
+				result.add(comic);
+				System.out.println(comic.getMark());
 			}
-			st.close();
-			connect.close();
-
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
+	}
+
+	public static void close() throws SQLException {
+		connection.close();
 	}
 }

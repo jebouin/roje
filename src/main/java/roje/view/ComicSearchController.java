@@ -23,6 +23,7 @@ import javafx.scene.input.MouseEvent;
 import roje.Main;
 import roje.api.MarvelAPI;
 import roje.model.Comics;
+import roje.model.ComicsDAO;
 
 public class ComicSearchController {
 
@@ -52,8 +53,8 @@ public class ComicSearchController {
 	private String lastSearch;
 
 	/**
-	 * Initializes the controller class. This method is automatically called
-	 * after the fxml file has been loaded.
+	 * Initializes the controller class. This method is automatically called after
+	 * the fxml file has been loaded.
 	 */
 	@FXML
 	private void initialize() {
@@ -151,6 +152,12 @@ public class ComicSearchController {
 					loadingIcon.setVisible(false);
 					searchButton.setDisable(false);
 				});
+				// cache them
+				for (Comics comic : comics) {
+					if (ComicsDAO.findComic(comic.getId()) == null) {
+						ComicsDAO.addComic(comic);
+					}
+				}
 				return null;
 			}
 		};

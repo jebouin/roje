@@ -87,13 +87,12 @@ public class ComicCardController {
 
 	@FXML
 	private void handleAddButtonPressed() throws IOException {
-		if (ComicsDAO.find(comic.getId()).getTitle() != null) {
-			ComicsDAO.delete(this.comic);
+		if (ComicsDAO.findUserComic(comic.getId())) {
+			ComicsDAO.deleteUserComic(comic.getId());
 			addLibraryButton.setText("Add to library");
 			mark.setVisible(false);
 			addMarkButton.setVisible(false);
 		} else {
-
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/AddingWindow.fxml"));
 			AnchorPane pane = (AnchorPane) loader.load();
@@ -101,17 +100,17 @@ public class ComicCardController {
 			Stage stage = new Stage();
 			stage.setScene(new Scene(pane, 600, 600));
 			stage.show();
+			// TODO: fix bug!
 			addLibraryButton.setText("Delete from library");
 			mark.setVisible(true);
 			addMarkButton.setVisible(true);
 		}
-
 	}
 
 	@FXML
 	public void handleAddMarkButtonPressed() throws IOException {
 		System.out.println(String.valueOf((int) mark.getValue()));
-		ComicsDAO.addMark(this.comic, (int) mark.getValue());
+		ComicsDAO.setMark(comic.getId(), (int) mark.getValue());
 	}
 
 	public void setMark(int m) {
@@ -125,7 +124,7 @@ public class ComicCardController {
 		formatLabel.setText(comic.getFormat());
 		pageCount.setText(Integer.toString(comic.getPageCount()));
 		imageView.setImage(comic.getThumbnail().downloadImage("portrait_xlarge"));
-		if (ComicsDAO.find(comic.getId()).getTitle() == null) {
+		if (!ComicsDAO.findUserComic(comic.getId())) {
 			mark.setVisible(false);
 			addMarkButton.setVisible(false);
 		}
@@ -175,10 +174,10 @@ public class ComicCardController {
 			}
 		};
 		new Thread(downloadImagesTask).start();
-		if (ComicsDAO.find(comic.getId()).getTitle() != null) {
+		if (ComicsDAO.findUserComic(comic.getId())) {
 			addLibraryButton.setText("Delete from library");
 		} else {
-			addLibraryButton.setText("Add to Library");
+			addLibraryButton.setText("Add to library");
 		}
 		Float digitalPrice = comic.getDigitalPrice();
 		Float printPrice = comic.getPrintPrice();

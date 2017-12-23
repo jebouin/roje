@@ -38,7 +38,7 @@
                       </TableColumn>
                   <TableColumn prefWidth="250.0" text="Location in Library">
                   <cellValueFactory>
-                        <PropertyValueFactory property="localisation" />
+                        <PropertyValueFactory property="location" />
                      </cellValueFactory>
                   </TableColumn>
               </columns>
