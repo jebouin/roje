@@ -8,71 +8,63 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.ComicCardController">
+<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1200.0" prefWidth="1400.0" styleClass="background" stylesheets="@stylecardcomic.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.ComicCardController">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="871.0" prefWidth="957.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1200.0" prefWidth="1400.0" styleClass="background" stylesheets="@stylecardcomic.css">
          <children>
-            <Button fx:id="addMarkButton" layoutX="566.0" layoutY="109.0" mnemonicParsing="false" onMouseClicked="#handleAddMarkButtonPressed" text="Add Mark" />
-            <Button fx:id="addLibraryButton" layoutX="630.0" layoutY="84.0" mnemonicParsing="false" onAction="#handleAddButtonPressed" text="Add to library" />
-            <Label layoutX="204.0" layoutY="139.0" prefHeight="26.0" prefWidth="136.0" text="Format :">
+            <Button fx:id="addMarkButton" layoutX="947.0" layoutY="83.0" mnemonicParsing="false" onMouseClicked="#handleAddMarkButtonPressed" prefHeight="45.0" prefWidth="212.0" text="Add Mark" />
+            <Button fx:id="addLibraryButton" layoutX="946.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleAddButtonPressed" prefHeight="45.0" prefWidth="213.0" text="Add to library" />
+            <Label layoutX="188.0" layoutY="160.0" prefHeight="26.0" prefWidth="136.0" styleClass="label-undertitle" text="Format :">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="labelCharacters" layoutX="24.0" layoutY="357.0" prefHeight="15.0" prefWidth="171.0">
+            <Label fx:id="labelCharacters" layoutX="24.0" layoutY="428.0" prefHeight="15.0" prefWidth="171.0" styleClass="label-undertitle">
                <font>
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <Label fx:id="formatLabel" layoutX="272.0" layoutY="84.0" prefHeight="30.0" prefWidth="104.0" text="format" />
-            <Label fx:id="pageCount" layoutX="341.0" layoutY="51.0" prefHeight="30.0" prefWidth="117.0" text="pageCount" />
-            <TilePane fx:id="charactersGrid" hgap="5.0" layoutX="24.0" layoutY="348.0" prefHeight="9.0" prefWidth="770.0" tileAlignment="TOP_LEFT" vgap="5.0" />
-            <Label layoutX="204.0" layoutY="53.0" prefHeight="26.0" prefWidth="136.0" text="Number of pages :">
+            <Label fx:id="formatLabel" layoutX="291.0" layoutY="159.0" prefHeight="30.0" prefWidth="104.0" styleClass="label-subtitle" text="null" />
+            <Label fx:id="pageCount" layoutX="409.0" layoutY="67.0" prefHeight="30.0" prefWidth="141.0" styleClass="label-subtitle" text="No information" />
+            <TilePane fx:id="charactersGrid" hgap="5.0" layoutX="24.0" layoutY="479.0" prefHeight="14.0" prefWidth="725.0" tileAlignment="TOP_LEFT" vgap="5.0" />
+            <Label layoutX="187.0" layoutY="68.0" prefHeight="28.0" prefWidth="209.0" styleClass="label-undertitle" text="Number of pages :">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="20.0" layoutY="242.0" prefHeight="115.0" prefWidth="571.0" text="Description: Auxerunt haec vulgi sordidioris audaciam, quod cum ingravesceret penuria commeatuum, famis et furoris inpulsu Eubuli cuiusdam inter suos clari domum ambitiosam ignibus subditis inflammavit rectoremque ut sibi iudicio imperiali addictum calcibus incessens et pugnis conculcans seminecem laniatu miserando discerpsit. post cuius lacrimosum interitum in unius exitio quisque imaginem periculi sui considerans documento recenti similia formidabat.Accedat huc suavitas quaedam oportet sermonum atque morum, haudquaquam mediocre condimentum amicitiae. Tristitia autem et in omni re severitas habet illa quidem gravitatem, sed amicitia remissior esse debet et liberior et dulcior et ad omnem comitatem facilitatemque proclivior.Iis igitur est difficilius satis facere, qui se Latina scripta dicunt contemnere. in quibus hoc primum est in quo admirer, cur in gravissimis rebus non delectet eos sermo patrius, cum idem fabellas Latinas ad verbum e Graecis expressas non inviti legant. quis enim tam inimicus paene nomini Romano est, qui Ennii Medeam aut Antiopam Pacuvii spernat aut reiciat, quod se isdem Euripidis fabulis delectari dicat, Latinas litteras oderit?Proinde concepta rabie saeviore, quam desperatio incendebat et fames, amplificatis viribus ardore incohibili in excidium urbium matris Seleuciae efferebantur, quam comes tuebatur Castricius tresque legiones bellicis sudoribus induratae.Nec minus feminae quoque calamitatum participes fuere similium. nam ex hoc quoque sexu peremptae sunt originis altae conplures, adulteriorum flagitiis obnoxiae vel stuprorum. inter quas notiores fuere Claritas et Flaviana, quarum altera cum duceretur ad mortem, indumento, quo vestita erat, abrepto, ne velemen quidem secreto membrorum sufficiens retinere permissa est. ideoque carnifex nefas admisisse convictus inmane, vivus exustus est." textOverrun="CLIP" wrapText="true" />
-            <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="146.0" layoutY="14.0" prefHeight="48.0" prefWidth="642.0" text="Name" textAlignment="CENTER" textOverrun="CLIP">
+            <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="24.0" layoutY="210.0" prefHeight="188.0" prefWidth="655.0" styleClass="label-subtitle" stylesheets="@stylecardcomic.css" text="No description" textOverrun="CLIP" wrapText="true" />
+            <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="177.0" layoutY="14.0" prefHeight="48.0" prefWidth="642.0" styleClass="label-title" stylesheets="@stylecardcomic.css" text="Name" textAlignment="CENTER" textOverrun="CLIP">
                <font>
                   <Font name="System Bold" size="35.0" />
                </font>
             </Label>
-            <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" layoutX="24.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" layoutX="24.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" styleClass="image">
                <image>
                   <Image url="http://i.annihil.us/u/prod/marvel/i/mg/5/a0/538615ca33ab0/portrait_xlarge.jpg" />
                </image>
             </ImageView>
-            <Slider fx:id="mark" blockIncrement="2.0" layoutX="204.0" layoutY="191.0" majorTickUnit="1.0" max="20.0" minorTickCount="1" prefHeight="18.0" prefWidth="430.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+            <Slider fx:id="mark" blockIncrement="2.0" layoutX="729.0" layoutY="150.0" majorTickUnit="1.0" max="20.0" minorTickCount="1" prefHeight="18.0" prefWidth="430.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                <cursor>
                   <Cursor fx:constant="CLOSED_HAND" />
                </cursor>
             </Slider>
-            <Pane fx:id="pricesPane" layoutX="204.0" layoutY="109.0">
+            <TextField layoutX="728.0" layoutY="257.0" prefHeight="141.0" prefWidth="431.0" styleClass="text-field" stylesheets="@stylecardcomic.css" />
+            <Label layoutX="809.0" layoutY="210.0" prefHeight="34.0" prefWidth="350.0" styleClass="label-undertitle" text="Comment" textAlignment="CENTER" />
+            <Label layoutX="391.0" layoutY="131.0" prefHeight="30.0" prefWidth="104.0" text="(digital)" />
+            <Label fx:id="pricesLabel" layoutX="188.0" layoutY="109.0" prefHeight="28.0" prefWidth="100.0" styleClass="label-undertitle" text="Prices :">
+               <font>
+                  <Font name="System Bold" size="15.0" />
+               </font>
+            </Label>
+            <Pane layoutX="268.0" layoutY="114.0">
                <children>
-                  <Label fx:id="pricesLabel" layoutY="2.0" prefHeight="26.0" prefWidth="55.0" text="Prices :">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                  </Label>
-                  <Pane layoutX="54.0">
-                     <children>
-                        <Pane fx:id="printPricePane" layoutY="25.0">
-                           <children>
-                              <Label layoutX="45.0" prefHeight="30.0" prefWidth="104.0" text="(print)" />
-                              <Label fx:id="printAmountLabel" prefHeight="30.0" prefWidth="48.0" text="amount" />
-                           </children>
-                        </Pane>
-                        <Pane fx:id="digitalPricePane">
-                           <children>
-                              <Label fx:id="digitalAmoutLabel" prefHeight="30.0" prefWidth="48.0" text="amount" />
-                              <Label layoutX="45.0" prefHeight="30.0" prefWidth="104.0" text="(digital)" />
-                           </children>
-                        </Pane>
-                     </children>
-                  </Pane>
+                  <Pane fx:id="printPricePane" layoutY="25.0" />
+                  <Pane fx:id="digitalPricePane" />
+                  <Label fx:id="digitalAmoutLabel" layoutX="22.0" layoutY="-9.0" prefHeight="30.0" prefWidth="92.0" styleClass="label-subtitle" text="null" />
+                  <Label fx:id="printAmountLabel" layoutX="23.0" layoutY="18.0" prefHeight="30.0" prefWidth="92.0" styleClass="label-subtitle" text="null" />
                </children>
             </Pane>
+            <Label layoutX="391.0" layoutY="105.0" prefHeight="30.0" prefWidth="104.0" text="(print)" />
          </children></AnchorPane>
   </content>
 </ScrollPane>

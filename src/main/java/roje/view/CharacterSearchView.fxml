@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
- 
+
 <?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
- 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.CharacterSearchController">
+
+<AnchorPane prefHeight="750.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.CharacterSearchController">
    <children>
-      <TextField id="hero" fx:id="searchTextField" layoutX="144.0" layoutY="6.0" onKeyPressed="#handleEnterPressed" promptText="Character" AnchorPane.topAnchor="6.0" />
-      <Button id="search" fx:id="searchButton" layoutX="333.0" layoutY="25.0" mnemonicParsing="false" onAction="#handleSearchButtonPressed" text="Search" AnchorPane.topAnchor="5.0" />
-      <Label fx:id="statusLabel" layoutX="495.0" layoutY="11.0" text="Status" AnchorPane.topAnchor="11.0" />
-      <ImageView fx:id="loadingIcon" fitHeight="31.0" fitWidth="33.0" layoutX="428.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+      <TextField id="hero" fx:id="searchTextField" layoutX="22.0" layoutY="15.0" onKeyPressed="#handleEnterPressed" prefHeight="40.0" prefWidth="198.0" promptText="Character" AnchorPane.topAnchor="15.0" />
+      <Button id="search" fx:id="searchButton" layoutX="230.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleSearchButtonPressed" prefHeight="40.0" prefWidth="100.0" text="Search" AnchorPane.topAnchor="15.0" />
+      <Label fx:id="statusLabel" layoutX="404.0" layoutY="15.0" prefHeight="17.0" prefWidth="600.0" text="Status" AnchorPane.topAnchor="15.0" />
+      <ImageView fx:id="loadingIcon" fitHeight="31.0" fitWidth="33.0" layoutX="350.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="loading.png" />
          </image>
       </ImageView>
-      <TableView fx:id="characterTableView" layoutX="19.0" layoutY="37.0" onMouseClicked="#handleListClick" prefHeight="355.0" prefWidth="559.0">
+      <TableView fx:id="characterTableView" layoutX="22.0" layoutY="70.0" onMouseClicked="#handleListClick" prefHeight="650.0" prefWidth="950.0">
         <columns>
           <TableColumn fx:id="nameColumn" prefWidth="558.0" text="Name" />
         </columns>

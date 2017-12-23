@@ -12,13 +12,13 @@
   <content>
     <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1300.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="8.0" prefHeight="43.0" prefWidth="547.0" text="My library" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="739.0">
+            <Label contentDisplay="CENTER" layoutX="22.0" layoutY="14.0" prefHeight="43.0" prefWidth="547.0" text="My library" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="17.0" AnchorPane.rightAnchor="736.0">
                <font>
                   <Font name="System Bold" size="35.0" />
                </font>
             </Label>
-            <TilePane hgap="5.0" layoutX="14.0" layoutY="314.0" prefHeight="2.0" prefWidth="570.0" tileAlignment="TOP_LEFT" vgap="5.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="216.0" AnchorPane.topAnchor="314.0" />
-            <TableView fx:id="libraryView" layoutX="17.0" layoutY="102.0" prefHeight="600.0" prefWidth="1250.0" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="102.0">
+            <TilePane hgap="5.0" layoutX="22.0" layoutY="314.0" prefHeight="2.0" prefWidth="570.0" tileAlignment="TOP_LEFT" vgap="5.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="216.0" AnchorPane.topAnchor="314.0" />
+            <TableView fx:id="libraryView" layoutX="22.0" layoutY="102.0" prefHeight="600.0" prefWidth="1250.0" AnchorPane.leftAnchor="22.0" AnchorPane.topAnchor="102.0">
               <columns>
                 <TableColumn prefWidth="220.0" text="Title">
                 	<cellValueFactory><PropertyValueFactory property="title" /></cellValueFactory>
@@ -43,7 +43,7 @@
                   </TableColumn>
               </columns>
             </TableView>
-            <Button layoutX="17.0" layoutY="60.0" mnemonicParsing="false" onAction="#handleRefreshButtonPressed" text="Refresh" />
+            <Button layoutX="22.0" layoutY="60.0" mnemonicParsing="false" onAction="#handleRefreshButtonPressed" prefHeight="34.0" prefWidth="130.0" text="Refresh" />
          </children></AnchorPane>
   </content>
 </ScrollPane>

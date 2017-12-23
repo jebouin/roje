@@ -9,15 +9,15 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.ComicSearchController">
    <children>
-      <TextField id="title" fx:id="searchTextField" layoutX="119.0" layoutY="6.0" onKeyPressed="#handleEnterPressed" promptText="Comic" AnchorPane.topAnchor="6.0" />
-      <Button id="search" fx:id="searchButton" layoutX="333.0" layoutY="20.0" mnemonicParsing="false" onAction="#handleSearchButtonPressed" text="Search" AnchorPane.topAnchor="20.0" />
-      <Label fx:id="statusLabel" layoutX="493.0" layoutY="7.0" prefHeight="54.0" prefWidth ="329.0" styleClass="label-bright" stylesheets="@style.css" text="Status" AnchorPane.topAnchor="7.0" />
-	  <ImageView fx:id="loadingIcon" fitHeight="31.0" fitWidth="33.0" layoutX="440.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
+      <TextField id="title" fx:id="searchTextField" layoutX="22.0" layoutY="15.0" onKeyPressed="#handleEnterPressed" prefHeight="40.0" prefWidth="198.0" promptText="Comic" AnchorPane.topAnchor="15.0" />
+      <Button id="search" fx:id="searchButton" layoutX="230.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleSearchButtonPressed" prefHeight="40.0" prefWidth="100.0" text="Search" AnchorPane.topAnchor="15.0" />
+      <Label fx:id="statusLabel" layoutX="404.0" layoutY="15.0" prefHeight="17.0" prefWidth="600.0" text="Status" AnchorPane.topAnchor="15.0" />
+	  <ImageView fx:id="loadingIcon" fitHeight="31.0" fitWidth="33.0" layoutX="350.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="loading.png" />
          </image>
       </ImageView>
-      <TableView fx:id="comicsTableView" layoutX="22.0" layoutY="66.0" onMouseClicked="#handleListClick" prefHeight="671.0" prefWidth="1297.0">
+      <TableView fx:id="comicsTableView" layoutX="22.0" layoutY="70.0" onMouseClicked="#handleListClick" prefHeight="650.0" prefWidth="1297.0">
         <columns>
           <TableColumn fx:id="titleColumn" prefWidth="289.0" text="Title" />
           <TableColumn fx:id="dateColumn" prefWidth="281.0" text="Date" />
