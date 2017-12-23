@@ -10,9 +10,9 @@
 
 <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1000.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.ComicCardController">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefWidth="800.0">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="871.0" prefWidth="957.0">
          <children>
-            <Button fx:id="addMarkButton" layoutX="655.0" layoutY="184.0" mnemonicParsing="false" onMouseClicked="#handleAddMarkButtonPressed" text="Add Mark" />
+            <Button fx:id="addMarkButton" layoutX="566.0" layoutY="109.0" mnemonicParsing="false" onMouseClicked="#handleAddMarkButtonPressed" text="Add Mark" />
             <Button fx:id="addLibraryButton" layoutX="630.0" layoutY="84.0" mnemonicParsing="false" onAction="#handleAddButtonPressed" text="Add to library" />
             <Label layoutX="204.0" layoutY="139.0" prefHeight="26.0" prefWidth="136.0" text="Format :">
                <font>

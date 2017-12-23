@@ -8,42 +8,42 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.cell.*?>
 
-<ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="498.0" prefWidth="871.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.LibraryController">
+<ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1435.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.LibraryController">
   <content>
-    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="477.0" prefWidth="930.0">
+    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1300.0">
          <children>
-            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="152.0" layoutY="21.0" prefHeight="34.0" prefWidth="408.0" text="My library" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="152.0" AnchorPane.rightAnchor="240.0">
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="8.0" prefHeight="43.0" prefWidth="547.0" text="My library" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="739.0">
                <font>
                   <Font name="System Bold" size="35.0" />
                </font>
             </Label>
             <TilePane hgap="5.0" layoutX="14.0" layoutY="314.0" prefHeight="2.0" prefWidth="570.0" tileAlignment="TOP_LEFT" vgap="5.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="216.0" AnchorPane.topAnchor="314.0" />
-            <TableView fx:id="libraryView" layoutX="17.0" layoutY="102.0" prefHeight="360.0" prefWidth="771.0" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="102.0">
+            <TableView fx:id="libraryView" layoutX="17.0" layoutY="102.0" prefHeight="600.0" prefWidth="1250.0" AnchorPane.leftAnchor="17.0" AnchorPane.topAnchor="102.0">
               <columns>
-                <TableColumn prefWidth="242.0" text="Title">
+                <TableColumn prefWidth="220.0" text="Title">
                 	<cellValueFactory><PropertyValueFactory property="title" /></cellValueFactory>
                 </TableColumn>
-                <TableColumn prefWidth="114.0" text="PageCount">
+                <TableColumn prefWidth="200.0" text="PageCount">
                 	<cellValueFactory><PropertyValueFactory property="pageCount" /></cellValueFactory>
                 </TableColumn>
-                  <TableColumn prefWidth="72.0" text="Mark">
+                  <TableColumn prefWidth="200.0" text="Mark">
                      <cellValueFactory>
                         <PropertyValueFactory property="mark" />
                      </cellValueFactory>
                   </TableColumn>
-                  <TableColumn prefWidth="117.0" text="Purchase Date">
+                  <TableColumn prefWidth="200.0" text="Purchase Date">
                   <cellValueFactory>
                         <PropertyValueFactory property="purchaseDate" />
                      </cellValueFactory>
                       </TableColumn>
-                  <TableColumn prefWidth="144.0" text="Location in Library">
+                  <TableColumn prefWidth="250.0" text="Location in Library">
                   <cellValueFactory>
                         <PropertyValueFactory property="localisation" />
                      </cellValueFactory>
                   </TableColumn>
               </columns>
             </TableView>
-            <Button layoutX="475.0" layoutY="72.0" mnemonicParsing="false" onAction="#handleRefreshButtonPressed" text="Refresh" />
+            <Button layoutX="17.0" layoutY="60.0" mnemonicParsing="false" onAction="#handleRefreshButtonPressed" text="Refresh" />
          </children></AnchorPane>
   </content>
 </ScrollPane>
