@@ -48,8 +48,7 @@
                   <Cursor fx:constant="CLOSED_HAND" />
                </cursor>
             </Slider>
-            <TextField layoutX="728.0" layoutY="257.0" prefHeight="141.0" prefWidth="431.0" styleClass="text-field" stylesheets="@stylecardcomic.css" />
-            <Label layoutX="809.0" layoutY="210.0" prefHeight="34.0" prefWidth="350.0" styleClass="label-undertitle" text="Comment" textAlignment="CENTER" />
+            <Label fx:id="CommentLabel" layoutX="729.0" layoutY="210.0" prefHeight="34.0" prefWidth="350.0" styleClass="label-undertitle" text="Comment" textAlignment="CENTER" />
             <Label layoutX="391.0" layoutY="131.0" prefHeight="30.0" prefWidth="104.0" text="(digital)" />
             <Label fx:id="pricesLabel" layoutX="188.0" layoutY="109.0" prefHeight="28.0" prefWidth="100.0" styleClass="label-undertitle" text="Prices :">
                <font>
@@ -65,6 +64,8 @@
                </children>
             </Pane>
             <Label layoutX="391.0" layoutY="105.0" prefHeight="30.0" prefWidth="104.0" text="(print)" />
+            <Button fx:id="ButtonSave" layoutX="1074.0" layoutY="358.0" mnemonicParsing="false" onMouseClicked="#handleSaveButtonPressed" text="Save" />
+            <TextArea fx:id="comment" layoutX="729.0" layoutY="244.0" prefHeight="109.0" prefWidth="432.0" />
          </children></AnchorPane>
   </content>
 </ScrollPane>

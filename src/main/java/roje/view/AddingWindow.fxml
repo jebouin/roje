@@ -5,15 +5,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.AddingWindowController">
+<AnchorPane prefHeight="143.0" prefWidth="460.0" styleClass="backgroundaddingview" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.AddingWindowController">
    <children>
-      <Pane layoutY="-3.0" prefHeight="249.0" prefWidth="403.0">
+      <Pane prefHeight="163.0" prefWidth="460.0">
          <children>
-            <Button fx:id="okButton" layoutX="130.0" layoutY="182.0" mnemonicParsing="false" onMouseClicked="#handlePressedokButton" text="OK" />
-            <Label layoutX="40.0" layoutY="56.0" text="Purchase Date" />
-            <Label layoutX="40.0" layoutY="129.0" text="Location in Library" />
-            <DatePicker fx:id="Calendar" layoutX="143.0" layoutY="51.0" onAction="#handlePressedCalendar" />
-            <TextField fx:id="Location" layoutX="182.0" layoutY="124.0" />
+            <Button fx:id="okButton" layoutX="39.0" layoutY="110.0" mnemonicParsing="false" onMouseClicked="#handlePressedokButton" prefHeight="41.0" prefWidth="96.0" styleClass="buttonaddingview" text="OK" />
+            <Label layoutX="39.0" layoutY="14.0" styleClass="labeladdingview" text="Purchase Date" />
+            <Label layoutX="27.0" layoutY="53.0" prefHeight="57.0" prefWidth="183.0" styleClass="labeladdingview" text="Location in Library" />
+            <DatePicker fx:id="Calendar" layoutX="210.0" layoutY="14.0" onAction="#handlePressedCalendar" />
+            <TextField fx:id="Location" layoutX="240.0" layoutY="66.0" />
+            <Label fx:id="ValidateLabel" layoutX="198.0" layoutY="118.0" prefHeight="26.0" prefWidth="212.0" styleClass="labeladdingview" />
          </children>
       </Pane>
    </children>

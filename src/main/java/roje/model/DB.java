@@ -18,7 +18,7 @@ public class DB {
 				stComics.executeUpdate(
 						"CREATE TABLE comics (id INT PRIMARY KEY, title VARCHAR(100), description LONG VARCHAR, pageCount INT, thumbnailPartialPath VARCHAR(256), thumbnailExtension VARCHAR(16), format VARCHAR(64), onSaleDate TIMESTAMP, printPrice FLOAT, digitalPrice FLOAT)");
 				stUserComics.executeUpdate(
-						"CREATE TABLE userComics (id INT PRIMARY KEY REFERENCES COMICS(id), mark INT, location VARCHAR(100), purchaseDate TIMESTAMP)");
+						"CREATE TABLE userComics (id INT PRIMARY KEY REFERENCES COMICS(id), mark INT, comment VARCHAR(256), location VARCHAR(100), purchaseDate TIMESTAMP)");
 				stComics.close();
 				stUserComics.close();
 				connect.close();
@@ -28,5 +28,10 @@ public class DB {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public static void deleteDB(File f) {
+		f.delete();
+
 	}
 }

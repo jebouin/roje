@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import roje.Main;
@@ -70,7 +71,7 @@ public class ComicsDAO {
 				new DateTime(rs.getTimestamp("onSaleDate").getTime()), rs.getFloat("printPrice"),
 				rs.getFloat("digitalPrice"), userComic ? rs.getInt("mark") : null,
 				purchaseDate == null ? null : new DateTime(rs.getTimestamp("purchaseDate").getTime()),
-				userComic ? rs.getString("location") : null);
+				userComic ? rs.getString("location") : null, userComic ? rs.getString("comment") : null);
 		return comic;
 	}
 
@@ -157,6 +158,24 @@ public class ComicsDAO {
 		return found;
 	}
 
+	public static String returnComment(final int id, TextArea comment) {
+		String comm1 = null;
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
+			PreparedStatement st = connect.prepareStatement("SELECT comment FROM userComics WHERE id = ?");
+			st.setInt(1, id);
+			ResultSet com = st.executeQuery();
+			while (com.next()) {
+				comm1 = com.getString(1);
+			}
+			st.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return comm1;
+	}
+
 	/*
 	 * public static void setDateAndLocation(int id) { try {
 	 * Class.forName("org.apache.derby.jdbc.EmbeddedDriver"); PreparedStatement st =
@@ -196,18 +215,48 @@ public class ComicsDAO {
 		}
 	}
 
+	public static void setComment(int id, String comment) throws IOException {
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			Comics comic = findComic(id);
+			if (comic == null) {
+				throw new Exception("This comic doesn't exist");
+			} else if (!findUserComic(id)) {
+				throw new Exception("The user doesn't have this comic");
+			} else {
+				PreparedStatement st = connection.prepareStatement("UPDATE userComics SET comment = ? WHERE id = ?");
+				st.setString(1, comment);
+				st.setInt(2, id);
+				st.executeUpdate();
+				st.close();
+				System.out.println(comment);
+				// TODO: move this to controller
+				FXMLLoader loader = new FXMLLoader();
+				loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
+				AnchorPane pane = (AnchorPane) loader.load();
+				Stage stage = new Stage();
+				stage.setScene(new Scene(pane, 300, 95));
+				stage.show();
+				//
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static List<Comics> findAllUserComics() {
 		ResultSet rs;
 		List<Comics> result = new ArrayList<Comics>();
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			PreparedStatement st = connection.prepareStatement(
-					"SELECT comics.id, title, description, pageCount, thumbnailPartialPath, thumbnailExtension, format, onSaleDate, printPrice, digitalPrice, mark, purchaseDate, location FROM comics JOIN userComics ON comics.id = userComics.id");
+					"SELECT comics.id, title, description, pageCount, thumbnailPartialPath, thumbnailExtension, format, onSaleDate, printPrice, digitalPrice, mark, purchaseDate, location, comment FROM comics JOIN userComics ON comics.id = userComics.id");
 			rs = st.executeQuery();
 			while (rs.next()) {
 				Comics comic = resultSetToComic(rs, true);
 				result.add(comic);
 				System.out.println(comic.getMark());
+				System.out.println(comic.getComment());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

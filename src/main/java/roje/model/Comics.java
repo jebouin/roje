@@ -29,12 +29,13 @@ public class Comics {
 	private Integer mark;
 	private DateTime purchaseDate;
 	private String location;
+	private String comment;
 
 	private List<Character> characters = new ArrayList<Character>();
 
 	public Comics(int id, String title, String description, int pageCount, Thumbnail thumbnail, String format,
 			DateTime onSaleDate, Float printPrice, Float digitalPrice, Integer mark, DateTime purchaseDate,
-			String location) {
+			String location, String comment) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -48,6 +49,7 @@ public class Comics {
 		this.mark = mark;
 		this.purchaseDate = purchaseDate;
 		this.location = location;
+		this.comment = comment;
 	}
 
 	public Comics(final JsonObject json) {
@@ -194,4 +196,13 @@ public class Comics {
 	public List<Character> getCharacters() {
 		return characters;
 	}
+
+	public String getComment() {
+		return comment;
+	}
+
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+
 }

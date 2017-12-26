@@ -4,9 +4,8 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="95.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.ComicCardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="95.0" prefWidth="300.0" styleClass="background1" stylesheets="@stylecardcomic.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.ComicCardController">
    <children>
-      <Label layoutX="87.0" layoutY="34.0" prefHeight="35.0" prefWidth="127.0" text="Action complete !" />
+      <Label layoutX="55.0" layoutY="30.0" prefHeight="35.0" prefWidth="191.0" styleClass="label-undertitle" text="Action complete !" />
    </children>
 </AnchorPane>

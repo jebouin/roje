@@ -22,6 +22,7 @@ public class Main extends Application {
 
 	public void initRootLayout() {
 		try {
+
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
@@ -72,6 +73,7 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) throws Exception {
+
 		DB.createDB();
 		ComicsDAO.init();
 		launch(args);

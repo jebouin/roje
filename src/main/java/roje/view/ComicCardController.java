@@ -12,6 +12,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -75,6 +76,14 @@ public class ComicCardController {
 	private Button addMarkButton;
 
 	private Comics comic;
+	@FXML
+	private TextArea comment;
+
+	@FXML
+	private Button ButtonSave;
+
+	@FXML
+	private Label CommentLabel;
 
 	/**
 	 * Initializes the controller class. This method is automatically called after
@@ -90,7 +99,12 @@ public class ComicCardController {
 		if (ComicsDAO.findUserComic(comic.getId())) {
 			ComicsDAO.deleteUserComic(comic.getId());
 			addLibraryButton.setText("Add to library");
+			comment.setText("");
+			comment.setVisible(false);
+			ButtonSave.setVisible(false);
+			CommentLabel.setVisible(false);
 			mark.setVisible(false);
+
 			addMarkButton.setVisible(false);
 		} else {
 			FXMLLoader loader = new FXMLLoader();
@@ -98,12 +112,15 @@ public class ComicCardController {
 			AnchorPane pane = (AnchorPane) loader.load();
 			loader.<AddingWindowController>getController().setComic(comic);
 			Stage stage = new Stage();
-			stage.setScene(new Scene(pane, 600, 600));
+			stage.setScene(new Scene(pane, 460, 160));
 			stage.show();
 			// TODO: fix bug!
 			addLibraryButton.setText("Delete from library");
+			ButtonSave.setVisible(true);
+			comment.setVisible(true);
 			mark.setVisible(true);
 			addMarkButton.setVisible(true);
+			CommentLabel.setVisible(true);
 		}
 	}
 
@@ -117,9 +134,20 @@ public class ComicCardController {
 		this.mark.setValue(m);
 	}
 
+	public void setComment(String text) {
+		this.comment.setText(text);
+	}
+
+	@FXML
+	public void handleSaveButtonPressed() throws IOException {
+		System.out.println(String.valueOf(comment.getText()));
+		ComicsDAO.setComment(comic.getId(), comment.getText());
+	}
+
 	public void setComic(Comics comic) throws Exception {
 		this.comic = comic;
 		comic.fetchCharacters();
+		comment.setText(ComicsDAO.returnComment(comic.getId(), comment));
 		nameLabel.setText(comic.getTitle());
 		formatLabel.setText(comic.getFormat());
 		pageCount.setText(Integer.toString(comic.getPageCount()));
@@ -157,7 +185,6 @@ public class ComicCardController {
 					title.setMaxWidth(image.getWidth());
 					title.setTextAlignment(TextAlignment.CENTER);
 					pane.getChildren().add(title);
-
 					pane.setPrefHeight(image.getHeight() + 100);
 					pane.setOnMouseClicked((MouseEvent e) -> {
 						try {
@@ -201,5 +228,6 @@ public class ComicCardController {
 		if (digitalPrice == null || printPrice == null) {
 			pricesLabel.setText("Price :");
 		}
+
 	}
 }

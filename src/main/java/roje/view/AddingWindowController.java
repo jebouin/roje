@@ -9,14 +9,10 @@ import java.util.Date;
 import org.joda.time.DateTime;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-import roje.Main;
 import roje.model.Comics;
 import roje.model.ComicsDAO;
 
@@ -37,6 +33,9 @@ public class AddingWindowController {
 	private Comics comic;
 
 	@FXML
+	private Label ValidateLabel;
+
+	@FXML
 	private void handlePressedCalendar() {
 		date = Calendar.getValue();
 	}
@@ -47,14 +46,7 @@ public class AddingWindowController {
 
 		ComicsDAO.addUserComic(comic.getId(),
 				new DateTime(Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())), location);
-
-		FXMLLoader loader = new FXMLLoader();
-		loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
-		AnchorPane pane = (AnchorPane) loader.load();
-		Stage stage = new Stage();
-		stage.setScene(new Scene(pane, 200, 100));
-		stage.show();
-
+		ValidateLabel.setText("Add complete !");
 	}
 
 	public void setComic(Comics comic) {
