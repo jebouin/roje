@@ -71,7 +71,8 @@ public class ComicsDAO {
 				new DateTime(rs.getTimestamp("onSaleDate").getTime()), rs.getFloat("printPrice"),
 				rs.getFloat("digitalPrice"), userComic ? rs.getInt("mark") : null,
 				purchaseDate == null ? null : new DateTime(rs.getTimestamp("purchaseDate").getTime()),
-				userComic ? rs.getString("location") : null, userComic ? rs.getString("comment") : null);
+				userComic ? rs.getString("location") : null, userComic ? rs.getString("comment") : null,
+				userComic ? rs.getString("addprice") : null);
 		return comic;
 	}
 
@@ -111,15 +112,16 @@ public class ComicsDAO {
 		return result;
 	}
 
-	public static void addUserComic(final int id, DateTime purchaseDate, String location) {
+	public static void addUserComic(final int id, DateTime purchaseDate, String location, String addprice) {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-			PreparedStatement st = connection
-					.prepareStatement("INSERT INTO userComics (id, purchaseDate, location) VALUES (?, ?, ?)");
+			PreparedStatement st = connection.prepareStatement(
+					"INSERT INTO userComics (id, purchaseDate, location, addprice) VALUES (?, ?, ?, ?)");
 			st.setInt(1, id);
 			st.setTimestamp(2, purchaseDate == null ? null
 					: Timestamp.from(java.time.Instant.ofEpochMilli(purchaseDate.getMillis())));
 			st.setString(3, location);
+			st.setString(4, addprice);
 			st.executeUpdate();
 			st.close();
 		} catch (Exception e) {
@@ -175,16 +177,6 @@ public class ComicsDAO {
 		}
 		return comm1;
 	}
-
-	/*
-	 * public static void setDateAndLocation(int id) { try {
-	 * Class.forName("org.apache.derby.jdbc.EmbeddedDriver"); PreparedStatement st =
-	 * connection.
-	 * prepareStatement("update userComics set location=?, date=? where id=?");
-	 * st.setString(1, location); st.setString(2, date); st.setInt(3, id);
-	 * st.executeUpdate(); st.close(); } catch (Exception e) { e.printStackTrace();
-	 * } }
-	 */
 
 	public static void setMark(int id, int mark) throws IOException {
 		try {
@@ -250,7 +242,7 @@ public class ComicsDAO {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			PreparedStatement st = connection.prepareStatement(
-					"SELECT comics.id, title, description, pageCount, thumbnailPartialPath, thumbnailExtension, format, onSaleDate, printPrice, digitalPrice, mark, purchaseDate, location, comment FROM comics JOIN userComics ON comics.id = userComics.id");
+					"SELECT comics.id, title, description, pageCount, thumbnailPartialPath, thumbnailExtension, format, onSaleDate, printPrice, digitalPrice, mark, purchaseDate, addprice, location, comment FROM comics JOIN userComics ON comics.id = userComics.id");
 			rs = st.executeQuery();
 			while (rs.next()) {
 				Comics comic = resultSetToComic(rs, true);

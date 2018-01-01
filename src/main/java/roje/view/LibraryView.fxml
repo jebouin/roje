@@ -41,6 +41,11 @@
                         <PropertyValueFactory property="location" />
                      </cellValueFactory>
                   </TableColumn>
+                  <TableColumn prefWidth="250.0" text="Price">
+                  <cellValueFactory>
+                        <PropertyValueFactory property="addprice" />
+                     </cellValueFactory>
+                  </TableColumn>
               </columns>
             </TableView>
             <Button layoutX="22.0" layoutY="60.0" mnemonicParsing="false" onAction="#handleRefreshButtonPressed" prefHeight="34.0" prefWidth="130.0" text="Refresh" />

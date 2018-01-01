@@ -28,12 +28,20 @@ public class AddingWindowController {
 
 	private LocalDate date;
 
+	private String addprice;
+
 	private String location;
 
 	private Comics comic;
 
 	@FXML
 	private Label ValidateLabel;
+
+	@FXML
+	private Label PriceLabel;
+
+	@FXML
+	private TextField Price;
 
 	@FXML
 	private void handlePressedCalendar() {
@@ -43,9 +51,10 @@ public class AddingWindowController {
 	@FXML
 	private void handlePressedokButton() throws IOException {
 		location = Location.getText();
-
+		addprice = Price.getText();
 		ComicsDAO.addUserComic(comic.getId(),
-				new DateTime(Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())), location);
+				new DateTime(Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())), location,
+				addprice);
 		ValidateLabel.setText("Add complete !");
 	}
 

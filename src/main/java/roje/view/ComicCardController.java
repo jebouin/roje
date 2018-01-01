@@ -112,7 +112,7 @@ public class ComicCardController {
 			AnchorPane pane = (AnchorPane) loader.load();
 			loader.<AddingWindowController>getController().setComic(comic);
 			Stage stage = new Stage();
-			stage.setScene(new Scene(pane, 460, 160));
+			stage.setScene(new Scene(pane, 460, 200));
 			stage.show();
 			// TODO: fix bug!
 			addLibraryButton.setText("Delete from library");
