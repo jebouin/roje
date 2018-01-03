@@ -112,7 +112,7 @@ public class ComicCardController {
 			AnchorPane pane = (AnchorPane) loader.load();
 			loader.<AddingWindowController>getController().setComic(comic);
 			Stage stage = new Stage();
-			stage.setScene(new Scene(pane, 460, 200));
+			stage.setScene(new Scene(pane, 460, 215));
 			stage.show();
 			// TODO: fix bug!
 			addLibraryButton.setText("Delete from library");
@@ -121,6 +121,7 @@ public class ComicCardController {
 			mark.setVisible(true);
 			addMarkButton.setVisible(true);
 			CommentLabel.setVisible(true);
+
 		}
 	}
 
@@ -155,6 +156,9 @@ public class ComicCardController {
 		if (!ComicsDAO.findUserComic(comic.getId())) {
 			mark.setVisible(false);
 			addMarkButton.setVisible(false);
+			CommentLabel.setVisible(false);
+			comment.setVisible(false);
+			ButtonSave.setVisible(false);
 		}
 		Task<Void> downloadImagesTask = new Task<Void>() {
 			@Override

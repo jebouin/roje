@@ -242,7 +242,7 @@ public class ComicsDAO {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			PreparedStatement st = connection.prepareStatement(
-					"SELECT comics.id, title, description, pageCount, thumbnailPartialPath, thumbnailExtension, format, onSaleDate, printPrice, digitalPrice, mark, purchaseDate, addprice, location, comment FROM comics JOIN userComics ON comics.id = userComics.id");
+					"SELECT comics.id, title, description, pageCount, thumbnailPartialPath, thumbnailExtension, format, onSaleDate, printPrice, digitalPrice, mark, purchaseDate, location, comment, addprice FROM comics JOIN userComics ON comics.id = userComics.id");
 			rs = st.executeQuery();
 			while (rs.next()) {
 				Comics comic = resultSetToComic(rs, true);
