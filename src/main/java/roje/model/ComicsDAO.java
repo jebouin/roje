@@ -13,9 +13,10 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import roje.Main;
@@ -72,7 +73,7 @@ public class ComicsDAO {
 				rs.getFloat("digitalPrice"), userComic ? rs.getInt("mark") : null,
 				purchaseDate == null ? null : new DateTime(rs.getTimestamp("purchaseDate").getTime()),
 				userComic ? rs.getString("location") : null, userComic ? rs.getString("comment") : null,
-				userComic ? rs.getString("addprice") : null);
+				userComic ? rs.getString("addprice") : null, FXCollections.observableArrayList());
 		return comic;
 	}
 
@@ -160,7 +161,7 @@ public class ComicsDAO {
 		return found;
 	}
 
-	public static String returnComment(final int id, TextArea comment) {
+	public static String returnComment(final int id) {
 		String comm1 = null;
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
@@ -176,6 +177,26 @@ public class ComicsDAO {
 			e.printStackTrace();
 		}
 		return comm1;
+	}
+
+	public static ObservableList<String> returnBookmarks(final int id) {
+		String bookm = null;
+		ObservableList<String> bookmList = FXCollections.observableArrayList();
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
+			PreparedStatement st = connect.prepareStatement("SELECT bookmark FROM userBookmarks WHERE id = ?");
+			st.setInt(1, id);
+			ResultSet com = st.executeQuery();
+			while (com.next()) {
+				bookm = com.getString(1);
+				bookmList.add(com.getString(1));
+			}
+			st.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return bookmList;
 	}
 
 	public static void setMark(int id, int mark) throws IOException {
@@ -222,7 +243,6 @@ public class ComicsDAO {
 				st.executeUpdate();
 				st.close();
 				System.out.println(comment);
-				// TODO: move this to controller
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
 				AnchorPane pane = (AnchorPane) loader.load();
@@ -230,6 +250,63 @@ public class ComicsDAO {
 				stage.setScene(new Scene(pane, 300, 95));
 				stage.show();
 				//
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void addBookmark(int id, String bookmark) throws IOException {
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			Comics comic = findComic(id);
+			if (comic == null) {
+				throw new Exception("This comic doesn't exist");
+			} else if (!findUserComic(id)) {
+				throw new Exception("The user doesn't have this comic");
+			} else {
+				ObservableList<String> newBookm = FXCollections.observableArrayList();
+				for (int i = 0; i < comic.getBookmarks().size(); i++) {
+					newBookm.add(comic.getBookmarks().get(i));
+				}
+				comic.setBookmarks(newBookm);
+				PreparedStatement st = connection
+						.prepareStatement("INSERT INTO userBookmarks(id,bookmark) VALUES (?,?)");
+				st.setInt(1, id);
+				st.setString(2, bookmark);
+				st.executeUpdate();
+				st.close();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void deleteBookmark(int id, String bookmark) throws IOException {
+		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			Comics comic = findComic(id);
+			ObservableList<String> bookmList = FXCollections.observableArrayList();
+			if (comic == null) {
+				throw new Exception("This comic doesn't exist");
+			} else if (!findUserComic(id)) {
+				throw new Exception("The user doesn't have this comic");
+			} else {
+				Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+				PreparedStatement st = connection
+						.prepareStatement("DELETE FROM userBookmarks WHERE id=? AND bookmark=?");
+				st.setInt(1, id);
+				st.setString(2, bookmark);
+				st.executeUpdate();
+				st.close();
+				PreparedStatement st2 = connection.prepareStatement("SELECT bookmark FROM userBookmarks WHERE id = ?");
+				st2.setInt(1, id);
+				ResultSet com = st2.executeQuery();
+				while (com.next()) {
+					bookmList.add(com.getString(1));
+				}
+				comic.setBookmarks(bookmList);
+				st2.close();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

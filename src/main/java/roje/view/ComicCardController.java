@@ -3,6 +3,8 @@ package roje.view;
 import java.io.IOException;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +13,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
@@ -76,22 +79,31 @@ public class ComicCardController {
 	private Button addMarkButton;
 
 	private Comics comic;
+
 	@FXML
 	private TextArea comment;
-
 	@FXML
 	private Button ButtonSave;
-
 	@FXML
 	private Label CommentLabel;
 
+	@FXML
+	private TextArea bookmarkTextField;
+	@FXML
+	private Button bookmarksButton;
+	@FXML
+	private Label bookmarksLabel;
+	@FXML
+	private ListView<String> bookmarksList;
+	@FXML
+	private Button deleteBookmark;
+
 	/**
-	 * Initializes the controller class. This method is automatically called after
-	 * the fxml file has been loaded.
+	 * Initializes the controller class. This method is automatically called
+	 * after the fxml file has been loaded.
 	 */
 	@FXML
 	private void initialize() {
-
 	}
 
 	@FXML
@@ -105,12 +117,11 @@ public class ComicCardController {
 			CommentLabel.setVisible(false);
 			mark.setVisible(false);
 
-			addMarkButton.setVisible(false);
 		} else {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/AddingWindow.fxml"));
 			AnchorPane pane = (AnchorPane) loader.load();
-			loader.<AddingWindowController>getController().setComic(comic);
+			loader.<AddingWindowController> getController().setComic(comic);
 			Stage stage = new Stage();
 			stage.setScene(new Scene(pane, 460, 215));
 			stage.show();
@@ -121,6 +132,11 @@ public class ComicCardController {
 			mark.setVisible(true);
 			addMarkButton.setVisible(true);
 			CommentLabel.setVisible(true);
+			setBookmarksList();
+			bookmarkTextField.setVisible(true);
+			bookmarksButton.setVisible(true);
+			bookmarksLabel.setVisible(true);
+			bookmarksList.setVisible(true);
 
 		}
 	}
@@ -139,18 +155,50 @@ public class ComicCardController {
 		this.comment.setText(text);
 	}
 
+	public void setBookmark(String text) {
+		this.bookmarkTextField.setText(text);
+		;
+	}
+
 	@FXML
 	public void handleSaveButtonPressed() throws IOException {
 		System.out.println(String.valueOf(comment.getText()));
 		ComicsDAO.setComment(comic.getId(), comment.getText());
 	}
 
+	@FXML
+	public void handleBookmarksButtonPressed() throws IOException {
+		ObservableList<String> newBookmarks = FXCollections.observableArrayList();
+		System.out.println("taille observlist bookmarks de comic : " + comic.getBookmarks().size());
+		for (int i = 0; i < comic.getBookmarks().size(); i++) {
+			newBookmarks.add(comic.getBookmarks().get(i));
+		}
+		if (!bookmarkTextField.getText().equals("")) {
+			newBookmarks.add(bookmarkTextField.getText());
+			comic.setBookmarks(newBookmarks);
+			ComicsDAO.addBookmark(comic.getId(), bookmarkTextField.getText());
+			setBookmarksList();
+			bookmarkTextField.setText("");
+		}
+	}
+
+	@FXML
+	public void handleDeleteBookmarkButtonPressed() throws IOException {
+		ObservableList<String> newBookmarks = ComicsDAO.returnBookmarks(comic.getId());
+		String selectedBookmark = bookmarksList.getSelectionModel().getSelectedItem();
+		ComicsDAO.deleteBookmark(comic.getId(), selectedBookmark);
+		comic.setBookmarks(ComicsDAO.returnBookmarks(comic.getId()));
+		setBookmarksList();
+	}
+
 	public void setComic(Comics comic) throws Exception {
 		this.comic = comic;
 		comic.fetchCharacters();
-		comment.setText(ComicsDAO.returnComment(comic.getId(), comment));
+		comment.setText(ComicsDAO.returnComment(comic.getId()));
+		comic.setBookmarks(ComicsDAO.returnBookmarks(comic.getId()));
 		nameLabel.setText(comic.getTitle());
 		formatLabel.setText(comic.getFormat());
+		setBookmarksList();
 		pageCount.setText(Integer.toString(comic.getPageCount()));
 		imageView.setImage(comic.getThumbnail().downloadImage("portrait_xlarge"));
 		if (!ComicsDAO.findUserComic(comic.getId())) {
@@ -159,6 +207,11 @@ public class ComicCardController {
 			CommentLabel.setVisible(false);
 			comment.setVisible(false);
 			ButtonSave.setVisible(false);
+			bookmarkTextField.setVisible(false);
+			bookmarksButton.setVisible(false);
+			bookmarksLabel.setVisible(false);
+			bookmarksList.setVisible(false);
+			addMarkButton.setVisible(false);
 		}
 		Task<Void> downloadImagesTask = new Task<Void>() {
 			@Override
@@ -234,4 +287,9 @@ public class ComicCardController {
 		}
 
 	}
+
+	public void setBookmarksList() {
+		bookmarksList.setItems(comic.getBookmarks());
+	}
+
 }

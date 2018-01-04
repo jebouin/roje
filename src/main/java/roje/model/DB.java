@@ -15,10 +15,12 @@ public class DB {
 				Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db;create=true");
 				Statement stComics = connect.createStatement();
 				Statement stUserComics = connect.createStatement();
+				Statement stUserBookmarks = connect.createStatement();
 				stComics.executeUpdate(
 						"CREATE TABLE comics (id INT PRIMARY KEY, title VARCHAR(100), description LONG VARCHAR, pageCount INT, thumbnailPartialPath VARCHAR(256), thumbnailExtension VARCHAR(16), format VARCHAR(64), onSaleDate TIMESTAMP, printPrice FLOAT, digitalPrice FLOAT)");
 				stUserComics.executeUpdate(
-						"CREATE TABLE userComics (id INT PRIMARY KEY REFERENCES COMICS(id), mark INT, comment VARCHAR(256), location VARCHAR(100), addprice VARCHAR(100), purchaseDate TIMESTAMP)");
+						"CREATE TABLE userComics (id INT PRIMARY KEY REFERENCES COMICS(id), mark INT, comment VARCHAR(256), location VARCHAR(100), addprice VARCHAR(100), purchaseDate TIMESTAMP, bookmarks VARCHAR(256))");
+				stUserBookmarks.executeUpdate("CREATE TABLE userBookmarks(id INT, bookmark VARCHAR(100))");
 				stComics.close();
 				stUserComics.close();
 				connect.close();

@@ -66,6 +66,11 @@
             <Label layoutX="391.0" layoutY="105.0" prefHeight="30.0" prefWidth="104.0" text="(print)" />
             <Button fx:id="ButtonSave" layoutX="1074.0" layoutY="358.0" mnemonicParsing="false" onMouseClicked="#handleSaveButtonPressed" text="Save" />
             <TextArea fx:id="comment" layoutX="729.0" layoutY="244.0" prefHeight="109.0" prefWidth="432.0" />
+            <TextArea fx:id="bookmarkTextField" layoutX="729.0" layoutY="439.0" prefHeight="109.0" prefWidth="432.0" />
+            <Label fx:id="bookmarksLabel" layoutX="729.0" layoutY="398.0" prefHeight="34.0" prefWidth="350.0" styleClass="label-undertitle" text="Bookmarks" textAlignment="CENTER" />
+            <Button fx:id="bookmarksButton" layoutX="1002.0" layoutY="555.0" mnemonicParsing="false" onMouseClicked="#handleBookmarksButtonPressed" text="Add bookmark" />
+            <ListView fx:id="bookmarksList" layoutX="729.0" layoutY="623.0" prefHeight="116.0" prefWidth="433.0" />
+            <Button fx:id="deleteBookmark" layoutX="1066.0" layoutY="743.0" mnemonicParsing="false" onMouseClicked="#handleDeleteBookmarkButtonPressed" text="Suppr." />
          </children></AnchorPane>
   </content>
 </ScrollPane>

@@ -70,8 +70,8 @@ public class MarvelAPI {
 	/**
 	 *
 	 * @param prefix
-	 * @return A map that maps character names that start by prefix to their Marvel
-	 *         ID
+	 * @return A map that maps character names that start by prefix to their
+	 *         Marvel ID
 	 * @throws Exception
 	 */
 	public static List<Character> searchCharactersByNamePrefix(final String prefix) throws Exception {
@@ -109,7 +109,7 @@ public class MarvelAPI {
 		Map<String, String> parameters = new HashMap<String, String>() {
 			{
 				put("orderBy", "onsaleDate");
-				put("limit", "100");
+				put("limit", "10");
 			}
 		};
 		JsonObject jsonObject = requestJSONFromPath("characters/" + id.toString() + "/comics", parameters);

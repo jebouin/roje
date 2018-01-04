@@ -11,6 +11,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import roje.api.MarvelAPI;
 
 public class Comics {
@@ -31,12 +33,12 @@ public class Comics {
 	private String location;
 	private String addprice;
 	private String comment;
-
+	private ObservableList<String> bookmarks = FXCollections.observableArrayList();
 	private List<Character> characters = new ArrayList<Character>();
 
 	public Comics(int id, String title, String description, int pageCount, Thumbnail thumbnail, String format,
 			DateTime onSaleDate, Float printPrice, Float digitalPrice, Integer mark, DateTime purchaseDate,
-			String location, String comment, String addprice) {
+			String location, String comment, String addprice, ObservableList<String> bookmarks) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -52,6 +54,7 @@ public class Comics {
 		this.location = location;
 		this.comment = comment;
 		this.addprice = addprice;
+		this.bookmarks = bookmarks;
 	}
 
 	public Comics(final JsonObject json) {
@@ -213,6 +216,14 @@ public class Comics {
 
 	public void setAddprice(String addprice) {
 		this.addprice = addprice;
+	}
+
+	public ObservableList<String> getBookmarks() {
+		return bookmarks;
+	}
+
+	public void setBookmarks(ObservableList<String> bookmarks) {
+		this.bookmarks = bookmarks;
 	}
 
 }
