@@ -35,6 +35,10 @@ public class ComicsDAO {
 	public static void addComic(Comics c) {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+			PreparedStatement deleteStatement = connection.prepareStatement("DELETE FROM comics WHERE id = ?");
+			deleteStatement.setInt(1, c.getId());
+			deleteStatement.executeUpdate();
+			deleteStatement.close();
 			PreparedStatement st = connection.prepareStatement(
 					"INSERT INTO comics (id, title, description, pageCount, thumbnailPartialPath, thumbnailExtension, format, onSaleDate, printPrice, digitalPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			st.setInt(1, c.getId());
