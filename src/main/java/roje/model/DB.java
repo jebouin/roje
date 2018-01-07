@@ -23,6 +23,7 @@ public class DB {
 				stUserBookmarks.executeUpdate("CREATE TABLE userBookmarks(id INT, bookmark VARCHAR(100))");
 				stComics.close();
 				stUserComics.close();
+				stUserBookmarks.close();
 				connect.close();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();

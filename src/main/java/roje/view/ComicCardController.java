@@ -3,6 +3,7 @@ package roje.view;
 import java.io.IOException;
 
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -15,6 +16,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -30,6 +33,7 @@ import roje.Main;
 import roje.model.Character;
 import roje.model.Comics;
 import roje.model.ComicsDAO;
+import roje.model.Creator;
 
 public class ComicCardController {
 	@FXML
@@ -98,12 +102,23 @@ public class ComicCardController {
 	@FXML
 	private Button deleteBookmark;
 
+	@FXML
+	private TableView<Creator> creatorsTableView;
+
+	@FXML
+	private TableColumn<Creator, String> creatorsNameColumn;
+
+	@FXML
+	private TableColumn<Creator, String> creatorsRoleColumn;
+
 	/**
-	 * Initializes the controller class. This method is automatically called
-	 * after the fxml file has been loaded.
+	 * Initializes the controller class. This method is automatically called after
+	 * the fxml file has been loaded.
 	 */
 	@FXML
 	private void initialize() {
+		creatorsNameColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getName()));
+		creatorsRoleColumn.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getRole()));
 	}
 
 	@FXML
@@ -121,7 +136,7 @@ public class ComicCardController {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/AddingWindow.fxml"));
 			AnchorPane pane = (AnchorPane) loader.load();
-			loader.<AddingWindowController> getController().setComic(comic);
+			loader.<AddingWindowController>getController().setComic(comic);
 			Stage stage = new Stage();
 			stage.setScene(new Scene(pane, 460, 215));
 			stage.show();
@@ -193,6 +208,7 @@ public class ComicCardController {
 
 	public void setComic(Comics comic) throws Exception {
 		this.comic = comic;
+		creatorsTableView.setItems(this.comic.getCreators());
 		comic.fetchCharacters();
 		comment.setText(ComicsDAO.returnComment(comic.getId()));
 		comic.setBookmarks(ComicsDAO.returnBookmarks(comic.getId()));

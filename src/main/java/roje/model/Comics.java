@@ -26,6 +26,7 @@ public class Comics {
 	private DateTime onSaleDate;
 	private Float printPrice;
 	private Float digitalPrice;
+	private ObservableList<Creator> creators = FXCollections.observableArrayList();
 
 	// user defined properties
 	private Integer mark;
@@ -84,6 +85,12 @@ public class Comics {
 			} else if (type.equals("digitalPrice")) {
 				this.digitalPrice = el.get("price").getAsFloat();
 			}
+		}
+		JsonArray creators = json.get("creators").getAsJsonObject().get("items").getAsJsonArray();
+		for (Iterator<JsonElement> it = creators.iterator(); it.hasNext();) {
+			JsonObject el = it.next().getAsJsonObject();
+			Creator creator = new Creator(el);
+			this.creators.add(creator);
 		}
 	}
 
@@ -226,4 +233,11 @@ public class Comics {
 		this.bookmarks = bookmarks;
 	}
 
+	public ObservableList<Creator> getCreators() {
+		return creators;
+	}
+
+	public void setCreators(ObservableList<Creator> creators) {
+		this.creators = creators;
+	}
 }

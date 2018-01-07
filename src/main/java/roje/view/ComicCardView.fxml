@@ -26,7 +26,7 @@
             </Label>
             <Label fx:id="formatLabel" layoutX="291.0" layoutY="159.0" prefHeight="30.0" prefWidth="104.0" styleClass="label-subtitle" text="null" />
             <Label fx:id="pageCount" layoutX="409.0" layoutY="67.0" prefHeight="30.0" prefWidth="141.0" styleClass="label-subtitle" text="No information" />
-            <TilePane fx:id="charactersGrid" hgap="5.0" layoutX="24.0" layoutY="479.0" prefHeight="14.0" prefWidth="725.0" tileAlignment="TOP_LEFT" vgap="5.0" />
+            <TilePane fx:id="charactersGrid" hgap="5.0" layoutX="29.0" layoutY="599.0" prefHeight="14.0" prefWidth="725.0" tileAlignment="TOP_LEFT" vgap="5.0" />
             <Label layoutX="187.0" layoutY="68.0" prefHeight="28.0" prefWidth="209.0" styleClass="label-undertitle" text="Number of pages :">
                <font>
                   <Font name="System Bold" size="15.0" />
@@ -71,6 +71,13 @@
             <Button fx:id="bookmarksButton" layoutX="1002.0" layoutY="555.0" mnemonicParsing="false" onMouseClicked="#handleBookmarksButtonPressed" text="Add bookmark" />
             <ListView fx:id="bookmarksList" layoutX="729.0" layoutY="623.0" prefHeight="116.0" prefWidth="433.0" />
             <Button fx:id="deleteBookmark" layoutX="1066.0" layoutY="743.0" mnemonicParsing="false" onMouseClicked="#handleDeleteBookmarkButtonPressed" text="Suppr." />
+            <Label fx:id="bookmarksLabel1" layoutX="29.0" layoutY="394.0" prefHeight="34.0" prefWidth="101.0" styleClass="label-undertitle" text="Creators" textAlignment="CENTER" />
+            <TableView fx:id="creatorsTableView" layoutX="124.0" layoutY="398.0" prefHeight="200.0" prefWidth="516.0">
+              <columns>
+                <TableColumn fx:id="creatorsNameColumn" prefWidth="260.0" text="Name" />
+                <TableColumn fx:id="creatorsRoleColumn" prefWidth="259.0" text="Role" />
+              </columns>
+            </TableView>
          </children></AnchorPane>
   </content>
 </ScrollPane>
