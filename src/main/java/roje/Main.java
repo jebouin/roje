@@ -38,10 +38,10 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/CharacterCardView.fxml"));
 		ScrollPane pane = (ScrollPane) loader.load();
-		loader.<CharacterCardController>getController().setCharacter(character);
+		loader.<CharacterCardController> getController().setCharacter(character);
 		Stage stage = new Stage();
 		stage.setTitle(character.getName());
-		stage.setScene(new Scene(pane, 1200, 1800));
+		stage.setScene(new Scene(pane, 1400, 900));
 		stage.show();
 	}
 
@@ -49,10 +49,10 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/ComicCardView.fxml"));
 		ScrollPane pane = (ScrollPane) loader.load();
-		loader.<ComicCardController>getController().setComic(comic);
+		loader.<ComicCardController> getController().setComic(comic);
 		Stage stage = new Stage();
 		stage.setTitle(comic.getTitle());
-		stage.setScene(new Scene(pane, 1200, 1800));
+		stage.setScene(new Scene(pane, 1400, 900));
 		stage.show();
 	}
 

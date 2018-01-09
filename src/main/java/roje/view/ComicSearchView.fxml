@@ -7,20 +7,20 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.BorderPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.ComicSearchController">
+<AnchorPane prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.ComicSearchController">
    <children>
-      <TextField id="title" fx:id="searchTextField" layoutX="22.0" layoutY="15.0" onKeyPressed="#handleEnterPressed" prefHeight="40.0" prefWidth="198.0" promptText="Comic" AnchorPane.topAnchor="15.0" />
-      <Button id="search" fx:id="searchButton" layoutX="230.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleSearchButtonPressed" prefHeight="40.0" prefWidth="100.0" text="Search" AnchorPane.topAnchor="15.0" />
-      <Label fx:id="statusLabel" layoutX="404.0" layoutY="15.0" prefHeight="17.0" prefWidth="600.0" text="Status" AnchorPane.topAnchor="15.0" />
-	  <ImageView fx:id="loadingIcon" fitHeight="31.0" fitWidth="33.0" layoutX="350.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+      <TextField id="title" fx:id="searchTextField" layoutX="22.0" layoutY="15.0" onKeyPressed="#handleEnterPressed" prefHeight="60.0" prefWidth="320.0" promptText="Comic" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0" />
+      <Button id="search" fx:id="searchButton" layoutX="230.0" layoutY="15.0" mnemonicParsing="false" onAction="#handleSearchButtonPressed" prefHeight="60.0" prefWidth="100.0" text="Search" AnchorPane.leftAnchor="380.0" AnchorPane.topAnchor="25.0" />
+      <Label fx:id="statusLabel" layoutX="550.0" layoutY="30.0" prefHeight="47.0" prefWidth="600.0" text="Status" AnchorPane.topAnchor="30.0" />
+	  <ImageView fx:id="loadingIcon" fitHeight="31.0" fitWidth="33.0" layoutX="505.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="loading.png" />
          </image>
       </ImageView>
-      <TableView fx:id="comicsTableView" layoutX="22.0" layoutY="70.0" onMouseClicked="#handleListClick" prefHeight="650.0" prefWidth="1297.0">
+      <TableView fx:id="comicsTableView" layoutX="25.0" layoutY="96.0" onMouseClicked="#handleListClick" prefHeight="624.0" prefWidth="1159.0">
         <columns>
-          <TableColumn fx:id="titleColumn" prefWidth="289.0" text="Title" />
-          <TableColumn fx:id="dateColumn" prefWidth="281.0" text="Date" />
+          <TableColumn fx:id="titleColumn" prefWidth="883.0" text="Title" />
+          <TableColumn fx:id="dateColumn" minWidth="9.0" prefWidth="228.0" text="Date" />
         </columns>
       </TableView>
    </children>

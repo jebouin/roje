@@ -152,6 +152,7 @@ public class ComicCardController {
 			bookmarksButton.setVisible(true);
 			bookmarksLabel.setVisible(true);
 			bookmarksList.setVisible(true);
+			deleteBookmark.setVisible(true);
 
 		}
 	}
@@ -228,6 +229,7 @@ public class ComicCardController {
 			bookmarksLabel.setVisible(false);
 			bookmarksList.setVisible(false);
 			addMarkButton.setVisible(false);
+			deleteBookmark.setVisible(false);
 		}
 		Task<Void> downloadImagesTask = new Task<Void>() {
 			@Override

@@ -8,54 +8,54 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1200.0" prefWidth="1400.0" styleClass="background" stylesheets="@stylecardcomic.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.ComicCardController">
+<ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1400.0" styleClass="background1" stylesheets="@stylecardcomic.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.ComicCardController">
   <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1200.0" prefWidth="1400.0" styleClass="background" stylesheets="@stylecardcomic.css">
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1300.0" prefWidth="1400.0" styleClass="background" stylesheets="@stylecardcomic.css">
          <children>
-            <Button fx:id="addMarkButton" layoutX="947.0" layoutY="83.0" mnemonicParsing="false" onMouseClicked="#handleAddMarkButtonPressed" prefHeight="45.0" prefWidth="212.0" text="Add Mark" />
-            <Button fx:id="addLibraryButton" layoutX="946.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleAddButtonPressed" prefHeight="45.0" prefWidth="213.0" text="Add to library" />
-            <Label layoutX="188.0" layoutY="160.0" prefHeight="26.0" prefWidth="136.0" styleClass="label-undertitle" text="Format :">
+            <Button fx:id="addMarkButton" layoutX="1100.0" layoutY="196.0" mnemonicParsing="false" onMouseClicked="#handleAddMarkButtonPressed" prefHeight="50.0" prefWidth="195.0" text="Add Mark" />
+            <Button fx:id="addLibraryButton" layoutX="1102.0" layoutY="91.0" mnemonicParsing="false" onAction="#handleAddButtonPressed" prefHeight="50.0" prefWidth="195.0" text="Add to library" />
+            <Label layoutX="462.0" layoutY="247.0" prefHeight="26.0" prefWidth="136.0" styleClass="label-undertitle" text="Format :">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="labelCharacters" layoutX="24.0" layoutY="428.0" prefHeight="15.0" prefWidth="171.0" styleClass="label-undertitle">
+            <Label fx:id="labelCharacters" layoutX="63.0" layoutY="587.0" prefHeight="43.0" prefWidth="190.0" styleClass="label-undertitle">
                <font>
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <Label fx:id="formatLabel" layoutX="291.0" layoutY="159.0" prefHeight="30.0" prefWidth="104.0" styleClass="label-subtitle" text="null" />
-            <Label fx:id="pageCount" layoutX="409.0" layoutY="67.0" prefHeight="30.0" prefWidth="141.0" styleClass="label-subtitle" text="No information" />
-            <TilePane fx:id="charactersGrid" hgap="5.0" layoutX="29.0" layoutY="599.0" prefHeight="14.0" prefWidth="725.0" tileAlignment="TOP_LEFT" vgap="5.0" />
-            <Label layoutX="187.0" layoutY="68.0" prefHeight="28.0" prefWidth="209.0" styleClass="label-undertitle" text="Number of pages :">
+            <Label fx:id="formatLabel" layoutX="563.0" layoutY="249.0" prefHeight="30.0" prefWidth="95.0" styleClass="label-subtitle" text="null" />
+            <Label fx:id="pageCount" layoutX="677.0" layoutY="126.0" prefHeight="30.0" prefWidth="141.0" styleClass="label-subtitle" text="No information" />
+            <TilePane fx:id="charactersGrid" hgap="5.0" layoutX="76.0" layoutY="664.0" prefHeight="172.0" prefWidth="847.0" tileAlignment="TOP_LEFT" vgap="5.0" />
+            <Label layoutX="462.0" layoutY="121.0" prefHeight="39.0" prefWidth="239.0" styleClass="label-undertitle" text="Number of pages :">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="24.0" layoutY="210.0" prefHeight="188.0" prefWidth="655.0" styleClass="label-subtitle" stylesheets="@stylecardcomic.css" text="No description" textOverrun="CLIP" wrapText="true" />
-            <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="177.0" layoutY="14.0" prefHeight="48.0" prefWidth="642.0" styleClass="label-title" stylesheets="@stylecardcomic.css" text="Name" textAlignment="CENTER" textOverrun="CLIP">
+            <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="69.0" layoutY="445.0" prefHeight="137.0" prefWidth="882.0" styleClass="label-subtitle" stylesheets="@stylecardcomic.css" text="No description" textOverrun="CLIP" wrapText="true" />
+            <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="463.0" layoutY="47.0" prefHeight="66.0" prefWidth="324.0" styleClass="label-title" stylesheets="@stylecardcomic.css" text="Name" textAlignment="CENTER" textOverrun="CLIP">
                <font>
                   <Font name="System Bold" size="35.0" />
                </font>
             </Label>
-            <ImageView fx:id="imageView" fitHeight="150.0" fitWidth="200.0" layoutX="24.0" layoutY="24.0" pickOnBounds="true" preserveRatio="true" styleClass="image">
+            <ImageView fx:id="imageView" fitHeight="353.0" fitWidth="333.0" layoutX="71.0" layoutY="56.0" pickOnBounds="true" preserveRatio="true" styleClass="image">
                <image>
                   <Image url="http://i.annihil.us/u/prod/marvel/i/mg/5/a0/538615ca33ab0/portrait_xlarge.jpg" />
                </image>
             </ImageView>
-            <Slider fx:id="mark" blockIncrement="2.0" layoutX="729.0" layoutY="150.0" majorTickUnit="1.0" max="20.0" minorTickCount="1" prefHeight="18.0" prefWidth="430.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
+            <Slider fx:id="mark" blockIncrement="2.0" layoutX="940.0" layoutY="268.0" majorTickUnit="1.0" max="20.0" minorTickCount="1" prefHeight="18.0" prefWidth="368.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                <cursor>
                   <Cursor fx:constant="CLOSED_HAND" />
                </cursor>
             </Slider>
-            <Label fx:id="CommentLabel" layoutX="729.0" layoutY="210.0" prefHeight="34.0" prefWidth="350.0" styleClass="label-undertitle" text="Comment" textAlignment="CENTER" />
-            <Label layoutX="391.0" layoutY="131.0" prefHeight="30.0" prefWidth="104.0" text="(digital)" />
-            <Label fx:id="pricesLabel" layoutX="188.0" layoutY="109.0" prefHeight="28.0" prefWidth="100.0" styleClass="label-undertitle" text="Prices :">
+            <Label fx:id="CommentLabel" layoutX="1004.0" layoutY="331.0" prefHeight="34.0" prefWidth="350.0" styleClass="label-undertitle" text="Comment" textAlignment="CENTER" />
+            <Label layoutX="643.0" layoutY="207.0" prefHeight="30.0" prefWidth="104.0" text="(digital)" />
+            <Label fx:id="pricesLabel" layoutX="462.0" layoutY="190.0" prefHeight="28.0" prefWidth="100.0" styleClass="label-undertitle" text="Prices :">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
-            <Pane layoutX="268.0" layoutY="114.0">
+            <Pane layoutX="544.0" layoutY="190.0">
                <children>
                   <Pane fx:id="printPricePane" layoutY="25.0" />
                   <Pane fx:id="digitalPricePane" />
@@ -63,19 +63,19 @@
                   <Label fx:id="printAmountLabel" layoutX="23.0" layoutY="18.0" prefHeight="30.0" prefWidth="92.0" styleClass="label-subtitle" text="null" />
                </children>
             </Pane>
-            <Label layoutX="391.0" layoutY="105.0" prefHeight="30.0" prefWidth="104.0" text="(print)" />
-            <Button fx:id="ButtonSave" layoutX="1074.0" layoutY="358.0" mnemonicParsing="false" onMouseClicked="#handleSaveButtonPressed" text="Save" />
-            <TextArea fx:id="comment" layoutX="729.0" layoutY="244.0" prefHeight="109.0" prefWidth="432.0" />
-            <TextArea fx:id="bookmarkTextField" layoutX="729.0" layoutY="439.0" prefHeight="109.0" prefWidth="432.0" />
-            <Label fx:id="bookmarksLabel" layoutX="729.0" layoutY="398.0" prefHeight="34.0" prefWidth="350.0" styleClass="label-undertitle" text="Bookmarks" textAlignment="CENTER" />
-            <Button fx:id="bookmarksButton" layoutX="1002.0" layoutY="555.0" mnemonicParsing="false" onMouseClicked="#handleBookmarksButtonPressed" text="Add bookmark" />
-            <ListView fx:id="bookmarksList" layoutX="729.0" layoutY="623.0" prefHeight="116.0" prefWidth="433.0" />
-            <Button fx:id="deleteBookmark" layoutX="1066.0" layoutY="743.0" mnemonicParsing="false" onMouseClicked="#handleDeleteBookmarkButtonPressed" text="Suppr." />
-            <Label fx:id="bookmarksLabel1" layoutX="29.0" layoutY="394.0" prefHeight="34.0" prefWidth="101.0" styleClass="label-undertitle" text="Creators" textAlignment="CENTER" />
-            <TableView fx:id="creatorsTableView" layoutX="124.0" layoutY="398.0" prefHeight="200.0" prefWidth="516.0">
+            <Label layoutX="643.0" layoutY="181.0" prefHeight="30.0" prefWidth="104.0" text="(print)" />
+            <Button fx:id="ButtonSave" layoutX="1217.0" layoutY="562.0" mnemonicParsing="false" onMouseClicked="#handleSaveButtonPressed" text="Save" />
+            <TextArea fx:id="comment" layoutX="1004.0" layoutY="365.0" prefHeight="190.0" prefWidth="300.0" />
+            <TextArea fx:id="bookmarkTextField" layoutX="1000.0" layoutY="688.0" prefHeight="109.0" prefWidth="300.0" />
+            <Label fx:id="bookmarksLabel" layoutX="1000.0" layoutY="647.0" prefHeight="34.0" prefWidth="350.0" styleClass="label-undertitle" text="Bookmarks" textAlignment="CENTER" />
+            <Button fx:id="bookmarksButton" layoutX="1137.0" layoutY="809.0" mnemonicParsing="false" onMouseClicked="#handleBookmarksButtonPressed" text="Add bookmark" />
+            <ListView fx:id="bookmarksList" layoutX="998.0" layoutY="864.0" prefHeight="128.0" prefWidth="300.0" />
+            <Button fx:id="deleteBookmark" layoutX="1206.0" layoutY="1000.0" mnemonicParsing="false" onMouseClicked="#handleDeleteBookmarkButtonPressed" text="Suppr." />
+            <Label fx:id="bookmarksLabel1" layoutX="463.0" layoutY="296.0" prefHeight="34.0" prefWidth="101.0" styleClass="label-undertitle" text="Creators" textAlignment="CENTER" />
+            <TableView fx:id="creatorsTableView" layoutX="463.0" layoutY="339.0" prefHeight="81.0" prefWidth="400.0">
               <columns>
-                <TableColumn fx:id="creatorsNameColumn" prefWidth="260.0" text="Name" />
-                <TableColumn fx:id="creatorsRoleColumn" prefWidth="259.0" text="Role" />
+                <TableColumn fx:id="creatorsNameColumn" prefWidth="120.33334350585938" text="Name" />
+                <TableColumn fx:id="creatorsRoleColumn" prefWidth="235.0" text="Role" />
               </columns>
             </TableView>
          </children></AnchorPane>

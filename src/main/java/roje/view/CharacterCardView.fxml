@@ -7,9 +7,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1200.0" prefWidth="1200.0" styleClass="background1" stylesheets="@stylecardcomic.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.CharacterCardController">
+<ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1400.0" prefWidth="1400.0" styleClass="background1" stylesheets="@stylecardcomic.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.CharacterCardController">
   <content>
-    <AnchorPane prefHeight="1200.0" prefWidth="1200.0" styleClass="background1" stylesheets="@stylecardcomic.css">
+    <AnchorPane prefHeight="1400.0" prefWidth="1400.0" styleClass="background1" stylesheets="@stylecardcomic.css">
          <children>
             <ImageView fx:id="imageView" fitHeight="183.0" fitWidth="237.0" layoutX="14.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" styleClass="image" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0">
                <image>
@@ -28,7 +28,7 @@
                   <Font name="System Bold" size="22.0" />
                </font>
             </Label>
-            <Hyperlink fx:id="wikiLink" layoutX="1014.0" layoutY="56.0" onMouseClicked="#handleWikiLinkCliked" prefHeight="67.0" prefWidth="107.0" styleClass="link" text="+ more">
+            <Hyperlink fx:id="wikiLink" layoutX="1046.0" layoutY="64.0" onMouseClicked="#handleWikiLinkCliked" prefHeight="89.0" prefWidth="211.0" styleClass="link" text="+ More information">
                <font>
                   <Font size="22.0" />
                </font>
