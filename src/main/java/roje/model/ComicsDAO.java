@@ -93,9 +93,10 @@ public class ComicsDAO {
 		Comics comic = new Comics(rs.getInt("id"), rs.getString("title"), rs.getString("description"),
 				rs.getInt("pageCount"), thumbnail, rs.getString("format"),
 				new DateTime(rs.getTimestamp("onSaleDate").getTime()), rs.getFloat("printPrice"),
-				rs.getFloat("digitalPrice"), userComic ? rs.getInt("mark") : null, rs.getDate("purchaseDate"),
-				userComic ? rs.getString("location") : null, userComic ? rs.getString("comment") : null,
-				userComic ? rs.getString("addprice") : null, FXCollections.observableArrayList());
+				rs.getFloat("digitalPrice"), userComic ? rs.getInt("mark") : null,
+				userComic ? rs.getDate("purchaseDate") : null, userComic ? rs.getString("location") : null,
+				userComic ? rs.getString("comment") : null, userComic ? rs.getString("addprice") : null,
+				FXCollections.observableArrayList());
 		// fetch creators
 		PreparedStatement st = connection.prepareStatement(
 				"SELECT name, role FROM comicsCreators JOIN creators ON creatorName = name AND comicId = ?");

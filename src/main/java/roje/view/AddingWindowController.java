@@ -23,7 +23,7 @@ public class AddingWindowController {
 	@FXML
 	private Button okButton;
 
-	private LocalDate date = LocalDate.parse("2500-01-01");
+	private Date date;
 
 	private String addprice;
 
@@ -40,7 +40,7 @@ public class AddingWindowController {
 	@FXML
 	private TextField Price;
 
-	private LocalDate date1;
+	private LocalDate date1 = LocalDate.parse("2500-01-01");
 
 	@FXML
 	private void handlePressedCalendar() {
@@ -53,9 +53,8 @@ public class AddingWindowController {
 		LocalDate testDate = LocalDate.of(2500, 1, 1);
 		location = Location.getText();
 		addprice = Price.getText();
-		DateTime datePurchase = new DateTime(Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()));
-		if (!date.equals(testDate)) {
-			ComicsDAO.addUserComic(comic.getId(), datePurchase, location, addprice);
+		if (!date1.equals(testDate)) {
+			ComicsDAO.addUserComic(comic.getId(), (java.sql.Date) date, location, addprice);
 			ValidateLabel.setText("Add complete !");
 		} else {
 			ValidateLabel.setText("Error : select a date");
