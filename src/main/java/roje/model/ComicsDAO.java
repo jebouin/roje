@@ -2,6 +2,7 @@ package roje.model;
 
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -70,12 +71,10 @@ public class ComicsDAO {
 	// fetches additional user-related data if userComic is true
 	private static Comics resultSetToComic(ResultSet rs, boolean userComic) throws SQLException {
 		Thumbnail thumbnail = new Thumbnail(rs.getString("thumbnailPartialPath"), rs.getString("thumbnailExtension"));
-		Timestamp purchaseDate = userComic ? rs.getTimestamp("purchaseDate") : null;
 		Comics comic = new Comics(rs.getInt("id"), rs.getString("title"), rs.getString("description"),
 				rs.getInt("pageCount"), thumbnail, rs.getString("format"),
 				new DateTime(rs.getTimestamp("onSaleDate").getTime()), rs.getFloat("printPrice"),
-				rs.getFloat("digitalPrice"), userComic ? rs.getInt("mark") : null,
-				purchaseDate == null ? null : new DateTime(rs.getTimestamp("purchaseDate").getTime()),
+				rs.getFloat("digitalPrice"), userComic ? rs.getInt("mark") : null, rs.getDate("purchaseDate"),
 				userComic ? rs.getString("location") : null, userComic ? rs.getString("comment") : null,
 				userComic ? rs.getString("addprice") : null, FXCollections.observableArrayList());
 		return comic;
@@ -117,14 +116,13 @@ public class ComicsDAO {
 		return result;
 	}
 
-	public static void addUserComic(final int id, DateTime purchaseDate, String location, String addprice) {
+	public static void addUserComic(final int id, Date purchaseDate, String location, String addprice) {
 		try {
 			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			PreparedStatement st = connection.prepareStatement(
 					"INSERT INTO userComics (id, purchaseDate, location, addprice) VALUES (?, ?, ?, ?)");
 			st.setInt(1, id);
-			st.setTimestamp(2, purchaseDate == null ? null
-					: Timestamp.from(java.time.Instant.ofEpochMilli(purchaseDate.getMillis())));
+			st.setDate(2, purchaseDate);
 			st.setString(3, location);
 			st.setString(4, addprice);
 			st.executeUpdate();

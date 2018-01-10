@@ -3,10 +3,7 @@ package roje.view;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.Date;
-
-import org.joda.time.DateTime;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -26,7 +23,7 @@ public class AddingWindowController {
 	@FXML
 	private Button okButton;
 
-	private LocalDate date;
+	private Date date;
 
 	private String addprice;
 
@@ -43,18 +40,19 @@ public class AddingWindowController {
 	@FXML
 	private TextField Price;
 
+	private LocalDate date1;
+
 	@FXML
 	private void handlePressedCalendar() {
-		date = Calendar.getValue();
+		date1 = Calendar.getValue();
+		date = java.sql.Date.valueOf(date1);
 	}
 
 	@FXML
 	private void handlePressedokButton() throws IOException {
 		location = Location.getText();
 		addprice = Price.getText();
-		ComicsDAO.addUserComic(comic.getId(),
-				new DateTime(Date.from(date.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant())), location,
-				addprice);
+		ComicsDAO.addUserComic(comic.getId(), (java.sql.Date) date, location, addprice);
 		ValidateLabel.setText("Add complete !");
 	}
 

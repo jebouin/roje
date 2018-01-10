@@ -1,6 +1,7 @@
 package roje.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class Comics {
 
 	// user defined properties
 	private Integer mark;
-	private DateTime purchaseDate;
+	private Date purchaseDate;
 	private String location;
 	private String addprice;
 	private String comment;
@@ -38,8 +39,8 @@ public class Comics {
 	private List<Character> characters = new ArrayList<Character>();
 
 	public Comics(int id, String title, String description, int pageCount, Thumbnail thumbnail, String format,
-			DateTime onSaleDate, Float printPrice, Float digitalPrice, Integer mark, DateTime purchaseDate,
-			String location, String comment, String addprice, ObservableList<String> bookmarks) {
+			DateTime onSaleDate, Float printPrice, Float digitalPrice, Integer mark, Date purchaseDate, String location,
+			String comment, String addprice, ObservableList<String> bookmarks) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -189,11 +190,11 @@ public class Comics {
 		this.mark = mark;
 	}
 
-	public DateTime getPurchaseDate() {
+	public Date getPurchaseDate() {
 		return purchaseDate;
 	}
 
-	public void setPurchaseDate(DateTime purchaseDate) {
+	public void setPurchaseDate(Date purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
 
