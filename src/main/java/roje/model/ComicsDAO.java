@@ -27,6 +27,7 @@ public class ComicsDAO {
 
 	public static void init() {
 		try {
+			Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
 			connection = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -35,11 +36,7 @@ public class ComicsDAO {
 
 	public static void addComic(Comics c) {
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-			PreparedStatement deleteStatement = connection.prepareStatement("DELETE FROM comics WHERE id = ?");
-			deleteStatement.setInt(1, c.getId());
-			deleteStatement.executeUpdate();
-			deleteStatement.close();
+			deleteComic(c.getId());
 			PreparedStatement st = connection.prepareStatement(
 					"INSERT INTO comics (id, title, description, pageCount, thumbnailPartialPath, thumbnailExtension, format, onSaleDate, printPrice, digitalPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			st.setInt(1, c.getId());
@@ -63,9 +60,31 @@ public class ComicsDAO {
 			}
 			st.executeUpdate();
 			st.close();
+			for (Creator creator : c.getCreators()) {
+				addCreator(creator);
+				// add to NxN table
+				st = connection.prepareStatement("INSERT INTO comicsCreators (comicId, creatorName) VALUES (?, ?)");
+				st.setInt(1, c.getId());
+				st.setString(2, creator.getName());
+				st.executeUpdate();
+				st.close();
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private static void executeUpdateWithComicId(final String statement, final int id)
+			throws ClassNotFoundException, SQLException {
+		PreparedStatement st = connection.prepareStatement(statement);
+		st.setInt(1, id);
+		st.executeUpdate();
+		st.close();
+	}
+
+	public static void deleteComic(final int id) throws ClassNotFoundException, SQLException {
+		executeUpdateWithComicId("DELETE FROM comicsCreators WHERE comicId = ?", id);
+		executeUpdateWithComicId("DELETE FROM comics WHERE id = ?", id);
 	}
 
 	// fetches additional user-related data if userComic is true
@@ -77,13 +96,21 @@ public class ComicsDAO {
 				rs.getFloat("digitalPrice"), userComic ? rs.getInt("mark") : null, rs.getDate("purchaseDate"),
 				userComic ? rs.getString("location") : null, userComic ? rs.getString("comment") : null,
 				userComic ? rs.getString("addprice") : null, FXCollections.observableArrayList());
+		// fetch creators
+		PreparedStatement st = connection.prepareStatement(
+				"SELECT name, role FROM comicsCreators JOIN creators ON creatorName = name AND comicId = ?");
+		st.setInt(1, comic.getId());
+		rs = st.executeQuery();
+		while (rs.next()) {
+			Creator creator = new Creator(rs.getString(1), rs.getString(2));
+			comic.addCreator(creator);
+		}
 		return comic;
 	}
 
 	public static Comics findComic(int id) {
 		Comics comic = null;
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			PreparedStatement st = connection.prepareStatement("SELECT * FROM comics WHERE id = ?");
 			st.setInt(1, id);
 			ResultSet rs = st.executeQuery();
@@ -101,7 +128,6 @@ public class ComicsDAO {
 		ResultSet rs;
 		List<Comics> result = new ArrayList<Comics>();
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			PreparedStatement st = connection.prepareStatement("SELECT * FROM comics");
 			rs = st.executeQuery();
 			while (rs.next()) {
@@ -118,7 +144,6 @@ public class ComicsDAO {
 
 	public static void addUserComic(final int id, Date purchaseDate, String location, String addprice) {
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			PreparedStatement st = connection.prepareStatement(
 					"INSERT INTO userComics (id, purchaseDate, location, addprice) VALUES (?, ?, ?, ?)");
 			st.setInt(1, id);
@@ -134,7 +159,6 @@ public class ComicsDAO {
 
 	public static void deleteUserComic(final int id) {
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
 			PreparedStatement st = connect.prepareStatement("DELETE FROM userComics WHERE id = ?");
 			st.setInt(1, id);
@@ -149,7 +173,6 @@ public class ComicsDAO {
 	public static boolean findUserComic(final int id) {
 		boolean found = false;
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			PreparedStatement st = connection.prepareStatement("SELECT id FROM userComics WHERE id = ?");
 			st.setInt(1, id);
 			ResultSet rs = st.executeQuery();
@@ -163,10 +186,54 @@ public class ComicsDAO {
 		return found;
 	}
 
+	public static List<Comics> findAllUserComics() {
+		ResultSet rs;
+		List<Comics> result = new ArrayList<Comics>();
+		try {
+			PreparedStatement st = connection.prepareStatement(
+					"SELECT comics.id, title, description, pageCount, thumbnailPartialPath, thumbnailExtension, format, onSaleDate, printPrice, digitalPrice, mark, purchaseDate, location, comment, addprice FROM comics JOIN userComics ON comics.id = userComics.id");
+			rs = st.executeQuery();
+			while (rs.next()) {
+				Comics comic = resultSetToComic(rs, true);
+				result.add(comic);
+				System.out.println(comic.getMark());
+				System.out.println(comic.getComment());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
+	public static void addCreator(Creator c) {
+		try {
+			deleteCreator(c.getName());
+			PreparedStatement st = connection.prepareStatement("INSERT INTO creators (name, role) VALUES (?, ?)");
+			st.setString(1, c.getName());
+			st.setString(2, c.getRole());
+			st.executeUpdate();
+			st.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static void executeUpdateWithCreatorName(final String statement, final String name)
+			throws ClassNotFoundException, SQLException {
+		PreparedStatement st = connection.prepareStatement(statement);
+		st.setString(1, name);
+		st.executeUpdate();
+		st.close();
+	}
+
+	public static void deleteCreator(final String name) throws ClassNotFoundException, SQLException {
+		executeUpdateWithCreatorName("DELETE FROM comicsCreators WHERE creatorName = ?", name);
+		executeUpdateWithCreatorName("DELETE FROM creators WHERE name = ?", name);
+	}
+
 	public static String returnComment(final int id) {
 		String comm1 = null;
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
 			PreparedStatement st = connect.prepareStatement("SELECT comment FROM userComics WHERE id = ?");
 			st.setInt(1, id);
@@ -185,7 +252,6 @@ public class ComicsDAO {
 		String bookm = null;
 		ObservableList<String> bookmList = FXCollections.observableArrayList();
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Connection connect = DriverManager.getConnection("jdbc:derby:.\\DB\\library.db");
 			PreparedStatement st = connect.prepareStatement("SELECT bookmark FROM userBookmarks WHERE id = ?");
 			st.setInt(1, id);
@@ -203,7 +269,6 @@ public class ComicsDAO {
 
 	public static void setMark(int id, int mark) throws IOException {
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Comics comic = findComic(id);
 			if (comic == null) {
 				throw new Exception("This comic doesn't exist");
@@ -232,7 +297,6 @@ public class ComicsDAO {
 
 	public static void setComment(int id, String comment) throws IOException {
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Comics comic = findComic(id);
 			if (comic == null) {
 				throw new Exception("This comic doesn't exist");
@@ -260,7 +324,6 @@ public class ComicsDAO {
 
 	public static void addBookmark(int id, String bookmark) throws IOException {
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Comics comic = findComic(id);
 			if (comic == null) {
 				throw new Exception("This comic doesn't exist");
@@ -286,7 +349,6 @@ public class ComicsDAO {
 
 	public static void deleteBookmark(int id, String bookmark) throws IOException {
 		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 			Comics comic = findComic(id);
 			ObservableList<String> bookmList = FXCollections.observableArrayList();
 			if (comic == null) {
@@ -294,7 +356,6 @@ public class ComicsDAO {
 			} else if (!findUserComic(id)) {
 				throw new Exception("The user doesn't have this comic");
 			} else {
-				Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
 				PreparedStatement st = connection
 						.prepareStatement("DELETE FROM userBookmarks WHERE id=? AND bookmark=?");
 				st.setInt(1, id);
@@ -313,26 +374,6 @@ public class ComicsDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	public static List<Comics> findAllUserComics() {
-		ResultSet rs;
-		List<Comics> result = new ArrayList<Comics>();
-		try {
-			Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
-			PreparedStatement st = connection.prepareStatement(
-					"SELECT comics.id, title, description, pageCount, thumbnailPartialPath, thumbnailExtension, format, onSaleDate, printPrice, digitalPrice, mark, purchaseDate, location, comment, addprice FROM comics JOIN userComics ON comics.id = userComics.id");
-			rs = st.executeQuery();
-			while (rs.next()) {
-				Comics comic = resultSetToComic(rs, true);
-				result.add(comic);
-				System.out.println(comic.getMark());
-				System.out.println(comic.getComment());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return result;
 	}
 
 	public static void close() throws SQLException {

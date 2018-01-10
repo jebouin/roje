@@ -241,4 +241,8 @@ public class Comics {
 	public void setCreators(ObservableList<Creator> creators) {
 		this.creators = creators;
 	}
+
+	public void addCreator(Creator creator) {
+		this.creators.add(creator);
+	}
 }
