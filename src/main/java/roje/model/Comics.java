@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -27,6 +30,9 @@ public class Comics {
 	private DateTime onSaleDate;
 	private Float printPrice;
 	private Float digitalPrice;
+	private int issueNumber;
+	private String serieName;
+
 	private ObservableList<Creator> creators = FXCollections.observableArrayList();
 
 	// user defined properties
@@ -43,7 +49,7 @@ public class Comics {
 			String comment, String addprice, ObservableList<String> bookmarks) {
 		super();
 		this.id = id;
-		this.title = title;
+		setTitle(title);
 		this.description = description;
 		this.pageCount = pageCount;
 		this.thumbnail = thumbnail;
@@ -57,11 +63,12 @@ public class Comics {
 		this.comment = comment;
 		this.addprice = addprice;
 		this.bookmarks = bookmarks;
+
 	}
 
 	public Comics(final JsonObject json) {
 		this.id = json.get("id").getAsInt();
-		this.title = json.get("title").getAsString();
+		setTitle(json.get("title").getAsString());
 		if (!json.get("description").isJsonNull()) {
 			this.description = json.get("description").getAsString();
 		}
@@ -124,6 +131,22 @@ public class Comics {
 
 	public void setTitle(String title) {
 		this.title = title;
+		String[] title1 = title.split(title);
+		String[] serie = null;
+		try {
+			Pattern p = Pattern.compile("(.*)#(\\d+)");
+			Matcher m = p.matcher(title);
+			int i = 0;
+			if (m.matches()) {
+				serieName = m.group(1);
+				issueNumber = Integer.parseInt(m.group(2));
+				System.out.println(serieName);
+				System.out.println(issueNumber);
+			}
+		} catch (
+
+		PatternSyntaxException pse) {
+		}
 	}
 
 	public String getDescription() {
@@ -245,4 +268,5 @@ public class Comics {
 	public void addCreator(Creator creator) {
 		this.creators.add(creator);
 	}
+
 }
