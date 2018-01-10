@@ -25,6 +25,11 @@
               <fx:include fx:id="libraryView" source="LibraryView.fxml" />                
               </content>
             </Tab>
+            <Tab text="Recommendations">
+              <content>
+                <fx:include fx:id="recommendationsView" source="RecommendationsView.fxml" />
+              </content>
+            </Tab>
         </tabs>
       </TabPane>
    </center>

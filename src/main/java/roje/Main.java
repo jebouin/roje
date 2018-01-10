@@ -13,6 +13,7 @@ import javafx.stage.StageStyle;
 import roje.model.Character;
 import roje.model.Comics;
 import roje.model.ComicsDAO;
+import roje.model.Creator;
 import roje.model.DB;
 import roje.view.CharacterCardController;
 import roje.view.ComicCardController;
@@ -80,15 +81,7 @@ public class Main extends Application {
 	public static void main(String[] args) throws Exception {
 		DB.createDB();
 		ComicsDAO.init();
-		List<Comics> test = ComicsDAO.findAllComics();
-		Integer maxi = 0;
-		for (Comics c : test) {
-			int size = c.getCreators().size();
-			if (size > maxi) {
-				maxi = size;
-				System.out.println(maxi.toString() + " " + c.getTitle());
-			}
-		}
+		List<Creator> test = ComicsDAO.findAllCreators();
 		launch(args);
 		ComicsDAO.close();
 	}

@@ -232,6 +232,22 @@ public class ComicsDAO {
 		executeUpdateWithCreatorName("DELETE FROM creators WHERE name = ?", name);
 	}
 
+	public static List<Creator> findAllCreators() {
+		ResultSet rs;
+		List<Creator> result = new ArrayList<Creator>();
+		try {
+			PreparedStatement st = connection.prepareStatement("SELECT * FROM creators");
+			rs = st.executeQuery();
+			while (rs.next()) {
+				Creator cr = new Creator(rs.getString(1), rs.getString(2));
+				result.add(cr);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	public static String returnComment(final int id) {
 		String comm1 = null;
 		try {

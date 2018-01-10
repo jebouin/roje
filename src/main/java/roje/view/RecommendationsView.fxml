@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.image.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.cell.*?>
+
+<ScrollPane hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="roje.view.RecommendationsController">
+  <content>
+    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="1300.0">
+         <children>
+            <Label contentDisplay="CENTER" layoutX="25.0" layoutY="25.0" prefHeight="51.0" prefWidth="394.0" text="From authors you like" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="25.0">
+               <font>
+                  <Font name="System Bold" size="35.0" />
+               </font>
+            </Label>
+            <TilePane hgap="5.0" layoutX="22.0" layoutY="314.0" prefHeight="2.0" prefWidth="570.0" tileAlignment="TOP_LEFT" vgap="5.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="216.0" AnchorPane.topAnchor="314.0" />
+            <TableView fx:id="authorRecommendationsTable" layoutX="25.0" layoutY="83.0" onMouseClicked="#handleAuthorRecommendationsListClick" prefHeight="576.0" prefWidth="550.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="83.0">
+              <columns>
+                <TableColumn fx:id="authorRecommendationsTitleColumn" prefWidth="367.0" text="Title">
+                	<cellValueFactory><PropertyValueFactory property="title" /></cellValueFactory>
+                </TableColumn>
+              </columns>
+            </TableView>
+            <Label contentDisplay="CENTER" layoutX="611.0" layoutY="25.0" prefHeight="51.0" prefWidth="394.0" text="Continue your series" textAlignment="CENTER" textOverrun="CLIP">
+               <font>
+                  <Font name="System Bold" size="35.0" />
+               </font>
+            </Label>
+            <TableView fx:id="serieRecommendationsTable" layoutX="611.0" layoutY="83.0" onMouseClicked="#handleSerieRecommendationsListClick" prefHeight="576.0" prefWidth="550.0">
+               <columns>
+                  <TableColumn fx:id="serieRecommendationsTitleColumn" prefWidth="367.0" text="Title">
+                     <cellValueFactory>
+                        <PropertyValueFactory property="title" />
+                     </cellValueFactory>
+                  </TableColumn>
+               </columns>
+            </TableView>
+         </children></AnchorPane>
+  </content>
+</ScrollPane>
