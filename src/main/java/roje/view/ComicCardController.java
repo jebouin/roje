@@ -29,6 +29,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import roje.Main;
 import roje.model.Character;
 import roje.model.Comics;
@@ -112,8 +113,8 @@ public class ComicCardController {
 	private TableColumn<Creator, String> creatorsRoleColumn;
 
 	/**
-	 * Initializes the controller class. This method is automatically called after
-	 * the fxml file has been loaded.
+	 * Initializes the controller class. This method is automatically called
+	 * after the fxml file has been loaded.
 	 */
 	@FXML
 	private void initialize() {
@@ -131,16 +132,24 @@ public class ComicCardController {
 			ButtonSave.setVisible(false);
 			CommentLabel.setVisible(false);
 			mark.setVisible(false);
+			addMarkButton.setVisible(false);
+			CommentLabel.setVisible(false);
+			bookmarkTextField.setVisible(false);
+			bookmarksButton.setVisible(false);
+			bookmarksLabel.setVisible(false);
+			bookmarksList.setVisible(false);
+			deleteBookmark.setVisible(false);
 
 		} else {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/AddingWindow.fxml"));
 			AnchorPane pane = (AnchorPane) loader.load();
-			loader.<AddingWindowController>getController().setComic(comic);
+			loader.<AddingWindowController> getController().setComic(comic);
 			Stage stage = new Stage();
-			stage.setScene(new Scene(pane, 460, 215));
+			stage.setScene(new Scene(pane, 470, 225));
+			stage.initStyle(StageStyle.UTILITY);
 			stage.show();
-			// TODO: fix bug!
+
 			addLibraryButton.setText("Delete from library");
 			ButtonSave.setVisible(true);
 			comment.setVisible(true);
