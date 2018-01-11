@@ -21,7 +21,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import roje.Main;
-import roje.api.MarvelAPI;
 import roje.model.Comics;
 import roje.model.ComicsDAO;
 
@@ -137,7 +136,7 @@ public class ComicSearchController {
 		Task<Void> downloadComics = new Task<Void>() {
 			@Override
 			public Void call() throws Exception {
-				List<Comics> comics = MarvelAPI.searchComicsByNamePrefix(toSearch);
+				List<Comics> comics = ComicsDAO.findComicByPrefix(toSearch);
 				comicsFound.clear();
 				comicsFound.addAll(comics);
 				Platform.runLater(() -> {

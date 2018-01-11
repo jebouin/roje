@@ -126,6 +126,26 @@ public class ComicsDAO {
 		return comic;
 	}
 
+	public static List<Comics> findComicByPrefix(final String prefix) {
+		ResultSet rs;
+		List<Comics> result = new ArrayList<Comics>();
+		try {
+			PreparedStatement st = connection.prepareStatement("SELECT * FROM comics WHERE LOWER(title) LIKE ?");
+			st.setString(1, (prefix + "%").toLowerCase());
+			rs = st.executeQuery();
+			while (rs.next()) {
+				Comics comic = resultSetToComic(rs, false);
+				System.out.println(comic.getTitle());
+				result.add(comic);
+			}
+			st.close();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+
 	public static List<Comics> findAllComics() {
 		ResultSet rs;
 		List<Comics> result = new ArrayList<Comics>();
