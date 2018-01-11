@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import roje.Main;
 import roje.model.Comics;
 import roje.model.ComicsDAO;
 
@@ -55,6 +56,9 @@ public class AddingWindowController {
 		addprice = Price.getText();
 		if (!date1.equals(testDate)) {
 			ComicsDAO.addUserComic(comic.getId(), (java.sql.Date) date, location, addprice);
+			// refresh library
+			Main.instance.getLibraryController().refresh();
+			Main.instance.getRecommendationsController().refresh();
 			ValidateLabel.setText("Add complete !");
 		} else {
 			ValidateLabel.setText("Error : select a date");

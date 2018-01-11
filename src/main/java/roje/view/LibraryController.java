@@ -32,7 +32,12 @@ public class LibraryController {
 	 * the fxml file has been loaded.
 	 */
 	@FXML
-	private void handleRefreshButtonPressed() {
+	private void initialize() {
+		Main.instance.setLibraryController(this);
+		refresh();
+	}
+
+	public void refresh() {
 		comicsData = FXCollections.observableArrayList();
 		for (int i = 0; i < libraryView.getItems().size(); i++) {
 			libraryView.getItems().clear();
@@ -43,7 +48,6 @@ public class LibraryController {
 		}
 
 		libraryView.getItems().addAll(comicsData);
-
 	}
 
 	@FXML

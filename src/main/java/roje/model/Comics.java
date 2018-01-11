@@ -137,8 +137,6 @@ public class Comics {
 			if (m.matches()) {
 				serieName = m.group(1);
 				issueNumber = Integer.parseInt(m.group(2));
-				System.out.println(serieName);
-				System.out.println(issueNumber);
 			}
 		} catch (
 

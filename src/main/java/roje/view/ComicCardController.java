@@ -141,7 +141,8 @@ public class ComicCardController {
 			bookmarksLabel.setVisible(false);
 			bookmarksList.setVisible(false);
 			deleteBookmark.setVisible(false);
-
+			Main.instance.getLibraryController().refresh();
+			Main.instance.getRecommendationsController().refresh();
 		} else {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/AddingWindow.fxml"));
@@ -172,6 +173,8 @@ public class ComicCardController {
 	public void handleAddMarkButtonPressed() throws IOException {
 		System.out.println(String.valueOf((int) mark.getValue()));
 		ComicsDAO.setMark(comic.getId(), (int) mark.getValue());
+		Main.instance.getLibraryController().refresh();
+		Main.instance.getRecommendationsController().refresh();
 	}
 
 	public void setMark(int m) {

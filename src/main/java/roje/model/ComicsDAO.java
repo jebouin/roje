@@ -64,7 +64,6 @@ public class ComicsDAO {
 			st.close();
 			for (Creator creator : c.getCreators()) {
 				addCreator(creator);
-				System.out.println(c.getId() + " " + creator.getName());
 				// add to NxN table
 				st = connection.prepareStatement("INSERT INTO comicsCreators (comicId, creatorName) VALUES (?, ?)");
 				st.setInt(1, c.getId());
@@ -137,7 +136,6 @@ public class ComicsDAO {
 			rs = st.executeQuery();
 			while (rs.next()) {
 				Comics comic = resultSetToComic(rs, false);
-				System.out.println(comic.getTitle());
 				result.add(comic);
 			}
 			st.close();
@@ -220,8 +218,6 @@ public class ComicsDAO {
 			while (rs.next()) {
 				Comics comic = resultSetToComic(rs, true);
 				result.add(comic);
-				System.out.println(comic.getMark());
-				System.out.println(comic.getComment());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -325,7 +321,6 @@ public class ComicsDAO {
 				st.setInt(2, id);
 				st.executeUpdate();
 				st.close();
-				System.out.println(mark);
 				// TODO: move this to controller
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
@@ -353,7 +348,6 @@ public class ComicsDAO {
 				st.setInt(2, id);
 				st.executeUpdate();
 				st.close();
-				System.out.println(comment);
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
 				AnchorPane pane = (AnchorPane) loader.load();
@@ -446,9 +440,6 @@ public class ComicsDAO {
 				comics.add(resultSetToComic(rs, false));
 			}
 			st.close();
-			for (Comics c : comics) {
-				// System.out.println(c.getTitle());
-			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -484,7 +475,6 @@ public class ComicsDAO {
 				series.get(c.getSerieName()).add(c);
 			}
 			for (Map.Entry<String, List<Comics>> pair : series.entrySet()) {
-				System.out.println(pair);
 				if (pair.getKey() != null) {
 					pair.getValue().sort((Comics c1, Comics c2) -> Integer.valueOf(c1.getIssueNumber())
 							.compareTo(Integer.valueOf(c2.getIssueNumber())));

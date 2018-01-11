@@ -36,19 +36,9 @@ public class RecommendationsController {
 	@FXML
 	private ObservableList<Comics> serieRecommendationsData;
 
-	/**
-	 * Initializes the controller class. This method is automatically called after
-	 * the fxml file has been loaded.
-	 */
-	@FXML
-	private void initialize() {
-		authorRecommendationsData = FXCollections.observableArrayList();
-		serieRecommendationsData = FXCollections.observableArrayList();
-		authorRecommendationsTitleColumn
-				.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getTitle()));
-		serieRecommendationsTitleColumn
-				.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getTitle()));
-
+	public void refresh() {
+		authorRecommendationsData.clear();
+		serieRecommendationsData.clear();
 		List<Comics> comicsList = ComicsDAO.getRecommendedComicsByCreator();
 		for (Comics c : comicsList) {
 			authorRecommendationsData.add(c);
@@ -58,9 +48,24 @@ public class RecommendationsController {
 		for (Comics c : serieList) {
 			serieRecommendationsData.add(c);
 		}
+	}
 
-		authorRecommendationsTable.getItems().addAll(authorRecommendationsData);
-		serieRecommendationsTable.getItems().addAll(serieRecommendationsData);
+	/**
+	 * Initializes the controller class. This method is automatically called after
+	 * the fxml file has been loaded.
+	 */
+	@FXML
+	private void initialize() {
+		Main.instance.setRecommendationsController(this);
+		authorRecommendationsData = FXCollections.observableArrayList();
+		serieRecommendationsData = FXCollections.observableArrayList();
+		authorRecommendationsTitleColumn
+				.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getTitle()));
+		serieRecommendationsTitleColumn
+				.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getTitle()));
+		authorRecommendationsTable.setItems(authorRecommendationsData);
+		serieRecommendationsTable.setItems(serieRecommendationsData);
+		refresh();
 	}
 
 	@FXML

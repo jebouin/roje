@@ -15,11 +15,31 @@ import roje.model.ComicsDAO;
 import roje.model.DB;
 import roje.view.CharacterCardController;
 import roje.view.ComicCardController;
+import roje.view.LibraryController;
+import roje.view.RecommendationsController;
 
 public class Main extends Application {
 	public static Main instance;
 	private Stage primaryStage;
 	private BorderPane rootLayout;
+	private LibraryController libraryController;
+	private RecommendationsController recommendationsController;
+
+	public LibraryController getLibraryController() {
+		return libraryController;
+	}
+
+	public void setLibraryController(LibraryController libraryController) {
+		this.libraryController = libraryController;
+	}
+
+	public RecommendationsController getRecommendationsController() {
+		return recommendationsController;
+	}
+
+	public void setRecommendationsController(RecommendationsController recommendationsController) {
+		this.recommendationsController = recommendationsController;
+	}
 
 	public void initRootLayout() {
 		try {
@@ -78,7 +98,6 @@ public class Main extends Application {
 	public static void main(String[] args) throws Exception {
 		DB.createDB();
 		ComicsDAO.init();
-		ComicsDAO.getRecommendedComicsByCreator();
 		launch(args);
 		ComicsDAO.close();
 	}
