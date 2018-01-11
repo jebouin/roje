@@ -1,6 +1,8 @@
 package roje.view;
 
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -113,8 +115,8 @@ public class ComicCardController {
 	private TableColumn<Creator, String> creatorsRoleColumn;
 
 	/**
-	 * Initializes the controller class. This method is automatically called
-	 * after the fxml file has been loaded.
+	 * Initializes the controller class. This method is automatically called after
+	 * the fxml file has been loaded.
 	 */
 	@FXML
 	private void initialize() {
@@ -144,7 +146,7 @@ public class ComicCardController {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/AddingWindow.fxml"));
 			AnchorPane pane = (AnchorPane) loader.load();
-			loader.<AddingWindowController> getController().setComic(comic);
+			loader.<AddingWindowController>getController().setComic(comic);
 			Stage stage = new Stage();
 			stage.setScene(new Scene(pane, 470, 225));
 			stage.initStyle(StageStyle.UTILITY);
@@ -224,6 +226,13 @@ public class ComicCardController {
 		comic.setBookmarks(ComicsDAO.returnBookmarks(comic.getId()));
 		nameLabel.setText(comic.getTitle());
 		formatLabel.setText(comic.getFormat());
+		Pattern p = Pattern.compile(".");
+		Matcher m = p.matcher(comic.getDescription());
+		if (m.find()) {
+			descriptionLabel.setText(comic.getDescription());
+		} else {
+			descriptionLabel.setText("No description");
+		}
 		setBookmarksList();
 		pageCount.setText(Integer.toString(comic.getPageCount()));
 		imageView.setImage(comic.getThumbnail().downloadImage("portrait_xlarge"));

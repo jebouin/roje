@@ -1,6 +1,8 @@
 package roje.view;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -52,7 +54,13 @@ public class CharacterCardController {
 		this.character = character;
 		character.fetchComics();
 		nameLabel.setText(character.getName());
-		descriptionLabel.setText(character.getDescription());
+		Pattern p = Pattern.compile(".");
+		Matcher m = p.matcher(character.getDescription());
+		if (m.find()) {
+			descriptionLabel.setText(character.getDescription());
+		} else {
+			descriptionLabel.setText("No description");
+		}
 		imageView.setImage(character.getThumbnail().downloadImage("portrait_xlarge"));
 
 		Task<Void> downloadImagesTask = new Task<Void>() {
