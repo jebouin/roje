@@ -1,7 +1,6 @@
 package roje;
 
 import java.io.IOException;
-import java.util.List;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +12,6 @@ import javafx.stage.StageStyle;
 import roje.model.Character;
 import roje.model.Comics;
 import roje.model.ComicsDAO;
-import roje.model.Creator;
 import roje.model.DB;
 import roje.view.CharacterCardController;
 import roje.view.ComicCardController;
@@ -25,7 +23,6 @@ public class Main extends Application {
 
 	public void initRootLayout() {
 		try {
-
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/RootLayout.fxml"));
 			rootLayout = (BorderPane) loader.load();
@@ -81,7 +78,7 @@ public class Main extends Application {
 	public static void main(String[] args) throws Exception {
 		DB.createDB();
 		ComicsDAO.init();
-		List<Creator> test = ComicsDAO.findAllCreators();
+		ComicsDAO.getRecommendedComicsByCreator();
 		launch(args);
 		ComicsDAO.close();
 	}

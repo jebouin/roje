@@ -46,7 +46,7 @@ public class RecommendationsController {
 		serieRecommendationsTitleColumn
 				.setCellValueFactory(cellData -> new ReadOnlyStringWrapper(cellData.getValue().getTitle()));
 
-		List<Comics> comicsList = ComicsDAO.findAllComics();
+		List<Comics> comicsList = ComicsDAO.getRecommendedComicsByCreator();
 		for (Comics c : comicsList) {
 			authorRecommendationsData.add(c);
 		}

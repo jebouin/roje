@@ -62,6 +62,7 @@ public class ComicsDAO {
 			st.close();
 			for (Creator creator : c.getCreators()) {
 				addCreator(creator);
+				System.out.println(c.getId() + " " + creator.getName());
 				// add to NxN table
 				st = connection.prepareStatement("INSERT INTO comicsCreators (comicId, creatorName) VALUES (?, ?)");
 				st.setInt(1, c.getId());
@@ -208,11 +209,16 @@ public class ComicsDAO {
 
 	public static void addCreator(Creator c) {
 		try {
-			deleteCreator(c.getName());
-			PreparedStatement st = connection.prepareStatement("INSERT INTO creators (name, role) VALUES (?, ?)");
+			PreparedStatement st = connection.prepareStatement("SELECT COUNT(*) FROM creators WHERE name = ?");
 			st.setString(1, c.getName());
-			st.setString(2, c.getRole());
-			st.executeUpdate();
+			ResultSet rs = st.executeQuery();
+			rs.next();
+			if (rs.getInt(1) == 0) {
+				st = connection.prepareStatement("INSERT INTO creators (name, role) VALUES (?, ?)");
+				st.setString(1, c.getName());
+				st.setString(2, c.getRole());
+				st.executeUpdate();
+			}
 			st.close();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -391,6 +397,40 @@ public class ComicsDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static List<Comics> getRecommendedComicsByCreator() {
+		ResultSet rs;
+		List<Comics> comics = new ArrayList<Comics>();
+		try {
+			PreparedStatement st = connection.prepareStatement(
+					"SELECT comics.id, title, description, pageCount, thumbnailPartialPath, thumbnailExtension, format, onSaleDate, printPrice, digitalPrice, cacheDate\r\n"
+							+ "FROM (SELECT comicId, scoreSum / scoreCount AS comicScore \r\n"
+							+ "FROM (SELECT comicId, CAST(COUNT(withScore.score) AS FLOAT) AS scoreCount, SUM(withScore.score) AS scoreSum\r\n"
+							+ "FROM comicsCreators\r\n" + "\r\n" + "\r\n" + "JOIN\r\n" + "\r\n" + "(SELECT name,\r\n"
+							+ "(p + 1.9208 / n - 1.96 * SQRT((p * (1.0 - p) + .9604 / n) / n)) / (1.0 + 3.8416 / n) AS score\r\n"
+							+ "FROM (SELECT name, n, s / n / 20.0 AS p\r\n"
+							+ "FROM (SELECT comicsCreators.creatorName AS name, CAST(COUNT(title) AS FLOAT) AS n, CAST(SUM(mark) AS FLOAT) AS s\r\n"
+							+ "FROM userComics\r\n" + "NATURAL JOIN comics\r\n" + "JOIN comicsCreators\r\n"
+							+ "ON comicsCreators.comicId = comics.id\r\n"
+							+ "GROUP BY comicsCreators.creatorName) AS stats) AS withP) AS withScore\r\n" + "\r\n"
+							+ "ON withScore.name = comicsCreators.creatorName\r\n" + "\r\n" + "\r\n"
+							+ "WHERE comicId NOT IN (SELECT id FROM userComics)\r\n"
+							+ "GROUP BY comicsCreators.comicId) AS comicStats\r\n" + "ORDER BY comicScore DESC\r\n"
+							+ "FETCH FIRST 100 ROWS ONLY) AS sortedIds\r\n"
+							+ "JOIN comics ON sortedIds.comicId = comics.id");
+			rs = st.executeQuery();
+			while (rs.next()) {
+				comics.add(resultSetToComic(rs, false));
+			}
+			st.close();
+			for (Comics c : comics) {
+				// System.out.println(c.getTitle());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return comics;
 	}
 
 	public static void close() throws SQLException {
