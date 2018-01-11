@@ -131,12 +131,9 @@ public class Comics {
 
 	public void setTitle(String title) {
 		this.title = title;
-		String[] title1 = title.split(title);
-		String[] serie = null;
 		try {
 			Pattern p = Pattern.compile("(.*)#(\\d+)");
 			Matcher m = p.matcher(title);
-			int i = 0;
 			if (m.matches()) {
 				serieName = m.group(1);
 				issueNumber = Integer.parseInt(m.group(2));
@@ -267,6 +264,22 @@ public class Comics {
 
 	public void addCreator(Creator creator) {
 		this.creators.add(creator);
+	}
+
+	public int getIssueNumber() {
+		return issueNumber;
+	}
+
+	public void setIssueNumber(int issueNumber) {
+		this.issueNumber = issueNumber;
+	}
+
+	public String getSerieName() {
+		return serieName;
+	}
+
+	public void setSerieName(String serieName) {
+		this.serieName = serieName;
 	}
 
 }

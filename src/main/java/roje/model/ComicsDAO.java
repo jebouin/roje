@@ -10,7 +10,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 
@@ -451,6 +453,65 @@ public class ComicsDAO {
 			e.printStackTrace();
 		}
 		return comics;
+	}
+
+	public static List<Comics> returnseries() {
+		HashMap<String, List<Comics>> series = new HashMap<String, List<Comics>>();
+		List<Comics> comicListInLibrary;
+		List<Comics> comicListNotinLibrary = new ArrayList<Comics>();
+		List<Comics> recommandations = new ArrayList<Comics>();
+
+		try {
+			comicListInLibrary = findAllUserComics();
+			PreparedStatement st1 = connection
+					.prepareStatement("SELECT * FROM comics WHERE id NOT IN(SELECT id FROM userComics)");
+			ResultSet rs1 = st1.executeQuery();
+			while (rs1.next()) {
+				comicListNotinLibrary.add(resultSetToComic(rs1, false));
+			}
+			st1.close();
+
+			for (Comics c : comicListInLibrary) {
+				if (series.get(c.getSerieName()) == null) {
+					series.put(c.getSerieName(), new ArrayList<Comics>());
+				}
+				series.get(c.getSerieName()).add(c);
+			}
+			for (Comics c : comicListNotinLibrary) {
+				if (series.get(c.getSerieName()) == null) {
+					series.put(c.getSerieName(), new ArrayList<Comics>());
+				}
+				series.get(c.getSerieName()).add(c);
+			}
+			for (Map.Entry<String, List<Comics>> pair : series.entrySet()) {
+				System.out.println(pair);
+				if (pair.getKey() != null) {
+					pair.getValue().sort((Comics c1, Comics c2) -> Integer.valueOf(c1.getIssueNumber())
+							.compareTo(Integer.valueOf(c2.getIssueNumber())));
+					boolean hasone = false;
+					for (Comics comic : pair.getValue()) {
+						if (comicListInLibrary.indexOf(comic) != -1) {
+							hasone = true;
+							break;
+						}
+					}
+					if (hasone) {
+						for (Comics c : pair.getValue()) {
+
+							if (comicListInLibrary.indexOf(c) == -1 && c != pair.getValue().get(0)) {
+								recommandations.add(c);
+								break;
+							}
+						}
+					}
+				}
+			}
+		} catch (
+
+		Exception e) {
+			e.printStackTrace();
+		}
+		return recommandations;
 	}
 
 	public static void close() throws SQLException {

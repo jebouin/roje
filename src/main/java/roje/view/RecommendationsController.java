@@ -1,5 +1,6 @@
 package roje.view;
 
+import java.sql.Connection;
 import java.util.List;
 
 import javafx.beans.property.ReadOnlyStringWrapper;
@@ -14,6 +15,8 @@ import roje.model.Comics;
 import roje.model.ComicsDAO;
 
 public class RecommendationsController {
+
+	private static Connection connection;
 
 	@FXML
 	private TableView<Comics> authorRecommendationsTable;
@@ -49,6 +52,11 @@ public class RecommendationsController {
 		List<Comics> comicsList = ComicsDAO.getRecommendedComicsByCreator();
 		for (Comics c : comicsList) {
 			authorRecommendationsData.add(c);
+		}
+
+		List<Comics> serieList = ComicsDAO.returnseries();
+		for (Comics c : serieList) {
+			serieRecommendationsData.add(c);
 		}
 
 		authorRecommendationsTable.getItems().addAll(authorRecommendationsData);
