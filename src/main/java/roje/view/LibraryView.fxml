@@ -31,17 +31,17 @@
                         <PropertyValueFactory property="mark" />
                      </cellValueFactory>
                   </TableColumn>
-                  <TableColumn prefWidth="282.0" text="Purchase Date">
+                  <TableColumn prefWidth="207.0" text="Purchase Date">
                   <cellValueFactory>
                         <PropertyValueFactory property="purchaseDate" />
                      </cellValueFactory>
                       </TableColumn>
-                  <TableColumn prefWidth="271.0" text="Location in Library">
+                  <TableColumn prefWidth="260.0" text="Location in Library">
                   <cellValueFactory>
                         <PropertyValueFactory property="location" />
                      </cellValueFactory>
                   </TableColumn>
-                  <TableColumn prefWidth="162.0" text="Price">
+                  <TableColumn prefWidth="87.0" text="Price">
                   <cellValueFactory>
                         <PropertyValueFactory property="addprice" />
                      </cellValueFactory>
