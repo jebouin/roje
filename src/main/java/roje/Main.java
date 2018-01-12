@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import roje.model.Character;
 import roje.model.Comics;
 import roje.model.ComicsDAO;
@@ -58,11 +57,10 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/CharacterCardView.fxml"));
 		ScrollPane pane = (ScrollPane) loader.load();
-		loader.<CharacterCardController>getController().setCharacter(character);
+		loader.<CharacterCardController> getController().setCharacter(character);
 		Stage stage = new Stage();
 		stage.setTitle(character.getName());
 		stage.setScene(new Scene(pane, 1400, 900));
-		stage.initStyle(StageStyle.UTILITY);
 		stage.show();
 	}
 
@@ -70,11 +68,10 @@ public class Main extends Application {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(Main.class.getResource("view/ComicCardView.fxml"));
 		ScrollPane pane = (ScrollPane) loader.load();
-		loader.<ComicCardController>getController().setComic(comic);
+		loader.<ComicCardController> getController().setComic(comic);
 		Stage stage = new Stage();
 		stage.setTitle(comic.getTitle());
 		stage.setScene(new Scene(pane, 1400, 900));
-		stage.initStyle(StageStyle.UTILITY);
 		stage.show();
 	}
 
@@ -90,7 +87,6 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		Main.instance = this;
 		this.primaryStage = primaryStage;
-		this.primaryStage.initStyle(StageStyle.UTILITY);
 		this.primaryStage.setTitle("Roje Comics Manager");
 		initRootLayout();
 	}
