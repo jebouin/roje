@@ -28,8 +28,6 @@ import roje.Main;
 
 public class ComicsDAO {
 	private static Connection connection;
-	private static List<Comics> allComics = new ArrayList<Comics>();
-	private static boolean comicsChanged = true;
 
 	public static void init() {
 		try {
@@ -75,7 +73,6 @@ public class ComicsDAO {
 				st.executeUpdate();
 				st.close();
 			}
-			comicsChanged = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -104,15 +101,6 @@ public class ComicsDAO {
 				userComic ? rs.getDate("purchaseDate") : null, userComic ? rs.getString("location") : null,
 				userComic ? rs.getString("comment") : null, userComic ? rs.getString("addprice") : null,
 				FXCollections.observableArrayList());
-		// fetch creators
-		PreparedStatement st = connection.prepareStatement(
-				"SELECT name, role FROM comicsCreators JOIN creators ON creatorName = name AND comicId = ?");
-		st.setInt(1, comic.getId());
-		rs = st.executeQuery();
-		while (rs.next()) {
-			Creator creator = new Creator(rs.getString(1), rs.getString(2));
-			comic.addCreator(creator);
-		}
 		return comic;
 	}
 
@@ -126,50 +114,67 @@ public class ComicsDAO {
 				comic = resultSetToComic(rs, false);
 			}
 			st.close();
+			st = connection.prepareStatement("SELECT * FROM comicsCreators WHERE comicId = ?");
+			st.setInt(1, id);
+			rs = st.executeQuery();
+			while (rs.next()) {
+				comic.addCreator(new Creator(rs.getString(1), rs.getString(2)));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return comic;
 	}
 
-	public static List<Comics> findComicByPrefix(final String prefix) {
+	private static List<Comics> findComicsByStatement(final PreparedStatement st, final PreparedStatement stCreators) {
 		ResultSet rs;
 		List<Comics> result = new ArrayList<Comics>();
 		try {
-			PreparedStatement st = connection.prepareStatement("SELECT * FROM comics WHERE LOWER(title) LIKE ?");
-			st.setString(1, (prefix + "%").toLowerCase());
 			rs = st.executeQuery();
+			Map<Integer, Comics> comics = new HashMap<Integer, Comics>();
 			while (rs.next()) {
 				Comics comic = resultSetToComic(rs, false);
-				result.add(comic);
+				comics.put(comic.getId(), comic);
 			}
 			st.close();
-
+			rs = stCreators.executeQuery();
+			while (rs.next()) {
+				Creator creator = new Creator(rs.getString(2), rs.getString(3));
+				comics.get(rs.getInt(1)).addCreator(creator);
+			}
+			for (Map.Entry<Integer, Comics> pair : comics.entrySet()) {
+				result.add(pair.getValue());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return result;
 	}
 
-	public static List<Comics> findAllComics() {
-		if (comicsChanged) {
-			ResultSet rs;
-			try {
-				PreparedStatement st = connection.prepareStatement("SELECT * FROM comics");
-				rs = st.executeQuery();
-				allComics.clear();
-				while (rs.next()) {
-					Comics comic = resultSetToComic(rs, false);
-					allComics.add(comic);
-				}
-				st.close();
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			comicsChanged = false;
+	public static List<Comics> findComicByPrefix(final String prefix) {
+		try {
+			PreparedStatement st = connection.prepareStatement("SELECT * FROM comics WHERE LOWER(title) LIKE ?");
+			st.setString(1, (prefix + "%").toLowerCase());
+			PreparedStatement stCreators = connection.prepareStatement(
+					"SELECT comicId, name, role FROM comics JOIN comicsCreators ON id = comicId JOIN creators ON name = creatorName WHERE LOWER(title) LIKE ? ");
+			stCreators.setString(1, (prefix + "%").toLowerCase());
+			return findComicsByStatement(st, stCreators);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
-		return allComics;
+	}
+
+	public static List<Comics> findAllComics() {
+		try {
+			PreparedStatement st = connection.prepareStatement("SELECT * FROM comics");
+			PreparedStatement stCreators = connection.prepareStatement(
+					"SELECT comicId, name, role FROM comicsCreators JOIN creators ON creatorName = name");
+			return findComicsByStatement(st, stCreators);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public static void addUserComic(final int id, Date purchaseDate, String location, String addprice) {
@@ -217,20 +222,16 @@ public class ComicsDAO {
 	}
 
 	public static List<Comics> findAllUserComics() {
-		ResultSet rs;
-		List<Comics> result = new ArrayList<Comics>();
 		try {
 			PreparedStatement st = connection.prepareStatement(
 					"SELECT comics.id, title, description, pageCount, thumbnailPartialPath, thumbnailExtension, format, onSaleDate, printPrice, digitalPrice, mark, purchaseDate, location, comment, addprice FROM comics JOIN userComics ON comics.id = userComics.id");
-			rs = st.executeQuery();
-			while (rs.next()) {
-				Comics comic = resultSetToComic(rs, true);
-				result.add(comic);
-			}
+			PreparedStatement stCreators = connection.prepareStatement(
+					"SELECT comicId, name, role FROM userComics JOIN comicsCreators ON comicId = id JOIN creators ON creatorName = name");
+			return findComicsByStatement(st, stCreators);
 		} catch (Exception e) {
 			e.printStackTrace();
+			return null;
 		}
-		return result;
 	}
 
 	public static void addCreator(Creator c) {
