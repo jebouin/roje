@@ -43,7 +43,6 @@ public class RecommendationsController {
 		for (Comics c : comicsList) {
 			authorRecommendationsData.add(c);
 		}
-
 		List<Comics> serieList = ComicsDAO.returnseries();
 		for (Comics c : serieList) {
 			serieRecommendationsData.add(c);

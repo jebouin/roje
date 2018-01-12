@@ -11,8 +11,10 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 
@@ -26,6 +28,8 @@ import roje.Main;
 
 public class ComicsDAO {
 	private static Connection connection;
+	private static List<Comics> allComics = new ArrayList<Comics>();
+	private static boolean comicsChanged = true;
 
 	public static void init() {
 		try {
@@ -71,6 +75,7 @@ public class ComicsDAO {
 				st.executeUpdate();
 				st.close();
 			}
+			comicsChanged = true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -147,21 +152,24 @@ public class ComicsDAO {
 	}
 
 	public static List<Comics> findAllComics() {
-		ResultSet rs;
-		List<Comics> result = new ArrayList<Comics>();
-		try {
-			PreparedStatement st = connection.prepareStatement("SELECT * FROM comics");
-			rs = st.executeQuery();
-			while (rs.next()) {
-				Comics comic = resultSetToComic(rs, false);
-				result.add(comic);
-			}
-			st.close();
+		if (comicsChanged) {
+			ResultSet rs;
+			try {
+				PreparedStatement st = connection.prepareStatement("SELECT * FROM comics");
+				rs = st.executeQuery();
+				allComics.clear();
+				while (rs.next()) {
+					Comics comic = resultSetToComic(rs, false);
+					allComics.add(comic);
+				}
+				st.close();
 
-		} catch (Exception e) {
-			e.printStackTrace();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			comicsChanged = false;
 		}
-		return result;
+		return allComics;
 	}
 
 	public static void addUserComic(final int id, Date purchaseDate, String location, String addprice) {
@@ -447,28 +455,17 @@ public class ComicsDAO {
 	}
 
 	public static List<Comics> returnseries() {
-		HashMap<String, List<Comics>> series = new HashMap<String, List<Comics>>();
-		List<Comics> comicListInLibrary;
-		List<Comics> comicListNotinLibrary = new ArrayList<Comics>();
 		List<Comics> recommandations = new ArrayList<Comics>();
-
 		try {
-			comicListInLibrary = findAllUserComics();
-			PreparedStatement st1 = connection
-					.prepareStatement("SELECT * FROM comics WHERE id NOT IN(SELECT id FROM userComics)");
-			ResultSet rs1 = st1.executeQuery();
-			while (rs1.next()) {
-				comicListNotinLibrary.add(resultSetToComic(rs1, false));
-			}
-			st1.close();
-
+			HashMap<String, List<Comics>> series = new HashMap<String, List<Comics>>();
+			List<Comics> comicListInLibrary = findAllUserComics();
+			// put the ids of comics in library for constant time lookup
+			Set<Integer> librarySet = new HashSet<Integer>();
 			for (Comics c : comicListInLibrary) {
-				if (series.get(c.getSerieName()) == null) {
-					series.put(c.getSerieName(), new ArrayList<Comics>());
-				}
-				series.get(c.getSerieName()).add(c);
+				librarySet.add(c.getId());
 			}
-			for (Comics c : comicListNotinLibrary) {
+			List<Comics> allComics = findAllComics();
+			for (Comics c : allComics) {
 				if (series.get(c.getSerieName()) == null) {
 					series.put(c.getSerieName(), new ArrayList<Comics>());
 				}
@@ -480,15 +477,14 @@ public class ComicsDAO {
 							.compareTo(Integer.valueOf(c2.getIssueNumber())));
 					boolean hasone = false;
 					for (Comics comic : pair.getValue()) {
-						if (comicListInLibrary.indexOf(comic) != -1) {
+						if (librarySet.contains(comic.getId())) {
 							hasone = true;
 							break;
 						}
 					}
 					if (hasone) {
 						for (Comics c : pair.getValue()) {
-
-							if (comicListInLibrary.indexOf(c) == -1 && c != pair.getValue().get(0)) {
+							if (!librarySet.contains(c.getId()) && c != pair.getValue().get(0)) {
 								recommandations.add(c);
 								break;
 							}
