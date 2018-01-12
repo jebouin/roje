@@ -126,14 +126,15 @@ public class ComicsDAO {
 		return comic;
 	}
 
-	private static List<Comics> findComicsByStatement(final PreparedStatement st, final PreparedStatement stCreators) {
+	private static List<Comics> findComicsByStatement(final PreparedStatement st, final PreparedStatement stCreators,
+			boolean userComics) {
 		ResultSet rs;
 		List<Comics> result = new ArrayList<Comics>();
 		try {
 			rs = st.executeQuery();
 			Map<Integer, Comics> comics = new HashMap<Integer, Comics>();
 			while (rs.next()) {
-				Comics comic = resultSetToComic(rs, false);
+				Comics comic = resultSetToComic(rs, userComics);
 				comics.put(comic.getId(), comic);
 			}
 			st.close();
@@ -159,7 +160,7 @@ public class ComicsDAO {
 			PreparedStatement stCreators = connection.prepareStatement(
 					"SELECT comicId, name, role FROM comics JOIN comicsCreators ON id = comicId JOIN creators ON name = creatorName WHERE LOWER(title) LIKE ? ");
 			stCreators.setString(1, (prefix + "%").toLowerCase());
-			return findComicsByStatement(st, stCreators);
+			return findComicsByStatement(st, stCreators, false);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -171,7 +172,7 @@ public class ComicsDAO {
 			PreparedStatement st = connection.prepareStatement("SELECT * FROM comics");
 			PreparedStatement stCreators = connection.prepareStatement(
 					"SELECT comicId, name, role FROM comicsCreators JOIN creators ON creatorName = name");
-			return findComicsByStatement(st, stCreators);
+			return findComicsByStatement(st, stCreators, false);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -228,7 +229,7 @@ public class ComicsDAO {
 					"SELECT comics.id, title, description, pageCount, thumbnailPartialPath, thumbnailExtension, format, onSaleDate, printPrice, digitalPrice, mark, purchaseDate, location, comment, addprice FROM comics JOIN userComics ON comics.id = userComics.id");
 			PreparedStatement stCreators = connection.prepareStatement(
 					"SELECT comicId, name, role FROM userComics JOIN comicsCreators ON comicId = id JOIN creators ON creatorName = name");
-			return findComicsByStatement(st, stCreators);
+			return findComicsByStatement(st, stCreators, true);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
@@ -451,11 +452,22 @@ public class ComicsDAO {
 							+ "GROUP BY comicsCreators.comicId) AS comicStats\r\n" + "ORDER BY comicScore DESC\r\n"
 							+ "FETCH FIRST 100 ROWS ONLY) AS sortedIds\r\n"
 							+ "JOIN comics ON sortedIds.comicId = comics.id");
-			rs = st.executeQuery();
-			while (rs.next()) {
-				comics.add(resultSetToComic(rs, false));
-			}
-			st.close();
+			PreparedStatement stCreators = connection.prepareStatement("SELECT comics.id, name, role\r\n"
+					+ "FROM (SELECT comicId, scoreSum / scoreCount AS comicScore \r\n"
+					+ "FROM (SELECT comicId, CAST(COUNT(withScore.score) AS FLOAT) AS scoreCount, SUM(withScore.score) AS scoreSum\r\n"
+					+ "FROM comicsCreators\r\n" + "\r\n" + "\r\n" + "JOIN\r\n" + "\r\n" + "(SELECT name,\r\n"
+					+ "(p + 1.9208 / n - 1.96 * SQRT((p * (1.0 - p) + .9604 / n) / n)) / (1.0 + 3.8416 / n) AS score\r\n"
+					+ "FROM (SELECT name, n, s / n / 20.0 AS p\r\n"
+					+ "FROM (SELECT comicsCreators.creatorName AS name, CAST(COUNT(title) AS FLOAT) AS n, CAST(SUM(mark) AS FLOAT) AS s\r\n"
+					+ "FROM userComics\r\n" + "NATURAL JOIN comics\r\n" + "JOIN comicsCreators\r\n"
+					+ "ON comicsCreators.comicId = comics.id\r\n"
+					+ "GROUP BY comicsCreators.creatorName) AS stats) AS withP) AS withScore\r\n" + "\r\n"
+					+ "ON withScore.name = comicsCreators.creatorName\r\n" + "\r\n" + "\r\n"
+					+ "WHERE comicId NOT IN (SELECT id FROM userComics)\r\n"
+					+ "GROUP BY comicsCreators.comicId) AS comicStats\r\n" + "ORDER BY comicScore DESC\r\n"
+					+ "FETCH FIRST 100 ROWS ONLY) AS sortedIds\r\n" + "JOIN comics ON sortedIds.comicId = comics.id\r\n"
+					+ "JOIN comicsCreators ON comics.id = comicsCreators.comicId JOIN creators ON comicsCreators.creatorName = name");
+			comics = findComicsByStatement(st, stCreators, false);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
