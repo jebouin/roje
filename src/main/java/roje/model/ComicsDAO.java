@@ -148,6 +148,7 @@ public class ComicsDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		Comics.sortCOmicListBySerie(result);
 		return result;
 	}
 
@@ -474,8 +475,7 @@ public class ComicsDAO {
 			}
 			for (Map.Entry<String, List<Comics>> pair : series.entrySet()) {
 				if (pair.getKey() != null) {
-					pair.getValue().sort((Comics c1, Comics c2) -> Integer.valueOf(c1.getIssueNumber())
-							.compareTo(Integer.valueOf(c2.getIssueNumber())));
+					Comics.sortComicListByIssueNumber(pair.getValue());
 					boolean hasone = false;
 					for (Comics comic : pair.getValue()) {
 						if (librarySet.contains(comic.getId())) {

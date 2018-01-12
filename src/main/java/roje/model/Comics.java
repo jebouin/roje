@@ -1,6 +1,7 @@
 package roje.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -280,4 +281,35 @@ public class Comics {
 		this.serieName = serieName;
 	}
 
+	public static void sortComicListByIssueNumber(List<Comics> list) {
+		list.sort((Comics c1, Comics c2) -> Integer.valueOf(c1.getIssueNumber())
+				.compareTo(Integer.valueOf(c2.getIssueNumber())));
+	}
+
+	public static void sortCOmicListBySerie(List<Comics> list) {
+		list.sort(new ComicComparator());
+	}
+
+}
+
+class ComicComparator implements Comparator<Comics> {
+	@Override
+	public int compare(Comics a, Comics b) {
+		String serieA = a.getSerieName();
+		String serieB = b.getSerieName();
+		if (serieA == serieB) {
+			return 0;
+		} else if (serieA == null) {
+			return 1;
+		} else if (serieB == null) {
+			return -1;
+		}
+		int comp = serieA.compareTo(serieB);
+		if (comp != 0) {
+			return comp;
+		}
+		Integer issueA = a.getIssueNumber();
+		Integer issueB = b.getIssueNumber();
+		return issueA.compareTo(issueB);
+	}
 }
