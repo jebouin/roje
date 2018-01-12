@@ -25,15 +25,15 @@
                </font>
             </Label>
             <Label fx:id="formatLabel" layoutX="563.0" layoutY="249.0" prefHeight="30.0" prefWidth="95.0" styleClass="label-subtitle" text="null" />
-            <Label fx:id="pageCount" layoutX="677.0" layoutY="126.0" prefHeight="30.0" prefWidth="141.0" styleClass="label-subtitle" text="No information" />
+            <Label fx:id="pageCount" layoutX="677.0" layoutY="146.0" prefHeight="30.0" prefWidth="141.0" styleClass="label-subtitle" text="No information" />
             <TilePane fx:id="charactersGrid" hgap="5.0" layoutX="76.0" layoutY="664.0" prefHeight="172.0" prefWidth="847.0" tileAlignment="TOP_LEFT" vgap="5.0" />
-            <Label layoutX="462.0" layoutY="121.0" prefHeight="39.0" prefWidth="239.0" styleClass="label-undertitle" text="Number of pages :">
+            <Label layoutX="462.0" layoutY="141.0" prefHeight="39.0" prefWidth="239.0" styleClass="label-undertitle" text="Number of pages :">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
             </Label>
             <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="69.0" layoutY="445.0" prefHeight="137.0" prefWidth="882.0" styleClass="label-subtitle" stylesheets="@stylecardcomic.css" text="No description" textOverrun="CLIP" wrapText="true" />
-            <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="463.0" layoutY="47.0" prefHeight="66.0" prefWidth="324.0" styleClass="label-title" stylesheets="@stylecardcomic.css" text="Name" textAlignment="CENTER" textOverrun="CLIP">
+            <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="365.0" layoutY="10.0" prefHeight="143.0" prefWidth="719.0" styleClass="label-title" stylesheets="@stylecardcomic.css" text="Name" textAlignment="CENTER" textOverrun="CLIP" wrapText="true">
                <font>
                   <Font name="System Bold" size="35.0" />
                </font>

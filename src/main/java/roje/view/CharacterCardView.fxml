@@ -16,7 +16,7 @@
                   <Image url="http://i.annihil.us/u/prod/marvel/i/mg/5/a0/538615ca33ab0/portrait_xlarge.jpg" />
                </image>
             </ImageView>
-            <Label fx:id="nameLabel" contentDisplay="CENTER" layoutX="247.0" layoutY="21.0" prefHeight="136.0" prefWidth="617.0" styleClass="label-title1" text="Name" textAlignment="CENTER" textOverrun="CLIP" AnchorPane.leftAnchor="247.0" AnchorPane.rightAnchor="336.0">
+            <Label fx:id="nameLabel" contentDisplay="CENTER" layoutX="247.0" layoutY="21.0" prefHeight="136.0" prefWidth="770.0" styleClass="label-title1" text="Name" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" AnchorPane.leftAnchor="247.0" AnchorPane.rightAnchor="383.0">
                <font>
                   <Font name="System Bold" size="35.0" />
                </font>
