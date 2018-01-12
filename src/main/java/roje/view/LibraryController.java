@@ -27,9 +27,12 @@ public class LibraryController {
 	@FXML
 	private ObservableList<Comics> comicsData;
 
+	// @FXML
+	// private TableColumn<Comics, Integer> markColumn;
+
 	/**
-	 * Initializes the controller class. This method is automatically called after
-	 * the fxml file has been loaded.
+	 * Initializes the controller class. This method is automatically called
+	 * after the fxml file has been loaded.
 	 */
 	@FXML
 	private void initialize() {
@@ -45,6 +48,9 @@ public class LibraryController {
 		List<Comics> comicsList = ComicsDAO.findAllUserComics();
 		for (Comics c : comicsList) {
 			comicsData.add(c);
+			// markColumn.setCellValueFactory(cellData -> new
+			// ReadOnlyObjectWrapper<>(c.getMark()));
+
 		}
 
 		libraryView.getItems().addAll(comicsData);

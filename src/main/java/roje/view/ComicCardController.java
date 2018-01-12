@@ -113,8 +113,8 @@ public class ComicCardController {
 	private TableColumn<Creator, String> creatorsRoleColumn;
 
 	/**
-	 * Initializes the controller class. This method is automatically called after
-	 * the fxml file has been loaded.
+	 * Initializes the controller class. This method is automatically called
+	 * after the fxml file has been loaded.
 	 */
 	@FXML
 	private void initialize() {
@@ -145,12 +145,13 @@ public class ComicCardController {
 			FXMLLoader loader = new FXMLLoader();
 			loader.setLocation(Main.class.getResource("view/AddingWindow.fxml"));
 			AnchorPane pane = (AnchorPane) loader.load();
-			loader.<AddingWindowController>getController().setComic(comic);
+			loader.<AddingWindowController> getController().setComic(comic);
 			Stage stage = new Stage();
 			stage.setScene(new Scene(pane, 470, 225));
 			stage.initStyle(StageStyle.UTILITY);
 			stage.show();
-
+			Main.instance.getLibraryController().refresh();
+			Main.instance.getRecommendationsController().refresh();
 			addLibraryButton.setText("Delete from library");
 			ButtonSave.setVisible(true);
 			comment.setVisible(true);

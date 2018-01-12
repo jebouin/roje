@@ -20,7 +20,7 @@
             <TilePane hgap="5.0" layoutX="22.0" layoutY="314.0" prefHeight="2.0" prefWidth="570.0" tileAlignment="TOP_LEFT" vgap="5.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="216.0" AnchorPane.topAnchor="314.0" />
             <TableView fx:id="authorRecommendationsTable" layoutX="25.0" layoutY="83.0" onMouseClicked="#handleAuthorRecommendationsListClick" prefHeight="576.0" prefWidth="550.0" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="83.0">
               <columns>
-                <TableColumn fx:id="authorRecommendationsTitleColumn" prefWidth="367.0" text="Title">
+                <TableColumn fx:id="authorRecommendationsTitleColumn" prefWidth="543.0" text="Title">
                 	<cellValueFactory><PropertyValueFactory property="title" /></cellValueFactory>
                 </TableColumn>
               </columns>
@@ -32,7 +32,7 @@
             </Label>
             <TableView fx:id="serieRecommendationsTable" layoutX="611.0" layoutY="83.0" onMouseClicked="#handleSerieRecommendationsListClick" prefHeight="576.0" prefWidth="550.0">
                <columns>
-                  <TableColumn fx:id="serieRecommendationsTitleColumn" prefWidth="367.0" text="Title">
+                  <TableColumn fx:id="serieRecommendationsTitleColumn" prefWidth="545.0" text="Title">
                      <cellValueFactory>
                         <PropertyValueFactory property="title" />
                      </cellValueFactory>

@@ -331,14 +331,20 @@ public class ComicsDAO {
 				st.setInt(2, id);
 				st.executeUpdate();
 				st.close();
-				// TODO: move this to controller
 				FXMLLoader loader = new FXMLLoader();
 				loader.setLocation(Main.class.getResource("view/SuccessfulView.fxml"));
 				AnchorPane pane = (AnchorPane) loader.load();
 				Stage stage = new Stage();
 				stage.setScene(new Scene(pane, 300, 95));
 				stage.show();
-				//
+				PreparedStatement st2 = connection.prepareStatement("select mark from userComics WHERE id = ?");
+				st2.setInt(1, id);
+				ResultSet rs7 = st2.executeQuery();
+				rs7.next();
+				String note = rs7.getString(1);
+				st2.close();
+				System.out.println("mark =" + mark + "mark in DB =" + note);
+
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
