@@ -33,6 +33,7 @@ public class Comics {
 	private Float digitalPrice;
 	private int issueNumber;
 	private String serieName;
+	private String variant;
 
 	private ObservableList<Creator> creators = FXCollections.observableArrayList();
 
@@ -133,11 +134,13 @@ public class Comics {
 	public void setTitle(String title) {
 		this.title = title;
 		try {
-			Pattern p = Pattern.compile("(.*)#(\\d+)");
+			Pattern p = Pattern.compile("(.*)#(\\d+)(.*)");
 			Matcher m = p.matcher(title);
 			if (m.matches()) {
 				serieName = m.group(1);
 				issueNumber = Integer.parseInt(m.group(2));
+				variant = m.group(3);
+
 			}
 		} catch (
 
